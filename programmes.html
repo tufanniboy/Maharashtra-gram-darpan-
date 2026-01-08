@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programmes - Maharashtra Gram Darpan</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js for Graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Leaflet CSS -->
+    <link 
+        rel="stylesheet" 
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+    />
+
+    <style>
+        /* Custom styles based on the logo (Slightly Lighter Dark Green and Red theme) */
+        :root {
+            --color-primary: #065F46; /* Lighter Forest Green */
+            --color-secondary: #B91C1C; /* Brick Red */
+            --color-background: #F4F8F5; 
+            --color-text: #1F2937; /* Dark Gray */
+            --color-alt-row: #F7FDF7;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background); 
+            color: var(--color-text);
+        }
+        header { background-color: white; }
+        .text-primary { color: #B91C1C; }
+        .bg-primary { background-color: var(--color-primary); }
+        .hover-bg-primary:hover { background-color: var(--color-primary); }
+        .text-green-custom { color: #065F46; }
+
+        /* Custom shadow for cards */
+        .card-shadow {
+            box-shadow: 0 10px 15px -3px rgba(6, 95, 70, 0.1), 0 4px 6px -2px rgba(6, 95, 70, 0.05);
+            transition: transform 0.3s ease;
+        }
+        .card-shadow:hover {
+            transform: translateY(-5px);
+        }
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 0.5rem 1rem; 
+            border-radius: 9999px; /* Rounded shape */
+            font-weight: 600;
+            transition: background-color 0.3s;
+            font-size: 1rem; 
+            line-height: 1.5; 
+            display: inline-flex; 
+            align-items: center; 
+        }
+        .btn-primary:hover {
+            background-color: #044F36;
+        }
+        
+        #map {
+            height: 500px;
+            width: 100%;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 1; /* Ensure map stays below header */
+        }
+
+        /* Loading spinner CSS */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid white;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Table Row Link Styles */
+        tr[onclick] {
+            cursor: pointer;
+        }
+
+        /* Pulse Animation for Map Hint */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.33); opacity: 1; }
+            80%, 100% { opacity: 0; }
+        }
+        @keyframes pulse-dot {
+            0% { transform: scale(0.8); }
+            50% { transform: scale(1); }
+            100% { transform: scale(0.8); }
+        }
+        .map-hint-pulse {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(6, 95, 70, 0.5);
+            border-radius: 50%;
+            animation: pulse-ring 1.25s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        .map-hint-dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #065F46;
+            border-radius: 50%;
+            top: 5px;
+            left: 5px;
+            animation: pulse-dot 1.25s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20 gap-4">
+                <!-- Logo/Site Name -->
+                <div class="flex-shrink-0 flex items-center"> 
+                    <a href="index.html" class="flex items-center space-x-3">
+                        <img src="IMG-20251214-WA0002.jpg" 
+                             onerror="this.onerror=null; this.src='https://placehold.co/64x64/9CA3AF/ffffff?text=LOGO';" 
+                             alt="Maharashtra Gram Darpan Logo" 
+                             class="w-12 h-12 lg:w-16 lg:h-16 rounded-md flex items-center justify-center font-bold text-xl object-cover">
+                        <span class="text-xl lg:text-xl xl:text-2xl font-extrabold text-primary leading-tight" data-i18n="site_name">Maharashtra Gram Darpan</span>
+                    </a>
+                </div>
+
+                <!-- Navigation Menu (Desktop) -->
+                <nav class="hidden lg:flex space-x-6 xl:space-x-10 items-center"> 
+                <a href="index.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_home">Home</a>
+
+                <div class="relative group">
+                    <button class="flex items-center text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg focus:outline-none py-2">
+                        <span data-i18n="nav_about">About Us</span>
+                        <svg class="w-4 h-4 ml-1 transform group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="absolute left-0 mt-0 w-64 bg-white rounded-lg shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border-t-4 border-primary transform translate-y-4 group-hover:translate-y-0">
+                        <a href="about-us.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_foundation">Our Foundation</a>
+                        <a href="our-work.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_work">Our Work</a>
+                        <a href="mission-vision.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_mission">Mission & Vision</a>
+                        <a href="trustees-board.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_board">Trustees/Board</a>
+                    </div>
+                </div>
+
+                <a href="careers.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_careers">Careers</a>
+
+                <div class="relative group">
+                    <button class="flex items-center text-primary font-bold transition duration-150 ease-in-out text-base xl:text-lg focus:outline-none py-2">
+                        <span data-i18n="nav_services">Services</span>
+                        <svg class="w-4 h-4 ml-1 transform group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="absolute left-0 mt-0 w-56 bg-white rounded-lg shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border-t-4 border-primary transform translate-y-4 group-hover:translate-y-0">
+                        <a href="rural-development.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_rural">Rural Development</a>
+                        <a href="programmes.html" class="block px-4 py-3 text-sm text-primary font-bold bg-green-50 transition" data-i18n="nav_prog">Programme</a>
+                        <a href="adult-education.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_adult">Adult Education</a>
+                        <a href="training-center.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_training">Training Center</a>
+                    </div>
+                </div>
+
+                <a href="resources.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_resources">Resources</a>
+
+                <a href="newsletter.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_newsletter">Newsletter</a>
+                
+                <a href="contact.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_contact">Contact</a>
+                
+                <button id="lang-toggle-button" class="btn-primary flex items-center justify-center text-sm xl:text-base px-4 py-2" onclick="toggleLanguage()">
+                    <span id="lang-text">हिंदी (HI)</span>
+                    <div id="lang-spinner" class="spinner hidden ml-2"></div>
+                </button>
+            </nav>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="lg:hidden p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none transition duration-150 ease-in-out">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 shadow-inner bg-gray-50">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_home">Home</a>
+                
+                <div class="border-t border-gray-100 pt-2 pb-2">
+                    <div class="px-3 py-2 text-base font-bold text-gray-900" data-i18n="nav_about">About Us</div>
+                    <div class="pl-6 space-y-1 border-l-2 border-gray-200 ml-3">
+                        <a href="about-us.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_foundation">Our Foundation</a>
+                        <a href="our-work.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_work">Our Work</a>
+                        <a href="mission-vision.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_mission">Mission & Vision</a>
+                        <a href="trustees-board.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_board">Trustees/Board</a>
+                    </div>
+                </div>
+
+                <a href="careers.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_careers">Careers</a>
+
+                <div class="border-t border-gray-100 pt-2 pb-2">
+                    <div class="px-3 py-2 text-base font-bold text-gray-900" data-i18n="nav_services">Services</div>
+                    <div class="pl-6 space-y-1 border-l-2 border-gray-200 ml-3">
+                        <a href="rural-development.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_rural">Rural Development</a>
+                        <a href="programmes.html" class="block px-3 py-2 rounded-md text-sm font-bold text-primary bg-green-50" data-i18n="nav_prog">Programme</a>
+                        <a href="adult-education.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_adult">Adult Education</a>
+                        <a href="training-center.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_training">Training Center</a>
+                    </div>
+                </div>
+                
+                <a href="resources.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_resources">Resources</a>
+                <a href="newsletter.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_newsletter">Newsletter</a>
+                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_contact">Contact</a>
+                
+                <button class="block px-3 py-2 rounded-md text-base font-medium text-white bg-primary text-center w-full mt-2" onclick="toggleLanguage()">
+                    <span id="mobile-lang-text">हिंदी (HI)</span>
+                    <div id="mobile-lang-spinner" class="spinner hidden ml-2"></div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content AREA (Shared across languages) -->
+    <main id="main-content-area">
+        <div class="py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Hero Section -->
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-4" data-i18n="page_title">Our Impact</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto" data-i18n="page_subtitle">Visualizing our footprint in sustainable rural development across Maharashtra and beyond.</p>
+                </div>
+
+                <!-- Graphs Section -->
+                <div class="mb-20">
+                    <h3 class="text-3xl font-bold text-green-custom mb-8 border-b-2 border-green-200 pb-2" data-i18n="section_dashboard">Impact Dashboard</h3>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        
+                        <!-- Graph 1: SHG Growth (Bar Chart) -->
+                        <div class="bg-white p-6 rounded-xl card-shadow flex flex-col justify-between">
+                            <h4 class="text-lg font-bold text-gray-800 mb-4 text-center" data-i18n="chart_shg_title">SHG Formation & Bank Linkage</h4>
+                            <div class="w-full h-72"> <!-- Fixed Height for Canvas -->
+                                <canvas id="shgChart"></canvas>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-gray-100 grid grid-cols-1 sm:grid-cols-3 gap-2 text-center">
+                                <div class="bg-green-50 p-2 rounded">
+                                    <span class="block text-xl font-bold text-primary">7,000+</span>
+                                    <span class="text-xs text-gray-600" data-i18n="shg_label_1">Groups Formed</span>
+                                </div>
+                                <div class="bg-green-50 p-2 rounded">
+                                    <span class="block text-xl font-bold text-primary">4,000+</span>
+                                    <span class="text-xs text-gray-600" data-i18n="shg_label_2">Bank Linked</span>
+                                </div>
+                                <div class="bg-green-50 p-2 rounded">
+                                    <span class="block text-xl font-bold text-primary">2,000+</span>
+                                    <span class="text-xs text-gray-600" data-i18n="shg_label_3">Groups Trained</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Graph 2: Thematic Focus (Pie Chart) -->
+                        <div class="bg-white p-6 rounded-xl card-shadow flex flex-col justify-between">
+                            <h4 class="text-lg font-bold text-gray-800 mb-4 text-center" data-i18n="chart_sector_title">Project Distribution by Sector</h4>
+                            <div class="w-full h-72 flex justify-center">
+                                <canvas id="sectorChart"></canvas>
+                            </div>
+                            <div class="mt-6 text-sm text-gray-600 text-center">
+                                <p data-i18n="sector_desc">Focus: 40% Livelihood, 35% WASH, 15% Health, 10% Training</p>
+                            </div>
+                        </div>
+
+                        <!-- Graph 3: Beneficiary Reach (Doughnut Chart) -->
+                        <div class="bg-white p-6 rounded-xl card-shadow flex flex-col justify-between">
+                            <h4 class="text-lg font-bold text-gray-800 mb-4 text-center" data-i18n="chart_beneficiary_title">Beneficiary Reach (Approx. 3 Lakh Total)</h4>
+                            <div class="w-full h-72 flex justify-center">
+                                <canvas id="beneficiaryChart"></canvas>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-gray-100 grid grid-cols-2 gap-4 text-center text-sm">
+                                <div><span class="font-bold text-pink-600">Women:</span> 1.5 Lakh+</div>
+                                <div><span class="font-bold text-green-600">Farmers:</span> 80,000+</div>
+                                <div><span class="font-bold text-yellow-600">Youth:</span> 50,000+</div>
+                                <div><span class="font-bold text-gray-600">Others:</span> 20,000+</div>
+                            </div>
+                        </div>
+
+                        <!-- Graph 4: Livelihood Units (Bar Chart) -->
+                        <div class="bg-white p-6 rounded-xl card-shadow flex flex-col justify-between">
+                            <h4 class="text-lg font-bold text-gray-800 mb-4 text-center" data-i18n="chart_units_title">Livelihood Units Established</h4>
+                            <div class="w-full h-72">
+                                <canvas id="livelihoodChart"></canvas>
+                            </div>
+                            <div class="mt-6 text-sm text-gray-600 text-center">
+                                <p data-i18n="units_desc">Units actively generating income in rural clusters.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Place & Programme Table (ADDED SECTION) -->
+                <div class="mb-20">
+                    <h3 class="text-3xl font-bold text-green-custom mb-8 border-b-2 border-green-200 pb-2">Programme Locations Index</h3>
+                    <div class="overflow-x-auto bg-white rounded-xl card-shadow">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-green-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-4 text-left text-sm font-extrabold text-green-800 uppercase tracking-wider w-1/4">Place Name</th>
+                                    <th scope="col" class="px-6 py-4 text-left text-sm font-extrabold text-green-800 uppercase tracking-wider">Programme / Initiative</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr onclick="navigateTo('amravati-programme.html')" class="hover:bg-green-50 transition-colors cursor-pointer group">
+                                    <td class="px-6 py-4 text-sm font-bold text-gray-900 group-hover:text-primary">Amravati (HQ)</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">Main Office & Surgical Cotton Unit. Providing livelihood to SHGs.</td>
+                                </tr>
+                                <tr onclick="navigateTo('akola-programme.html')" class="hover:bg-green-50 transition-colors cursor-pointer group">
+                                    <td class="px-6 py-4 text-sm font-bold text-gray-900 group-hover:text-primary">Akola</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">Water Tax Collection Project - 25 SHGs actively managing village water taxes.</td>
+                                </tr>
+                                <tr onclick="navigateTo('gondia-programme.html')" class="hover:bg-green-50 transition-colors cursor-pointer group">
+                                    <td class="px-6 py-4 text-sm font-bold text-gray-900 group-hover:text-primary">Gondia</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">Community Outreach Programs & Skill Development.</td>
+                                </tr>
+                                <tr onclick="navigateTo('hingoli-programme.html')" class="hover:bg-green-50 transition-colors cursor-pointer group">
+                                    <td class="px-6 py-4 text-sm font-bold text-gray-900 group-hover:text-primary">Hingoli</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">Sustainable Livelihood & Women Empowerment Projects.</td>
+                                </tr>
+                                <tr onclick="navigateTo('nandgaon-programme.html')" class="hover:bg-green-50 transition-colors cursor-pointer group">
+                                    <td class="px-6 py-4 text-sm font-bold text-gray-900 group-hover:text-primary">Nandgaon Khandeshwar</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">Go-Ark Project: Indigenous innovation for health products.</td>
+                                </tr>
+                                <tr onclick="navigateTo('dharani-programme.html')" class="hover:bg-green-50 transition-colors cursor-pointer group">
+                                    <td class="px-6 py-4 text-sm font-bold text-gray-900 group-hover:text-primary">Dharani</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">Tribal Development Projects.</td>
+                                </tr>
+                                <tr onclick="navigateTo('anjangaon-surji-programme.html')" class="hover:bg-green-50 transition-colors cursor-pointer group">
+                                    <td class="px-6 py-4 text-sm font-bold text-gray-900 group-hover:text-primary">Anjangaon Surji</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">Skill Development & Livelihood.</td>
+                                </tr>
+                                <tr onclick="navigateTo('majri-programme.html')" class="hover:bg-green-50 transition-colors cursor-pointer group">
+                                    <td class="px-6 py-4 text-sm font-bold text-gray-900 group-hover:text-primary">Majri</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">Community Development.</td>
+                                </tr>
+                                <tr onclick="navigateTo('morshi-programme.html')" class="hover:bg-green-50 transition-colors cursor-pointer group">
+                                    <td class="px-6 py-4 text-sm font-bold text-gray-900 group-hover:text-primary">Morshi</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">Water & Sanitation Projects.</td>
+                                </tr>
+                                <tr onclick="navigateTo('parseoni-programme.html')" class="hover:bg-green-50 transition-colors cursor-pointer group">
+                                    <td class="px-6 py-4 text-sm font-bold text-gray-900 group-hover:text-primary">Parseoni</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">Rural Development Initiatives.</td>
+                                </tr>
+                                <tr onclick="navigateTo('tivsa-programme.html')" class="hover:bg-green-50 transition-colors cursor-pointer group">
+                                    <td class="px-6 py-4 text-sm font-bold text-gray-900 group-hover:text-primary">Tiwsa</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">Sanitation Mart: Low-cost sanitation infrastructure production.</td>
+                                </tr>
+                                <tr onclick="navigateTo('warud-programme.html')" class="hover:bg-green-50 transition-colors cursor-pointer group">
+                                    <td class="px-6 py-4 text-sm font-bold text-gray-900 group-hover:text-primary">Warud</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">Organic Farming & Watershed Projects.</td>
+                                </tr>
+                                <tr onclick="navigateTo('our-work.html#jjm-krc')" class="hover:bg-green-50 transition-colors cursor-pointer group">
+                                    <td class="px-6 py-4 text-sm font-bold text-gray-900 group-hover:text-primary">Madhya Pradesh</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">Jal Jeevan Mission (KRC): Capacity building for Level-3 stakeholders.</td>
+                                </tr>
+                                <tr onclick="navigateTo('itanagar-programme.html')" class="hover:bg-green-50 transition-colors cursor-pointer group">
+                                    <td class="px-6 py-4 text-sm font-bold text-gray-900 group-hover:text-primary">Arunachal Pradesh</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">Jal Jeevan Mission (KRC): Expanding our footprint to the North East.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Interactive Map Section -->
+                <div class="mb-20 relative">
+                    <div class="flex justify-between items-end mb-8 border-b-2 border-green-200 pb-2">
+                        <h3 class="text-3xl font-bold text-green-custom" data-i18n="section_map">Geographic Presence</h3>
+                        <div class="hidden md:flex items-center text-primary text-sm font-semibold animate-pulse">
+                            <span class="mr-2">Click markers for details</span>
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-2 rounded-xl card-shadow relative group">
+                        <!-- Hint Overlay -->
+                        <div id="map-hint" class="absolute top-4 left-1/2 transform -translate-x-1/2 z-[500] bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg border border-green-100 flex items-center space-x-2 transition-opacity duration-500 pointer-events-none">
+                            <div class="relative w-6 h-6">
+                                <div class="map-hint-pulse"></div>
+                                <div class="map-hint-dot"></div>
+                            </div>
+                            <span class="text-green-800 font-bold text-sm">Explore our projects! Click any pin.</span>
+                        </div>
+
+                        <div id="map"></div>
+                        
+                        <!-- Map Details Modal (Hidden by default) -->
+                        <div id="map-modal" class="hidden absolute top-4 right-4 w-80 bg-white rounded-lg shadow-xl z-[1000] overflow-hidden border border-gray-200 transition-all duration-300 transform scale-95 opacity-0">
+                            <div class="bg-green-700 text-white px-4 py-3 flex justify-between items-center">
+                                <h4 id="modal-title" class="font-bold text-lg">Project Details</h4>
+                                <button id="close-modal" class="text-white hover:text-gray-200 focus:outline-none">
+                                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="p-4">
+                                <p id="modal-desc" class="text-gray-600 text-sm mb-4">Select a location on the map to see details.</p>
+                                <a id="modal-link" href="javascript:void(0);" class="btn-primary text-center w-full hidden text-sm py-2">
+                                    View Full Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-center text-gray-600 mt-4" data-i18n="map_desc">Explore our project locations across Maharashtra, Madhya Pradesh, and Arunachal Pradesh. Click on markers for details.</p>
+                </div>
+
+                <!-- Data Tables (Swappable based on Language) -->
+                <div class="mb-20">
+                    <h3 class="text-3xl font-bold text-green-custom mb-8 border-b-2 border-green-200 pb-2" data-i18n="section_reports">Detailed Reports</h3>
+                    <div class="overflow-x-auto bg-white rounded-xl card-shadow">
+                        
+                        <!-- ENGLISH TABLE -->
+                        <table id="table-en" class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-green-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-green-800 uppercase tracking-wider">Project Name</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-green-800 uppercase tracking-wider">Location/District</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-green-800 uppercase tracking-wider">Key Impact/Metric</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-green-800 uppercase tracking-wider">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr onclick="navigateTo('our-work.html#jjm-krc')"><td class="px-6 py-4 text-sm font-medium hover:text-green-600 underline">Jal Jeevan Mission (KRC)</td><td class="px-6 py-4 text-sm text-gray-500">MH, MP, Arunachal</td><td class="px-6 py-4 text-sm text-gray-500">Capacity Building (L3)</td><td class="px-6 py-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Ongoing</span></td></tr>
+                                <tr class="bg-gray-50" onclick="navigateTo('our-work.html#surgical-cotton')"><td class="px-6 py-4 text-sm font-medium hover:text-green-600 underline">Surgical Cotton Unit</td><td class="px-6 py-4 text-sm text-gray-500">Amravati</td><td class="px-6 py-4 text-sm text-gray-500">50% SHG Stake</td><td class="px-6 py-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Operational</span></td></tr>
+                                <tr onclick="navigateTo('our-work.html#dairy-dev')"><td class="px-6 py-4 text-sm font-medium hover:text-green-600 underline">Dairy Development</td><td class="px-6 py-4 text-sm text-gray-500">Amravati & nearby</td><td class="px-6 py-4 text-sm text-gray-500">70+ Units</td><td class="px-6 py-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Operational</span></td></tr>
+                                <tr class="bg-gray-50" onclick="navigateTo('our-work.html#water-tax')"><td class="px-6 py-4 text-sm font-medium hover:text-green-600 underline">Water Tax Collection</td><td class="px-6 py-4 text-sm text-gray-500">Akola</td><td class="px-6 py-4 text-sm text-gray-500">25 SHGs Managing</td><td class="px-6 py-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Pilot Success</span></td></tr>
+                                <tr onclick="navigateTo('our-work.html#sbm-training')"><td class="px-6 py-4 text-sm font-medium hover:text-green-600 underline">SBM 2.0 Training</td><td class="px-6 py-4 text-sm text-gray-500">Amravati Division</td><td class="px-6 py-4 text-sm text-gray-500">14,735 PRI Members</td><td class="px-6 py-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Ongoing</span></td></tr>
+                                <tr class="bg-gray-50" onclick="navigateTo('our-work.html#go-ark')"><td class="px-6 py-4 text-sm font-medium hover:text-green-600 underline">Go-Ark Project</td><td class="px-6 py-4 text-sm text-gray-500">Gopi Village</td><td class="px-6 py-4 text-sm text-gray-500">Indigenous Innovation</td><td class="px-6 py-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Pilot Success</span></td></tr>
+                                <tr onclick="navigateTo('our-work.html#health-camps')"><td class="px-6 py-4 text-sm font-medium hover:text-green-600 underline">Women's Health Camps</td><td class="px-6 py-4 text-sm text-gray-500">Multiple Districts</td><td class="px-6 py-4 text-sm text-gray-500">1500+ Beneficiaries</td><td class="px-6 py-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Completed</span></td></tr>
+                            </tbody>
+                        </table>
+
+                        <!-- HINDI TABLE (Hidden by default) -->
+                        <table id="table-hi" class="min-w-full divide-y divide-gray-200 hidden">
+                            <thead class="bg-green-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-green-800 uppercase tracking-wider">परियोजना का नाम</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-green-800 uppercase tracking-wider">स्थान/जिला</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-green-800 uppercase tracking-wider">मुख्य प्रभाव</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-green-800 uppercase tracking-wider">स्थिति</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr><td class="px-6 py-4 text-sm font-medium">जल जीवन मिशन (KRC)</td><td class="px-6 py-4 text-sm text-gray-500">महाराष्ट्र, म.प्र., अरुणाचल</td><td class="px-6 py-4 text-sm text-gray-500">क्षमता निर्माण (L3)</td><td class="px-6 py-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">जारी है</span></td></tr>
+                                <tr class="bg-gray-50"><td class="px-6 py-4 text-sm font-medium">सर्जिकल कॉटन यूनिट</td><td class="px-6 py-4 text-sm text-gray-500">अमरावती</td><td class="px-6 py-4 text-sm text-gray-500">50% SHG हिस्सेदारी</td><td class="px-6 py-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">परिचालन में</span></td></tr>
+                                <tr><td class="px-6 py-4 text-sm font-medium">डेयरी विकास</td><td class="px-6 py-4 text-sm text-gray-500">अमरावती और आसपास</td><td class="px-6 py-4 text-sm text-gray-500">70+ इकाइयाँ</td><td class="px-6 py-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">परिचालन में</span></td></tr>
+                                <tr class="bg-gray-50"><td class="px-6 py-4 text-sm font-medium">जल कर वसूली</td><td class="px-6 py-4 text-sm text-gray-500">अकोला</td><td class="px-6 py-4 text-sm text-gray-500">25 SHGs प्रबंधन कर रहे हैं</td><td class="px-6 py-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">पायलट सफल</span></td></tr>
+                                <tr><td class="px-6 py-4 text-sm font-medium">SBM 2.0 प्रशिक्षण</td><td class="px-6 py-4 text-sm text-gray-500">अमरावती संभाग</td><td class="px-6 py-4 text-sm text-gray-500">14,735 सदस्य</td><td class="px-6 py-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">जारी है</span></td></tr>
+                                <tr class="bg-gray-50"><td class="px-6 py-4 text-sm font-medium">गो-अर्क परियोजना</td><td class="px-6 py-4 text-sm text-gray-500">गोपी गांव</td><td class="px-6 py-4 text-sm text-gray-500">स्वदेशी नवाचार</td><td class="px-6 py-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">पायलट सफल</span></td></tr>
+                                <tr><td class="px-6 py-4 text-sm font-medium">महिला स्वास्थ्य शिविर</td><td class="px-6 py-4 text-sm text-gray-500">विभिन्न जिले</td><td class="px-6 py-4 text-sm text-gray-500">1500+ लाभार्थी</td><td class="px-6 py-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">पूर्ण</span></td></tr>
+                            </tbody>
+                        </table>
+
+                        <!-- MARATHI TABLE (Hidden by default) -->
+                        <table id="table-mr" class="min-w-full divide-y divide-gray-200 hidden">
+                            <thead class="bg-green-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-green-800 uppercase tracking-wider">प्रकल्पाचे नाव</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-green-800 uppercase tracking-wider">स्थान/जिल्हा</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-green-800 uppercase tracking-wider">मुख्य प्रभाव</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-green-800 uppercase tracking-wider">स्थिती</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr><td class="px-6 py-4 text-sm font-medium">जल जीवन मिशन (KRC)</td><td class="px-6 py-4 text-sm text-gray-500">महाराष्ट्र, म.प्र., अरुणाचल</td><td class="px-6 py-4 text-sm text-gray-500">क्षमता बांधणी (L3)</td><td class="px-6 py-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">सुरू आहे</span></td></tr>
+                                <tr class="bg-gray-50"><td class="px-6 py-4 text-sm font-medium">सर्जिकल कॉटन युनिट</td><td class="px-6 py-4 text-sm text-gray-500">अमरावती</td><td class="px-6 py-4 text-sm text-gray-500">५०% SHG हिस्सा</td><td class="px-6 py-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">कार्यरत</span></td></tr>
+                                <tr><td class="px-6 py-4 text-sm font-medium">दुग्ध विकास</td><td class="px-6 py-4 text-sm text-gray-500">अमरावती व परिसर</td><td class="px-6 py-4 text-sm text-gray-500">७०+ युनिट्स</td><td class="px-6 py-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">कार्यरत</span></td></tr>
+                                <tr class="bg-gray-50"><td class="px-6 py-4 text-sm font-medium">पाणीपट्टी वसुली</td><td class="px-6 py-4 text-sm text-gray-500">अकोला</td><td class="px-6 py-4 text-sm text-gray-500">२५ SHGs व्यवस्थापन करत आहेत</td><td class="px-6 py-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">पायलट यशस्वी</span></td></tr>
+                                <tr><td class="px-6 py-4 text-sm font-medium">SBM 2.0 प्रशिक्षण</td><td class="px-6 py-4 text-sm text-gray-500">अमरावती विभाग</td><td class="px-6 py-4 text-sm text-gray-500">१४,७३५ सदस्य</td><td class="px-6 py-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">सुरू आहे</span></td></tr>
+                                <tr class="bg-gray-50"><td class="px-6 py-4 text-sm font-medium">गो-अर्क प्रकल्प</td><td class="px-6 py-4 text-sm text-gray-500">गोपी गाव</td><td class="px-6 py-4 text-sm text-gray-500">स्वदेशी नवोपक्रम</td><td class="px-6 py-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">पायलट यशस्वी</span></td></tr>
+                                <tr><td class="px-6 py-4 text-sm font-medium">महिला आरोग्य शिबिरे</td><td class="px-6 py-4 text-sm text-gray-500">विविध जिल्हे</td><td class="px-6 py-4 text-sm text-gray-500">१५००+ लाभार्थी</td><td class="px-6 py-4"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">पूर्ण</span></td></tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <!-- NGO Info -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4 text-primary" data-i18n="site_name">Maharashtra Gram Darpan</h3>
+                    <p class="text-sm text-gray-400" data-i18n="footer_desc">Committed to creating a strong and independent society without inequalities and discrimination.</p>
+                </div>
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-i18n="footer_quick_links">Quick Links</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_home">Home</a></li>
+                        <li><a href="about-us.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_about">About Us</a></li>
+                        <li><a href="our-work.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_work">Our Work</a></li>
+                        <li><a href="trustees-board.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="footer_leadership">Leadership</a></li>
+                    </ul>
+                </div>
+                <!-- Contact -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-i18n="nav_contact">Contact</h3>
+                    <p class="text-sm text-gray-400" data-i18n="footer_address">Amravati-444601, MH</p>
+                    <p class="text-sm text-gray-400">Mob: 9373471897</p>
+                    <p class="text-sm text-gray-400 whitespace-nowrap">Email: maharashtragramdarpan@gmail.com</p>
+                </div>
+                <!-- Legal & Social -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-i18n="footer_legal">Legal</h3>
+                    <p class="text-sm text-gray-400 mb-2">FCRA No: 083740062</p>
+                    <p class="text-sm text-gray-400 mb-2">80G Certified</p>
+                    <p class="text-sm text-gray-400 mb-6">ISO 9000:2015</p>
+
+                    <h3 class="text-lg font-bold mb-4" data-i18n="footer_connect">Connect With Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-150">
+                            <span class="sr-only">Facebook</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-150">
+                            <span class="sr-only">Instagram</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.451 2.53c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" /></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-8 border-t border-gray-700 text-center">
+                <p class="text-sm text-gray-400" data-i18n="footer_copyright">&copy; 2025 Maharashtra Gram Darpan. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        // --- CHARTS & MAP LOGIC ---
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // 1. SHG Growth Chart
+            const ctx1 = document.getElementById('shgChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: ['SHGs Formed', 'Bank Linked', 'Trained (SGSY/NRLM)'],
+                    datasets: [{
+                        label: 'Number of Groups',
+                        data: [7000, 4000, 2000],
+                        backgroundColor: [
+                            'rgba(6, 95, 70, 0.7)',  // Primary Green
+                            'rgba(185, 28, 28, 0.7)', // Brick Red
+                            'rgba(59, 130, 246, 0.7)' // Blue
+                        ],
+                        borderColor: [
+                            'rgba(6, 95, 70, 1)',
+                            'rgba(185, 28, 28, 1)',
+                            'rgba(59, 130, 246, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+
+            // 2. Sector Pie Chart
+            const ctx2 = document.getElementById('sectorChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'pie',
+                data: {
+                    labels: ['Livelihood (Cotton/Dairy)', 'WASH (SBM/Water)', 'Health & Women', 'Training'],
+                    datasets: [{
+                        data: [40, 35, 15, 10], // Approximate % distribution
+                        backgroundColor: [
+                            '#065F46', // Green
+                            '#3B82F6', // Blue
+                            '#B91C1C', // Red
+                            '#F59E0B'  // Yellow/Orange
+                        ]
+                    }]
+                },
+                options: { 
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+            // 3. Beneficiary Chart (Doughnut)
+            const ctx3 = document.getElementById('beneficiaryChart').getContext('2d');
+            new Chart(ctx3, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Women (SHGs)', 'Youth', 'Farmers', 'Others'],
+                    datasets: [{
+                        data: [150000, 50000, 80000, 20000],
+                        backgroundColor: ['#EC4899', '#F59E0B', '#10B981', '#6B7280']
+                    }]
+                },
+                options: { 
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+            // 4. Livelihood Units (Bar Chart)
+            const ctx4 = document.getElementById('livelihoodChart').getContext('2d');
+            new Chart(ctx4, {
+                type: 'bar',
+                data: {
+                    labels: ['Dairy Units', 'Cotton Processing', 'Textile (Proposed)', 'Sanitation Marts'],
+                    datasets: [{
+                        label: 'Units',
+                        data: [70, 30, 16, 25], // Updated Values
+                        backgroundColor: '#F59E0B'
+                    }]
+                },
+                options: { 
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+            // 5. Leaflet Map Initialization
+            var map = L.map('map').setView([20.9320, 77.7523], 7); // Centered on Amravati region roughly, zoomed out slightly
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Add markers for key locations
+            var locations = [
+                { lat: 20.9320, lng: 77.7523, title: "Amravati (HQ)", desc: "Main Office & Surgical Cotton Unit. Providing livelihood to SHGs.", link: "amravati-programme.html" },
+                { lat: 20.7002, lng: 77.0082, title: "Akola", desc: "Water Tax Collection Project - 25 SHGs actively managing village water taxes.", link: "akola-programme.html" },
+                { lat: 21.4624, lng: 80.1982, title: "Gondia", desc: "Community Outreach Programs & Skill Development.", link: "gondia-programme.html" },
+                { lat: 19.7183, lng: 77.1479, title: "Hingoli", desc: "Sustainable Livelihood & Women Empowerment Projects.", link: "hingoli-programme.html" },
+                { lat: 20.6780, lng: 77.8420, title: "Nandgaon Khandeshwar", desc: "Go-Ark Project: Indigenous innovation for health products.", link: "nandgaon-programme.html" },
+                { lat: 21.4939, lng: 77.3323, title: "Dharani", desc: "Tribal Development Projects", link: "dharani-programme.html" },
+                { lat: 21.1614, lng: 77.3098, title: "Anjangaon Surji", desc: "Skill Development & Livelihood", link: "anjangaon-surji-programme.html" },
+                { lat: 20.1287, lng: 79.0234, title: "Majri", desc: "Community Development", link: "majri-programme.html" },
+                { lat: 21.3263, lng: 78.0267, title: "Morshi", desc: "Water & Sanitation Projects", link: "morshi-programme.html" },
+                { lat: 21.3789, lng: 79.1578, title: "Parseoni", desc: "Rural Development Initiatives", link: "parseoni-programme.html" },
+                { lat: 21.0360, lng: 77.9420, title: "Tiwsa", desc: "Sanitation Mart: Low-cost sanitation infrastructure production.", link: "tivsa-programme.html" },
+                { lat: 21.4334, lng: 78.1065, title: "Warud", desc: "Organic Farming & Watershed Projects", link: "warud-programme.html" },
+                { lat: 22.9734, lng: 78.6569, title: "Madhya Pradesh", desc: "Jal Jeevan Mission (KRC): Capacity building for Level-3 stakeholders.", link: "our-work.html#jjm-krc" },
+                { lat: 28.2180, lng: 94.7278, title: "Arunachal Pradesh", desc: "Jal Jeevan Mission (KRC): Expanding our footprint to the North East.", link: "itanagar-programme.html" }
+            ];
+
+            // Modal Logic
+            const modal = document.getElementById('map-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalDesc = document.getElementById('modal-desc');
+            const modalLink = document.getElementById('modal-link');
+            const closeModal = document.getElementById('close-modal');
+            const mapHint = document.getElementById('map-hint'); // Get the hint element
+
+            // Close modal functionality
+            closeModal.addEventListener('click', () => {
+                modal.classList.add('opacity-0', 'scale-95'); // Animate out
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300); // Match transition duration
+            });
+
+            locations.forEach(function(loc) {
+                var marker = L.marker([loc.lat, loc.lng]).addTo(map);
+                
+                // Add click event to marker
+                marker.on('click', function() {
+                    // Hide the hint when a user interacts
+                    if (mapHint) {
+                        mapHint.style.opacity = '0';
+                        setTimeout(() => mapHint.remove(), 500); // Remove from DOM after fade out
+                    }
+
+                    // Update modal content
+                    modalTitle.textContent = loc.title;
+                    modalDesc.textContent = loc.desc;
+                    
+                    if (loc.link) {
+                        modalLink.href = loc.link;
+                        modalLink.classList.remove('hidden');
+                    } else {
+                        modalLink.classList.add('hidden');
+                    }
+
+                    // Show modal with animation
+                    modal.classList.remove('hidden');
+                    // Small delay to allow 'hidden' class removal to take effect before animating opacity
+                    setTimeout(() => {
+                        modal.classList.remove('opacity-0', 'scale-95');
+                    }, 10);
+                });
+            });
+        });
+
+        // Add a dedicated function for navigation
+        function navigateTo(url) {
+            window.location.href = url;
+        }
+
+        // --- TRANSLATION LOGIC ---
+        const translations = {
+            'EN': {
+                'site_name': 'Maharashtra Gram Darpan',
+                'nav_home': 'Home',
+                'nav_about': 'About Us',
+                'nav_foundation': 'Our Foundation',
+                'nav_work': 'Our Work',
+                'nav_mission': 'Mission & Vision',
+                'nav_board': 'Trustees/Board',
+                'nav_careers': 'Careers',
+                'nav_services': 'Services',
+                'nav_rural': 'Rural Development',
+                'nav_prog': 'Programme',
+                'nav_adult': 'Adult Education',
+                'nav_training': 'Training Center',
+                'nav_resources': 'Resources',
+                'nav_newsletter': 'Newsletter',
+                'nav_contact': 'Contact',
+                'footer_desc': 'Committed to creating a strong and independent society without inequalities and discrimination.',
+                'footer_quick_links': 'Quick Links',
+                'footer_leadership': 'Leadership',
+                'footer_address': 'Amravati-444601, MH',
+                'footer_legal': 'Legal',
+                'footer_connect': 'Connect With Us',
+                'footer_copyright': '&copy; 2025 Maharashtra Gram Darpan. All rights reserved.',
+                
+                // Page Specific
+                'page_title': 'Our Programmes & Impact',
+                'page_subtitle': 'Visualizing our footprint in sustainable rural development across Maharashtra and beyond.',
+                'section_dashboard': 'Impact Dashboard',
+                'chart_shg_title': 'SHG Formation & Bank Linkage',
+                'shg_label_1': 'Groups Formed',
+                'shg_label_2': 'Bank Linked',
+                'shg_label_3': 'Groups Trained',
+                'chart_sector_title': 'Project Distribution by Sector',
+                'sector_desc': 'Focus: 40% Livelihood, 35% WASH, 15% Health, 10% Training',
+                'chart_beneficiary_title': 'Beneficiary Reach (Approx. 3 Lakh Total)',
+                'chart_beneficiary_desc': 'Key beneficiary groups impacted by our initiatives.',
+                'chart_units_title': 'Livelihood Units Established',
+                'units_desc': 'Units actively generating income in rural clusters.',
+                'section_map': 'Geographic Presence',
+                'map_desc': 'Explore our project locations across Maharashtra, Madhya Pradesh, and Arunachal Pradesh.',
+                'section_reports': 'Detailed Reports'
+            },
+            'HI': {
+                'site_name': 'महाराष्ट्र ग्राम दर्पण',
+                'nav_home': 'होम',
+                'nav_about': 'हमारे बारे में',
+                'nav_foundation': 'हमारी संस्था',
+                'nav_work': 'हमारा काम',
+                'nav_mission': 'लक्ष्य और दृष्टि',
+                'nav_board': 'ट्रस्टी/बोर्ड',
+                'nav_careers': 'करियर',
+                'nav_services': 'सेवाएं',
+                'nav_rural': 'ग्रामीण विकास',
+                'nav_prog': 'कार्यक्रम',
+                'nav_adult': 'प्रौढ़ शिक्षा',
+                'nav_training': 'प्रशिक्षण केंद्र',
+                'nav_resources': 'संसाधन',
+                'nav_newsletter': 'समाचार पत्र',
+                'nav_contact': 'संपर्क',
+                'footer_desc': 'असमानता और भेदभाव के बिना एक मजबूत और स्वतंत्र समाज बनाने के लिए प्रतिबद्ध।',
+                'footer_quick_links': 'त्वरित लिंक',
+                'footer_leadership': 'नेतृत्व',
+                'footer_address': 'अमरावती-४४४६०१, महाराष्ट्र',
+                'footer_legal': 'कानूनी',
+                'footer_connect': 'हमसे जुड़ें',
+                'footer_copyright': '&copy; २०२५ महाराष्ट्र ग्राम दर्पण। सर्वाधिकार सुरक्षित।',
+
+                // Page Specific
+                'page_title': 'हमारे प्रभाव',
+                'page_subtitle': 'सतत ग्रामीण विकास में हमारे पदचिह्न का चित्रण।',
+                'section_dashboard': 'प्रभाव डैशबोर्ड',
+                'chart_shg_title': 'SHG गठन और बैंक लिंकेज',
+                'shg_label_1': 'समूह गठित',
+                'shg_label_2': 'बैंक लिंक्ड',
+                'shg_label_3': 'प्रशिक्षित समूह',
+                'chart_sector_title': 'क्षेत्र के अनुसार परियोजना वितरण',
+                'sector_desc': 'फोकस: 40% आजीविका, 35% WASH, 15% स्वास्थ्य, 10% प्रशिक्षण',
+                'chart_beneficiary_title': 'लाभार्थी पहुंच (लगभग 3 लाख)',
+                'chart_beneficiary_desc': 'हमारी पहल से प्रभावित प्रमुख लाभार्थी समूह।',
+                'chart_units_title': 'स्थापित आजीविका इकाइयाँ',
+                'units_desc': 'ग्रामीण समूहों में आय उत्पन्न करने वाली सक्रिय इकाइयाँ।',
+                'section_map': 'भौगोलिक उपस्थिति',
+                'map_desc': 'महाराष्ट्र, मध्य प्रदेश और अरुणाचल प्रदेश में हमारी परियोजना स्थानों का अन्वेषण करें।',
+                'section_reports': 'विस्तृत रिपोर्ट'
+            },
+            'MR': {
+                'site_name': 'महाराष्ट्र ग्राम दर्पण',
+                'nav_home': 'मुख्यपृष्ठ',
+                'nav_about': 'आमच्याबद्दल',
+                'nav_foundation': 'आमची संस्था',
+                'nav_work': 'आमचे कार्य',
+                'nav_mission': 'ध्येय आणि दृष्टी',
+                'nav_board': 'विश्वस्त मंडळ',
+                'nav_careers': 'करिअर',
+                'nav_services': 'सेवा',
+                'nav_rural': 'ग्रामीण विकास',
+                'nav_prog': 'कार्यक्रम',
+                'nav_adult': 'प्रौढ शिक्षण',
+                'nav_training': 'प्रशिक्षण केंद्र',
+                'nav_resources': 'संसाधने',
+                'nav_newsletter': 'बातमीपत्र',
+                'nav_contact': 'संपर्क',
+                'footer_desc': 'असमानता आणि भेदभावांशिवाय मजबूत आणि स्वतंत्र समाज निर्माण करण्यासाठी कटिबद्ध.',
+                'footer_quick_links': 'जलद लिंक्स',
+                'footer_leadership': 'नेतृत्व',
+                'footer_address': 'अमरावती-४४४६०१, महाराष्ट्र',
+                'footer_legal': 'कायदेशीर',
+                'footer_connect': 'आमच्याशी जुळा',
+                'footer_copyright': '&copy; २०२५ महाराष्ट्र ग्राम दर्पण. सर्व हक्क राखीव.',
+
+                // Page Specific
+                'page_title': 'आमचे प्रभाव',
+                'page_subtitle': 'शाश्वत ग्रामीण विकासातील आमच्या कार्याचे चित्रण.',
+                'section_dashboard': 'प्रभाव डॅशबोर्ड',
+                'chart_shg_title': 'SHG निर्मिती आणि बँक लिंकेज',
+                'shg_label_1': 'गट स्थापन',
+                'shg_label_2': 'बँक लिंक्ड',
+                'shg_label_3': 'प्रशिक्षित गट',
+                'chart_sector_title': 'क्षेत्रानुसार प्रकल्प वितरण',
+                'sector_desc': 'लक्ष्य: ४०% उपजीविका, ३५% WASH, १५% आरोग्य, १०% प्रशिक्षण',
+                'chart_beneficiary_title': 'लाभार्थी पोहोच (सुमारे ३ लाख)',
+                'chart_beneficiary_desc': 'आमच्या उपक्रमांमुळे प्रभावित झालेले प्रमुख लाभार्थी गट.',
+                'chart_units_title': 'स्थापित उपजीविका युनिट्स',
+                'units_desc': 'ग्रामीण भागात उत्पन्न मिळवून देणारे सक्रिय युनिट्स.',
+                'section_map': 'भौगोलिक उपस्थिती',
+                'map_desc': 'महाराष्ट्र, मध्य प्रदेश आणि अरुणाचल प्रदेशातील आमच्या प्रकल्प ठिकाणांचे अन्वेषण करा.',
+                'section_reports': 'तपशीलवार अहवाल'
+            }
+        };
+
+        const LANG_TOGGLE_KEY = 'mgd_current_lang'; 
+        let currentLanguage = localStorage.getItem(LANG_TOGGLE_KEY) || 'EN';
+        let buttonTextElement = document.getElementById('lang-text');
+        
+        function updateLanguageUI(lang) {
+            // Update Toggle Button Text
+            if (lang === 'MR') {
+                if(buttonTextElement) buttonTextElement.textContent = 'English (EN)';
+            } else if (lang === 'HI') {
+                if(buttonTextElement) buttonTextElement.textContent = 'मराठी (MR)';
+            } else {
+                if(buttonTextElement) buttonTextElement.textContent = 'हिंदी (HI)';
+            }
+
+            // Update Text Content via data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+
+            // Toggle Tables based on Language
+            const tableEn = document.getElementById('table-en');
+            const tableHi = document.getElementById('table-hi');
+            const tableMr = document.getElementById('table-mr');
+
+            if (tableEn && tableHi && tableMr) {
+                tableEn.classList.add('hidden');
+                tableHi.classList.add('hidden');
+                tableMr.classList.add('hidden');
+
+                if (lang === 'HI') {
+                    tableHi.classList.remove('hidden');
+                } else if (lang === 'MR') {
+                    tableMr.classList.remove('hidden');
+                } else {
+                    tableEn.classList.remove('hidden');
+                }
+            }
+        }
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem(LANG_TOGGLE_KEY, currentLanguage);
+            updateLanguageUI(currentLanguage);
+        }
+
+        // Toggle function cycling: EN -> HI -> MR -> EN
+        function toggleLanguage() {
+            if (currentLanguage === 'EN') {
+                setLanguage('HI');
+            } else if (currentLanguage === 'HI') {
+                setLanguage('MR');
+            } else {
+                setLanguage('EN');
+            }
+        }
+
+        window.onload = function() {
+            updateLanguageUI(currentLanguage);
+            
+            // Re-render map after a short delay to ensure container size is calculated
+            setTimeout(() => {
+                window.dispatchEvent(new Event('resize'));
+            }, 100);
+        };
+
+        // JavaScript for mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

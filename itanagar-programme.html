@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Itanagar Programme - Maharashtra Gram Darpan</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles based on the logo (Slightly Lighter Dark Green and Red theme) */
+        :root {
+            --color-primary: #065F46; /* Lighter Forest Green */
+            --color-secondary: #B91C1C; /* Brick Red */
+            --color-background: #F4F8F5; 
+            --color-text: #1F2937; /* Dark Gray */
+            --color-alt-row: #F7FDF7;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background); 
+            color: var(--color-text);
+        }
+        header { background-color: white; }
+        .text-primary { color: #B91C1C; }
+        .bg-primary { background-color: var(--color-primary); }
+
+        /* Custom shadow for cards */
+        .card-shadow {
+            box-shadow: 0 10px 15px -3px rgba(6, 95, 70, 0.1), 0 4px 6px -2px rgba(6, 95, 70, 0.05);
+            transition: transform 0.3s ease;
+        }
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 0.5rem 1rem; 
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            font-size: 1rem; 
+            line-height: 1.5; 
+            display: inline-flex; 
+            align-items: center; 
+        }
+        .btn-primary:hover {
+            background-color: #044F36;
+        }
+
+        /* Programme Image Styling */
+        .programme-img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            transition: transform 0.3s ease;
+        }
+        .programme-img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Feature Card Styling */
+        .feature-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border-left: 5px solid var(--color-primary);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Table Styling */
+        .data-table th {
+            background-color: #f3f4f6;
+            color: #374151;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            padding: 0.75rem 1.5rem;
+            text-align: left;
+        }
+        .data-table td {
+            padding: 0.75rem 1.5rem;
+            border-top: 1px solid #e5e7eb;
+            color: #4b5563;
+            font-size: 0.875rem;
+        }
+        .data-table tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+
+        /* Loading spinner CSS */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid white;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20 gap-4">
+                <!-- Logo/Site Name -->
+                <div class="flex-shrink-0 flex items-center"> 
+                    <a href="index.html" class="flex items-center space-x-3">
+                        <img src="IMG-20251214-WA0002.jpg" 
+                             onerror="this.onerror=null; this.src='https://placehold.co/64x64/9CA3AF/ffffff?text=LOGO';" 
+                             alt="Maharashtra Gram Darpan Logo" 
+                             class="w-12 h-12 lg:w-16 lg:h-16 rounded-md flex items-center justify-center font-bold text-xl object-cover">
+                        <span class="text-xl lg:text-xl xl:text-2xl font-extrabold text-primary leading-tight" data-i18n="site_name">Maharashtra Gram Darpan</span>
+                    </a>
+                </div>
+
+                <!-- Navigation Menu (Desktop) -->
+                <nav class="hidden lg:flex space-x-6 xl:space-x-12 items-center">
+                    <a href="index.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_home">Home</a>
+                    <a href="about-us.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_about">About Us</a>
+                    <a href="our-work.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_work">Our Work</a>
+                    <a href="programmes.html" class="text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_prog">Programmes</a>
+                    <a href="trustees-board.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_board">Trustees/Board</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_contact">Contact</a>
+                    <!-- Translation Button -->
+                    <button id="lang-toggle-button" class="btn-primary flex items-center justify-center text-sm xl:text-base px-4 py-2" onclick="toggleLanguage()">
+                        <span id="lang-text">हिंदी (HI)</span>
+                        <div id="lang-spinner" class="spinner hidden ml-2"></div>
+                    </button>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="lg:hidden p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none transition duration-150 ease-in-out">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden lg:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 shadow-inner bg-gray-50">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_home">Home</a>
+                <a href="about-us.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_about">About Us</a>
+                <a href="our-work.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_work">Our Work</a>
+                <a href="programmes.html" class="block px-3 py-2 rounded-md text-base font-medium text-primary bg-gray-50 hover:bg-gray-100" data-i18n="nav_prog">Programmes</a>
+                <a href="trustees-board.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_board">Trustees/Board</a>
+                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_contact">Contact</a>
+                <button class="block px-3 py-2 rounded-md text-base font-medium text-white bg-primary text-center w-full mt-2" onclick="toggleLanguage()">
+                    <span id="mobile-lang-text">हिंदी (HI)</span>
+                    <div id="mobile-lang-spinner" class="spinner hidden ml-2"></div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content AREA (English Default) -->
+    <main id="main-content-area">
+        <section class="py-16 md:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-2">Itanagar Programme</h2>
+                    <p class="text-xl text-primary font-semibold max-w-4xl mx-auto">
+                        Empowering Youth through Skill Development and Vocational Training in Arunachal Pradesh.
+                    </p>
+                </div>
+
+                <!-- Impact Dashboard (Charts) -->
+                <div class="mb-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+                     <!-- Training Impact Chart -->
+                     <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-primary">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4 text-center">Skill Development Reach</h3>
+                        <div class="relative h-64 w-full">
+                            <canvas id="trainingChart"></canvas>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2 text-center">Beneficiaries trained in vocational skills.</p>
+                     </div>
+                     <!-- Sector Chart -->
+                     <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-secondary">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4 text-center">Training Sector Distribution</h3>
+                        <div class="relative h-64 w-full">
+                            <canvas id="sectorChart"></canvas>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2 text-center">Key trades: Beauty Culture & Mobile Repair.</p>
+                     </div>
+                </div>
+
+                <div class="space-y-16 text-sm text-gray-700">
+                    
+                    <!-- 1. Vocational Training (Beauty Culture & Mobile Repair) -->
+                    <div class="bg-white p-8 rounded-xl card-shadow border-l-8 border-primary">
+                        <div class="grid md:grid-cols-2 gap-10 items-center">
+                            <div class="order-2 md:order-1">
+                                <h3 class="text-2xl font-bold mb-4 text-primary">Vocational Skill Development</h3>
+                                <p class="text-lg mb-4 text-gray-600">
+                                    Maharashtra Gram Darpan extended its operations to Itanagar, Arunachal Pradesh, to address youth unemployment. We implemented targeted training programs to provide market-relevant skills.
+                                </p>
+                                <div class="feature-card mb-4">
+                                    <h4 class="font-bold text-gray-900">Key Training Trades</h4>
+                                    <ul class="list-disc pl-5 mt-2 text-gray-600">
+                                        <li><strong>Beauty Culture:</strong> Comprehensive training for women in cosmetology, hair styling, and salon management, empowering them to start their own parlors.</li>
+                                        <li><strong>Mobile Repairing:</strong> Technical training for youth in hardware and software repair of mobile devices, tapping into the growing demand for service technicians.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="order-1 md:order-2">
+                                <img src="https://placehold.co/600x400/ecfdf5/065f46?text=Skill+Training+Itanagar" 
+                                     alt="Vocational Training Session" 
+                                     class="programme-img shadow-md cursor-pointer"
+                                     onclick="openImageModal(this.src, 'Skill Training in Itanagar')">
+                                <p class="text-xs text-center text-gray-500 mt-2">Practical training session for beneficiaries.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Media Coverage Section -->
+                    <div class="bg-white p-8 rounded-xl card-shadow border-t-4 border-gray-800">
+                        <h3 class="text-2xl font-bold mb-6 text-gray-900 text-center">Media Coverage</h3>
+                        <p class="text-center text-gray-600 mb-8">Highlights of our skill development initiatives in the North East.</p>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                            <!-- News Item 1 -->
+                            <div class="group relative cursor-pointer" onclick="openImageModal('https://placehold.co/600x800/e2e8f0/1e293b?text=Training+News', 'Training News')">
+                                <div class="overflow-hidden rounded-lg shadow-md border border-gray-200">
+                                    <img src="https://placehold.co/400x500/f8fafc/64748b?text=News+Clipping+1" 
+                                         alt="News Clipping 1" 
+                                         class="w-full h-64 object-cover transform hover:scale-105 transition duration-500">
+                                </div>
+                                <p class="mt-2 text-center text-xs text-gray-500 font-medium">Skill Workshop (Local News)</p>
+                            </div>
+                            <!-- News Item 2 -->
+                            <div class="group relative cursor-pointer" onclick="openImageModal('https://placehold.co/600x800/e2e8f0/1e293b?text=Award+News', 'Recognition News')">
+                                 <div class="overflow-hidden rounded-lg shadow-md border border-gray-200">
+                                    <img src="https://placehold.co/400x500/f8fafc/64748b?text=News+Clipping+2" 
+                                         alt="News Clipping 2" 
+                                         class="w-full h-64 object-cover transform hover:scale-105 transition duration-500">
+                                </div>
+                                <p class="mt-2 text-center text-xs text-gray-500 font-medium">Certificate Distribution</p>
+                            </div>
+                             <!-- News Item 3 -->
+                             <div class="group relative cursor-pointer" onclick="openImageModal('https://placehold.co/600x800/e2e8f0/1e293b?text=Success+Story', 'Success Story')">
+                                <div class="overflow-hidden rounded-lg shadow-md border border-gray-200">
+                                   <img src="https://placehold.co/400x500/f8fafc/64748b?text=News+Clipping+3" 
+                                        alt="News Clipping 3" 
+                                        class="w-full h-64 object-cover transform hover:scale-105 transition duration-500">
+                               </div>
+                               <p class="mt-2 text-center text-xs text-gray-500 font-medium">Beneficiary Success Story</p>
+                           </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- HINDI CONTENT -->
+    <div id="hindi-content-area" style="display: none;">
+        <section class="py-16 md:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-2">ईटानगर कार्यक्रम</h2>
+                    <p class="text-xl text-primary font-semibold max-w-4xl mx-auto">
+                        अरुणाचल प्रदेश में कौशल विकास और व्यावसायिक प्रशिक्षण के माध्यम से युवाओं को सशक्त बनाना।
+                    </p>
+                </div>
+
+                 <!-- Impact Dashboard (Hindi) -->
+                 <div class="mb-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-primary">
+                       <h3 class="text-lg font-bold text-gray-800 mb-4 text-center">कौशल विकास पहुंच</h3>
+                       <div class="relative h-64 w-full">
+                           <canvas id="trainingChartHI"></canvas>
+                       </div>
+                       <p class="text-sm text-gray-500 mt-2 text-center">व्यावसायिक कौशल में प्रशिक्षित लाभार्थी।</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-secondary">
+                       <h3 class="text-lg font-bold text-gray-800 mb-4 text-center">प्रशिक्षण क्षेत्र वितरण</h3>
+                       <div class="relative h-64 w-full">
+                           <canvas id="sectorChartHI"></canvas>
+                       </div>
+                       <p class="text-sm text-gray-500 mt-2 text-center">मुख्य ट्रेड: ब्यूटी कल्चर और मोबाइल रिपेयर।</p>
+                    </div>
+               </div>
+
+                <div class="space-y-16 text-sm text-gray-700">
+                    
+                    <!-- 1. Vocational Training Hindi -->
+                    <div class="bg-white p-8 rounded-xl card-shadow border-l-8 border-primary">
+                        <div class="grid md:grid-cols-2 gap-10 items-center">
+                            <div class="order-2 md:order-1">
+                                <h3 class="text-2xl font-bold mb-4 text-primary">व्यावसायिक कौशल विकास</h3>
+                                <p class="text-lg mb-4 text-gray-600">
+                                    महाराष्ट्र ग्राम दर्पण ने युवाओं की बेरोजगारी को दूर करने के लिए ईटानगर, अरुणाचल प्रदेश में अपने कार्यों का विस्तार किया। हमने बाजार-प्रासंगिक कौशल प्रदान करने के लिए लक्षित प्रशिक्षण कार्यक्रम लागू किए।
+                                </p>
+                                <div class="feature-card mb-4">
+                                    <h4 class="font-bold text-gray-900">मुख्य प्रशिक्षण ट्रेड</h4>
+                                    <ul class="list-disc pl-5 mt-2 text-gray-600">
+                                        <li><strong>ब्यूटी कल्चर:</strong> महिलाओं के लिए कॉस्मेटोलॉजी, हेयर स्टाइलिंग और सैलून प्रबंधन में व्यापक प्रशिक्षण, जिससे वे अपना खुद का पार्लर शुरू कर सकें।</li>
+                                        <li><strong>मोबाइल रिपेयरिंग:</strong> मोबाइल उपकरणों की मरम्मत के लिए हार्डवेयर और सॉफ्टवेयर में युवाओं के लिए तकनीकी प्रशिक्षण, जो सेवा तकनीशियनों की बढ़ती मांग को पूरा करता है।</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="order-1 md:order-2">
+                                <img src="https://placehold.co/600x400/ecfdf5/065f46?text=Skill+Training+Itanagar" 
+                                     alt="Vocational Training Session" 
+                                     class="programme-img shadow-md cursor-pointer"
+                                     onclick="openImageModal(this.src, 'Skill Training in Itanagar')">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Media Coverage Hindi -->
+                    <div class="bg-white p-8 rounded-xl card-shadow border-t-4 border-gray-800">
+                        <h3 class="text-2xl font-bold mb-6 text-gray-900 text-center">मीडिया कवरेज</h3>
+                        <p class="text-center text-gray-600 mb-8">उत्तर पूर्व में हमारी कौशल विकास पहल की झलकियां।</p>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                            <div class="group relative cursor-pointer" onclick="openImageModal('https://placehold.co/600x800/e2e8f0/1e293b?text=Training+News', 'Training News')">
+                                <div class="overflow-hidden rounded-lg shadow-md border border-gray-200">
+                                    <img src="https://placehold.co/400x500/f8fafc/64748b?text=News+Clipping+1" 
+                                         alt="News Clipping 1" 
+                                         class="w-full h-64 object-cover transform hover:scale-105 transition duration-500">
+                                </div>
+                                <p class="mt-2 text-center text-xs text-gray-500 font-medium">कौशल कार्यशाला (स्थानीय समाचार)</p>
+                            </div>
+                            <div class="group relative cursor-pointer" onclick="openImageModal('https://placehold.co/600x800/e2e8f0/1e293b?text=Award+News', 'Recognition News')">
+                                 <div class="overflow-hidden rounded-lg shadow-md border border-gray-200">
+                                    <img src="https://placehold.co/400x500/f8fafc/64748b?text=News+Clipping+2" 
+                                         alt="News Clipping 2" 
+                                         class="w-full h-64 object-cover transform hover:scale-105 transition duration-500">
+                                </div>
+                                <p class="mt-2 text-center text-xs text-gray-500 font-medium">प्रमाण पत्र वितरण</p>
+                            </div>
+                             <div class="group relative cursor-pointer" onclick="openImageModal('https://placehold.co/600x800/e2e8f0/1e293b?text=Success+Story', 'Success Story')">
+                                <div class="overflow-hidden rounded-lg shadow-md border border-gray-200">
+                                   <img src="https://placehold.co/400x500/f8fafc/64748b?text=News+Clipping+3" 
+                                        alt="News Clipping 3" 
+                                        class="w-full h-64 object-cover transform hover:scale-105 transition duration-500">
+                               </div>
+                               <p class="mt-2 text-center text-xs text-gray-500 font-medium">लाभार्थी सफलता की कहानी</p>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- MARATHI CONTENT -->
+    <div id="marathi-content-area" style="display: none;">
+        <section class="py-16 md:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-2">ईटानगर कार्यक्रम</h2>
+                    <p class="text-xl text-primary font-semibold max-w-4xl mx-auto">
+                        अरुणाचल प्रदेशमध्ये कौशल्य विकास आणि व्यावसायिक प्रशिक्षणाद्वारे तरुणांचे सक्षमीकरण.
+                    </p>
+                </div>
+
+                 <!-- Impact Dashboard (Marathi) -->
+                 <div class="mb-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-primary">
+                       <h3 class="text-lg font-bold text-gray-800 mb-4 text-center">कौशल्य विकास पोहोच</h3>
+                       <div class="relative h-64 w-full">
+                           <canvas id="trainingChartMR"></canvas>
+                       </div>
+                       <p class="text-sm text-gray-500 mt-2 text-center">व्यावसायिक कौशल्यात प्रशिक्षित लाभार्थी.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-secondary">
+                       <h3 class="text-lg font-bold text-gray-800 mb-4 text-center">प्रशिक्षण क्षेत्र वितरण</h3>
+                       <div class="relative h-64 w-full">
+                           <canvas id="sectorChartMR"></canvas>
+                       </div>
+                       <p class="text-sm text-gray-500 mt-2 text-center">मुख्य व्यवसाय: ब्युटी कल्चर आणि मोबाईल रिपेअर.</p>
+                    </div>
+               </div>
+
+                <div class="space-y-16 text-sm text-gray-700">
+                    
+                    <!-- 1. Vocational Training Marathi -->
+                    <div class="bg-white p-8 rounded-xl card-shadow border-l-8 border-primary">
+                        <div class="grid md:grid-cols-2 gap-10 items-center">
+                            <div class="order-2 md:order-1">
+                                <h3 class="text-2xl font-bold mb-4 text-primary">व्यावसायिक कौशल्य विकास</h3>
+                                <p class="text-lg mb-4 text-gray-600">
+                                    महाराष्ट्र ग्राम दर्पणने तरुणांची बेरोजगारी दूर करण्यासाठी ईटानगर, अरुणाचल प्रदेशमध्ये आपल्या कार्याचा विस्तार केला. आम्ही बाजाराशी सुसंगत कौशल्ये प्रदान करण्यासाठी लक्ष्यित प्रशिक्षण कार्यक्रम राबवले.
+                                </p>
+                                <div class="feature-card mb-4">
+                                    <h4 class="font-bold text-gray-900">मुख्य प्रशिक्षण व्यवसाय</h4>
+                                    <ul class="list-disc pl-5 mt-2 text-gray-600">
+                                        <li><strong>ब्युटी कल्चर:</strong> महिलांसाठी कॉस्मेटोलॉजी, हेअर स्टाइलिंग आणि सलून व्यवस्थापनाचे सर्वसमावेशक प्रशिक्षण, ज्यामुळे त्या स्वतःचे पार्लर सुरू करू शकतात.</li>
+                                        <li><strong>मोबाईल रिपेअरिंग:</strong> मोबाईल उपकरणांच्या दुरुस्तीसाठी हार्डवेअर आणि सॉफ्टवेअरमधील तरुणांना तांत्रिक प्रशिक्षण, जे सर्व्हिस तंत्रज्ञांच्या वाढत्या मागणीची पूर्तता करते.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="order-1 md:order-2">
+                                <img src="https://placehold.co/600x400/ecfdf5/065f46?text=Skill+Training+Itanagar" 
+                                     alt="Vocational Training Session" 
+                                     class="programme-img shadow-md cursor-pointer"
+                                     onclick="openImageModal(this.src, 'Skill Training in Itanagar')">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Media Coverage Marathi -->
+                    <div class="bg-white p-8 rounded-xl card-shadow border-t-4 border-gray-800">
+                        <h3 class="text-2xl font-bold mb-6 text-gray-900 text-center">प्रसारमाध्यमातील दखल</h3>
+                        <p class="text-center text-gray-600 mb-8">ईशान्येतील आमच्या कौशल्य विकास उपक्रमांची झलक.</p>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                            <div class="group relative cursor-pointer" onclick="openImageModal('https://placehold.co/600x800/e2e8f0/1e293b?text=Training+News', 'Training News')">
+                                <div class="overflow-hidden rounded-lg shadow-md border border-gray-200">
+                                    <img src="https://placehold.co/400x500/f8fafc/64748b?text=News+Clipping+1" 
+                                         alt="News Clipping 1" 
+                                         class="w-full h-64 object-cover transform hover:scale-105 transition duration-500">
+                                </div>
+                                <p class="mt-2 text-center text-xs text-gray-500 font-medium">कौशल्य कार्यशाळा (स्थानिक बातम्या)</p>
+                            </div>
+                            <div class="group relative cursor-pointer" onclick="openImageModal('https://placehold.co/600x800/e2e8f0/1e293b?text=Award+News', 'Recognition News')">
+                                 <div class="overflow-hidden rounded-lg shadow-md border border-gray-200">
+                                    <img src="https://placehold.co/400x500/f8fafc/64748b?text=News+Clipping+2" 
+                                         alt="News Clipping 2" 
+                                         class="w-full h-64 object-cover transform hover:scale-105 transition duration-500">
+                                </div>
+                                <p class="mt-2 text-center text-xs text-gray-500 font-medium">प्रमाणपत्र वितरण</p>
+                            </div>
+                             <div class="group relative cursor-pointer" onclick="openImageModal('https://placehold.co/600x800/e2e8f0/1e293b?text=Success+Story', 'Success Story')">
+                                <div class="overflow-hidden rounded-lg shadow-md border border-gray-200">
+                                   <img src="https://placehold.co/400x500/f8fafc/64748b?text=News+Clipping+3" 
+                                        alt="News Clipping 3" 
+                                        class="w-full h-64 object-cover transform hover:scale-105 transition duration-500">
+                               </div>
+                               <p class="mt-2 text-center text-xs text-gray-500 font-medium">लाभार्थी यशोगाथा</p>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="image-modal" class="fixed inset-0 z-[60] hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" onclick="closeImageModal()"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 relative">
+                    <button type="button" class="absolute top-2 right-2 text-gray-400 hover:text-gray-500 text-3xl font-bold focus:outline-none" onclick="closeImageModal()">
+                        &times;
+                    </button>
+                    <div class="mt-3 text-center sm:mt-0 sm:text-left">
+                        <img id="modal-image" src="" alt="Full View" class="w-full h-auto rounded-md object-contain max-h-[80vh]">
+                        <p id="modal-caption" class="mt-2 text-sm text-gray-500 text-center font-medium"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold mb-4 text-primary" data-i18n="site_name">Maharashtra Gram Darpan</h3>
+                    <p class="text-sm text-gray-400" data-i18n="footer_desc">Committed to creating a strong and independent society without inequalities and discrimination.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-i18n="footer_quick_links">Quick Links</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_home">Home</a></li>
+                        <li><a href="about-us.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_about">About Us</a></li>
+                        <li><a href="our-work.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_work">Our Work</a></li>
+                        <li><a href="programmes.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_prog">Programmes</a></li>
+                        <li><a href="trustees-board.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="footer_leadership">Leadership</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-i18n="nav_contact">Contact</h3>
+                    <p class="text-sm text-gray-400" data-i18n="footer_address">Amravati-444601, MH</p>
+                    <p class="text-sm text-gray-400">Mob: 9373471897</p>
+                    <p class="text-sm text-gray-400 whitespace-nowrap">Email: maharashtragramdarpan@gmail.com</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-i18n="footer_legal">Legal</h3>
+                    <p class="text-sm text-gray-400">FCRA No: 083740062</p>
+                    <p class="text-sm text-gray-400">80G Certified</p>
+                    <p class="text-sm text-gray-400">ISO 9000:2015</p>
+
+                    <h3 class="text-lg font-bold mb-4" data-i18n="footer_connect">Connect With Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-150"><span class="sr-only">Facebook</span><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-150"><span class="sr-only">Instagram</span><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772 4.902 4.902 0 011.772-1.153c.636-.247 1.363-.416 2.427-.465C9.673 2.013 10.03 2 12.488 2h-.173zM12.315 3.832c-2.386 0-2.68.01-3.618.053-.865.04-1.332.184-1.644.305-.413.16-.707.35-.99.633-.284.283-.475.577-.634.99-.122.312-.266.779-.306 1.644-.043.938-.053 1.232-.053 3.618v.173c0 2.386.01 2.68.053 3.618.04.865.184 1.332.305 1.644.16.413.35.707.633.99.283.284.577.475.99.634.312.122.779.266 1.644.306-.938.043 1.232.053-3.618-.053H12.315zm.173 3.333a4.835 4.835 0 110 9.67 4.835 4.835 0 010-9.67zm0 1.832a3.003 3.003 0 100 6.006 3.003 3.003 0 000-6.006zm5.337-3.875a1.22 1.22 0 110 2.44 1.22 1.22 0 010-2.44z" clip-rule="evenodd" /></svg></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-8 border-t border-gray-700 text-center">
+                <p class="text-sm text-gray-400" data-i18n="footer_copyright">&copy; 2025 Maharashtra Gram Darpan. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- CHART.JS LOGIC ---
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Function to create Bar Chart
+            function createBarChart(canvasId, label, data, titleText, bgColor, borderColor) {
+                const ctx = document.getElementById(canvasId);
+                if (!ctx) return;
+
+                new Chart(ctx.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Youth Trained', 'Employed/Self-Employed'],
+                        datasets: [{
+                            label: label,
+                            data: data,
+                            backgroundColor: bgColor,
+                            borderColor: borderColor,
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                        },
+                        scales: { y: { beginAtZero: true, title: { display: true, text: titleText } } }
+                    }
+                });
+            }
+
+            // Function to create Doughnut Chart
+            function createDoughnutChart(canvasId, labels, data) {
+                const ctx = document.getElementById(canvasId);
+                if (!ctx) return;
+
+                new Chart(ctx.getContext('2d'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Focus',
+                            data: data,
+                            backgroundColor: ['#065F46', '#B91C1C', '#F59E0B'],
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom' } }
+                    }
+                });
+            }
+
+            // --- RENDER ENGLISH ---
+            createBarChart('trainingChart', 'Beneficiaries', [200, 150], 'Count (Estimated)', ['rgba(6, 95, 70, 0.7)', 'rgba(59, 130, 246, 0.7)'], ['rgba(6, 95, 70, 1)', 'rgba(59, 130, 246, 1)']);
+            createDoughnutChart('sectorChart', ['Beauty Culture', 'Mobile Repairing', 'Other Skills'], [50, 40, 10]);
+
+             // --- RENDER HINDI ---
+             createBarChart('trainingChartHI', 'लाभार्थी', [200, 150], 'संख्या (अनुमानित)', ['rgba(6, 95, 70, 0.7)', 'rgba(59, 130, 246, 0.7)'], ['rgba(6, 95, 70, 1)', 'rgba(59, 130, 246, 1)']);
+             createDoughnutChart('sectorChartHI', ['ब्यूटी कल्चर', 'मोबाइल रिपेयरिंग', 'अन्य कौशल'], [50, 40, 10]);
+
+             // --- RENDER MARATHI ---
+             createBarChart('trainingChartMR', 'लाभार्थी', [200, 150], 'संख्या (अंदाजे)', ['rgba(6, 95, 70, 0.7)', 'rgba(59, 130, 246, 0.7)'], ['rgba(6, 95, 70, 1)', 'rgba(59, 130, 246, 1)']);
+             createDoughnutChart('sectorChartMR', ['ब्युटी कल्चर', 'मोबाईल रिपेअरिंग', 'इतर कौशल्ये'], [50, 40, 10]);
+        });
+
+        // --- IMAGE MODAL LOGIC ---
+        function openImageModal(src, caption) {
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-image');
+            const modalCaption = document.getElementById('modal-caption');
+            
+            modalImg.src = src;
+            if(caption) modalCaption.textContent = caption;
+            
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('image-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // --- TRANSLATION DICTIONARY ---
+        const translations = {
+            'EN': {
+                'site_name': 'Maharashtra Gram Darpan',
+                'nav_home': 'Home',
+                'nav_about': 'About Us',
+                'nav_work': 'Our Work',
+                'nav_prog': 'Programmes',
+                'nav_board': 'Trustees/Board',
+                'nav_contact': 'Contact',
+                'footer_desc': 'Committed to creating a strong and independent society without inequalities and discrimination.',
+                'footer_quick_links': 'Quick Links',
+                'footer_leadership': 'Leadership',
+                'footer_address': 'Amravati-444601, MH',
+                'footer_legal': 'Legal',
+                'footer_connect': 'Connect With Us',
+                'footer_copyright': '&copy; 2025 Maharashtra Gram Darpan. All rights reserved.'
+            },
+            'HI': {
+                'site_name': 'महाराष्ट्र ग्राम दर्पण',
+                'nav_home': 'होम',
+                'nav_about': 'हमारे बारे में',
+                'nav_work': 'हमारा काम',
+                'nav_prog': 'कार्यक्रम',
+                'nav_board': 'ट्रस्टी/बोर्ड',
+                'nav_contact': 'संपर्क',
+                'footer_desc': 'असमानता और भेदभाव के बिना एक मजबूत और स्वतंत्र समाज बनाने के लिए प्रतिबद्ध।',
+                'footer_quick_links': 'त्वरित लिंक',
+                'footer_leadership': 'नेतृत्व',
+                'footer_address': 'अमरावती-४४४६०१, महाराष्ट्र',
+                'footer_legal': 'कानूनी',
+                'footer_connect': 'हमसे जुड़ें',
+                'footer_copyright': '&copy; २०२५ महाराष्ट्र ग्राम दर्पण। सर्वाधिकार सुरक्षित।'
+            },
+            'MR': {
+                'site_name': 'महाराष्ट्र ग्राम दर्पण',
+                'nav_home': 'मुख्यपृष्ठ',
+                'nav_about': 'आमच्याबद्दल',
+                'nav_work': 'आमचे कार्य',
+                'nav_prog': 'कार्यक्रम',
+                'nav_board': 'विश्वस्त मंडळ',
+                'nav_contact': 'संपर्क',
+                'footer_desc': 'असमानता आणि भेदभावांशिवाय मजबूत आणि स्वतंत्र समाज निर्माण करण्यासाठी कटिबद्ध.',
+                'footer_quick_links': 'त्वरित लिंक्स',
+                'footer_leadership': 'नेतृत्व',
+                'footer_address': 'अमरावती-४४४६०१, महाराष्ट्र',
+                'footer_legal': 'कायदेशीर',
+                'footer_connect': 'आमच्याशी जुळा',
+                'footer_copyright': '&copy; २०२५ महाराष्ट्र ग्राम दर्पण. सर्व हक्क राखीव.'
+            }
+        };
+
+        // --- LANGUAGE TRANSLATION LOGIC ---
+        const MAIN_CONTENT_ID = 'main-content-area';
+        const MARATHI_CONTENT_ID = 'marathi-content-area';
+        const HINDI_CONTENT_ID = 'hindi-content-area';
+        const LANG_TOGGLE_KEY = 'mgd_current_lang'; 
+
+        let currentLanguage = localStorage.getItem(LANG_TOGGLE_KEY) || 'EN';
+        let mainContentArea = document.getElementById(MAIN_CONTENT_ID);
+        let marathiContentArea = document.getElementById(MARATHI_CONTENT_ID);
+        let hindiContentArea = document.getElementById(HINDI_CONTENT_ID);
+        let buttonTextElement = document.getElementById('lang-toggle-button');
+        let mobileButtonTextElement = document.getElementById('mobile-lang-text');
+
+        function updateLanguageUI(lang) {
+            // Hide all content areas first
+            mainContentArea.style.display = 'none';
+            marathiContentArea.style.display = 'none';
+            hindiContentArea.style.display = 'none';
+
+            // Show selected language
+            if (lang === 'MR') {
+                marathiContentArea.style.display = 'block';
+                if(buttonTextElement) buttonTextElement.textContent = 'English (EN)';
+                if(mobileButtonTextElement) mobileButtonTextElement.textContent = 'English (EN)';
+            } else if (lang === 'HI') {
+                hindiContentArea.style.display = 'block';
+                if(buttonTextElement) buttonTextElement.textContent = 'मराठी (MR)';
+                if(mobileButtonTextElement) mobileButtonTextElement.textContent = 'मराठी (MR)';
+            } else {
+                mainContentArea.style.display = 'block';
+                if(buttonTextElement) buttonTextElement.textContent = 'हिंदी (HI)';
+                if(mobileButtonTextElement) mobileButtonTextElement.textContent = 'हिंदी (HI)';
+            }
+
+            // Update common elements (nav/footer)
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+        }
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem(LANG_TOGGLE_KEY, currentLanguage);
+            updateLanguageUI(currentLanguage);
+        }
+
+        function toggleLanguage() {
+            if (currentLanguage === 'EN') {
+                setLanguage('HI');
+            } else if (currentLanguage === 'HI') {
+                setLanguage('MR');
+            } else {
+                setLanguage('EN');
+            }
+        }
+
+        function initializeTranslationState() {
+            if (!mainContentArea || !marathiContentArea) return;
+            updateLanguageUI(currentLanguage);
+        }
+
+        window.onload = initializeTranslationState;
+
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Work - Maharashtra Gram Darpan</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles based on the logo (Slightly Lighter Dark Green and Red theme) */
+        :root {
+            --color-primary: #065F46; /* Lighter Forest Green */
+            --color-secondary: #B91C1C; /* Brick Red */
+            --color-background: #F4F8F5; 
+            --color-text: #1F2937; /* Dark Gray */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background); 
+            color: var(--color-text);
+        }
+        header { background-color: white; }
+        .text-primary { color: #B91C1C; }
+        .bg-primary { background-color: var(--color-primary); }
+        .text-green-custom { color: #065F46; }
+
+        /* Custom shadow for cards */
+        .card-shadow {
+            box-shadow: 0 10px 15px -3px rgba(6, 95, 70, 0.1), 0 4px 6px -2px rgba(6, 95, 70, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        /* Added hover effects for clickable cards */
+        .clickable-card {
+            cursor: pointer;
+        }
+        .clickable-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 0.5rem 1rem; 
+            border-radius: 9999px; /* Rounded shape */
+            font-weight: 600;
+            transition: background-color 0.3s;
+            font-size: 1rem; 
+            line-height: 1.5; 
+            display: inline-flex; 
+            align-items: center; 
+        }
+        .btn-primary:hover {
+            background-color: #044F36;
+        }
+        
+        .work-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Loading spinner CSS */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid white;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Modal Animation */
+        .modal-enter {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        .modal-enter-active {
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
+        .modal-exit {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .modal-exit-active {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.2s ease-in, transform 0.2s ease-in;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20 gap-4">
+                <!-- Logo/Site Name -->
+                <div class="flex-shrink-0 flex items-center"> 
+                    <a href="index.html" class="flex items-center space-x-3">
+                        <img src="IMG-20251214-WA0002.jpg" 
+                             onerror="this.onerror=null; this.src='https://placehold.co/64x64/9CA3AF/ffffff?text=LOGO';" 
+                             alt="Maharashtra Gram Darpan Logo" 
+                             class="w-12 h-12 lg:w-16 lg:h-16 rounded-md flex items-center justify-center font-bold text-xl object-cover">
+                        <span class="text-xl lg:text-xl xl:text-2xl font-extrabold text-primary leading-tight" data-i18n="site_name">Maharashtra Gram Darpan</span>
+                    </a>
+                </div>
+
+                <!-- Navigation Menu (Desktop) -->
+                <nav class="hidden lg:flex space-x-6 xl:space-x-10 items-center"> 
+                    <a href="index.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_home">Home</a>
+
+                    <div class="relative group">
+                        <button class="flex items-center text-primary font-bold transition duration-150 ease-in-out text-base xl:text-lg focus:outline-none py-2">
+                            <span data-i18n="nav_about">About Us</span>
+                            <svg class="w-4 h-4 ml-1 transform group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="absolute left-0 mt-0 w-64 bg-white rounded-lg shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border-t-4 border-primary transform translate-y-4 group-hover:translate-y-0">
+                            <a href="about-us.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_foundation">Our Foundation</a>
+                            <a href="our-work.html" class="block px-4 py-3 text-sm text-primary font-bold bg-green-50 transition" data-i18n="nav_work">Our Work</a>
+                            <a href="mission-vision.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_mission">Mission & Vision</a>
+                            <a href="trustees-board.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_board">Trustees/Board</a>
+                        </div>
+                    </div>
+
+                    <a href="careers.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_careers">Careers</a>
+
+                    <div class="relative group">
+                        <button class="flex items-center text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg focus:outline-none py-2">
+                            <span data-i18n="nav_services">Services</span>
+                            <svg class="w-4 h-4 ml-1 transform group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="absolute left-0 mt-0 w-56 bg-white rounded-lg shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border-t-4 border-primary transform translate-y-4 group-hover:translate-y-0">
+                            <a href="rural-development.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_rural">Rural Development</a>
+                            <a href="programmes.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_prog">Programme</a>
+                            <a href="adult-education.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_adult">Adult Education</a>
+                            <a href="training-center.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_training">Training Center</a>
+                        </div>
+                    </div>
+
+                    <a href="resources.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_resources">Resources</a>
+
+                    <a href="newsletter.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_newsletter">Newsletter</a>
+                    
+                    <a href="contact.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_contact">Contact</a>
+                    
+                    <button id="lang-toggle-button" class="btn-primary flex items-center justify-center text-sm xl:text-base px-4 py-2" onclick="toggleLanguage()">
+                        <span id="lang-text">हिंदी (HI)</span>
+                        <div id="lang-spinner" class="spinner hidden ml-2"></div>
+                    </button>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="lg:hidden p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none transition duration-150 ease-in-out">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 shadow-inner bg-gray-50">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_home">Home</a>
+                
+                <div class="border-t border-gray-100 pt-2 pb-2">
+                    <div class="px-3 py-2 text-base font-bold text-primary" data-i18n="nav_about">About Us</div>
+                    <div class="pl-6 space-y-1 border-l-2 border-gray-200 ml-3">
+                        <a href="about-us.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100" data-i18n="nav_foundation">Our Foundation</a>
+                        <a href="our-work.html" class="block px-3 py-2 rounded-md text-sm font-bold text-primary bg-green-50" data-i18n="nav_work">Our Work</a>
+                        <a href="mission-vision.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100" data-i18n="nav_mission">Mission & Vision</a>
+                        <a href="trustees-board.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100" data-i18n="nav_board">Trustees/Board</a>
+                    </div>
+                </div>
+
+                <a href="careers.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_careers">Careers</a>
+
+                <div class="border-t border-gray-100 pt-2 pb-2">
+                    <div class="px-3 py-2 text-base font-bold text-gray-900" data-i18n="nav_services">Services</div>
+                    <div class="pl-6 space-y-1 border-l-2 border-gray-200 ml-3">
+                        <a href="rural-development.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_rural">Rural Development</a>
+                        <a href="programmes.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_prog">Programme</a>
+                        <a href="adult-education.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_adult">Adult Education</a>
+                        <a href="training-center.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_training">Training Center</a>
+                    </div>
+                </div>
+                
+                <a href="resources.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_resources">Resources</a>
+                <a href="newsletter.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_newsletter">Newsletter</a>
+                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_contact">Contact</a>
+                
+                <button class="block px-3 py-2 rounded-md text-base font-medium text-white bg-primary text-center w-full mt-2" onclick="toggleLanguage()">
+                    <span id="mobile-lang-text">हिंदी (HI)</span>
+                    <div id="mobile-lang-spinner" class="spinner hidden ml-2"></div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content AREA (English Default) -->
+    <main id="main-content-area">
+        <div class="py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Our Key Initiatives</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">Transforming rural lives through sustainable livelihoods, improved health, and water security. Click on any project to learn more.</p>
+                </div>
+
+                <!-- SECTION 1: Water & Sanitation (WASH) -->
+                <div class="mb-20">
+                    <h3 class="text-2xl font-bold text-center text-green-custom mb-8 border-b-2 border-green-200 pb-2">Water, Sanitation & Hygiene (WASH)</h3>
+                    <div class="flex flex-wrap justify-center gap-8">
+                        <!-- Project 1 -->
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('jjm')">
+                            <img src="jjm2.JPG" alt="JJM Training" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">Jal Jeevan Mission (KRC)</h4>
+                            <p class="text-gray-600 mb-4 text-sm">As a National Key Resource Center (KRC), we conduct capacity building for Level-3 stakeholders across Maharashtra, Madhya Pradesh, and Arunachal Pradesh.</p>
+                        </div>
+                        <!-- Project 2 -->
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('tax')">
+                            <img src="tax.png" alt="Water Tax Collection" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">Water Tax Collection Model</h4>
+                            <p class="text-gray-600 mb-4 text-sm">A unique initiative in Akola district where 25 Women SHGs officially manage village water tax collection, improving recovery rates and empowering women.</p>
+                        </div>
+                        <!-- Project 3 -->
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('sbm')">
+                            <img src="swach.png" alt="SBM 2.0" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">Swachh Bharat Mission 2.0</h4>
+                            <p class="text-gray-600 mb-4 text-sm">Training over 14,735 PRI members on solid and liquid waste management (SLWM) to create ODF+ villages.</p>
+                        </div>
+                        <!-- Project 4 -->
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('sani')">
+                            <img src="sani.jpg" alt="Sanitation Units" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">Sanitation Infrastructure</h4>
+                            <p class="text-gray-600 mb-4 text-sm">Established economic latrine production centers in Amravati and Tiwsa to promote affordable access to sanitation infrastructure and better hygiene.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 2: Livelihood & Economic Development -->
+                <div class="mb-20">
+                    <h3 class="text-2xl font-bold text-center text-green-custom mb-8 border-b-2 border-green-200 pb-2">Livelihood & Economic Development</h3>
+                    <!-- Flexbox for Alignment -->
+                    <div class="flex flex-wrap justify-center gap-8">
+                        <!-- Project 1 -->
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('mahagram')">
+                            <img src="https://placehold.co/600x400/e2e8f0/1e293b?text=Surgical+Cotton" alt="Surgical Cotton Unit" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">Mahagram Producer Company</h4>
+                            <p class="text-gray-600 mb-4 text-sm">Established a surgical cotton processing unit where SHG members hold a 50% participation stake, ensuring direct profit sharing.</p>
+                        </div>
+                        <!-- Project 2 -->
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('dairy')">
+                            <img src="dairy.webp" alt="Dairy Farming" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">Dairy Development</h4>
+                            <p class="text-gray-600 mb-4 text-sm">Launched 70+ Dairy units with support from Mother Dairy for market linkage, providing a stable monthly income for rural families.</p>
+                        </div>
+                        <!-- Project 3 -->
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('sadi')">
+                            <img src="clothe.jpg" alt="Rukhmini Sadi Unit" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">Rukhmini Sadi Unit</h4>
+                            <p class="text-gray-600 mb-4 text-sm">An upcoming textile project at Kaudanyapur designed to generate employment for over 700 women in garment manufacturing.</p>
+                        </div>
+                        <!-- Project 4 -->
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('skill')">
+                            <img src="22.jpg" alt="Skill Development" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">Skill Development & Training</h4>
+                            <p class="text-gray-600 mb-4 text-sm">Trained over 2,000 SHGs under SGSY and NRLM schemes in vocational trades like garment making, bag manufacturing, and school uniforms, boosting employability.</p>
+                        </div>
+                        <!-- Project 5 -->
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('finance')">
+                            <img src="https://placehold.co/600x400/e2e8f0/1e293b?text=Financial+Inclusion" alt="Financial Inclusion" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">Financial Inclusion</h4>
+                            <p class="text-gray-600 mb-4 text-sm">Facilitated bank linkages for over 4,000 SHGs, enabling access to credit for micro-enterprises and fostering economic independence among rural women.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 3: Health & Innovation -->
+                <div class="mb-20">
+                    <h3 class="text-2xl font-bold text-center text-green-custom mb-8 border-b-2 border-green-200 pb-2">Health & Social Innovation</h3>
+                    <div class="flex flex-wrap justify-center gap-8">
+                        <!-- Project 1 -->
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('goark')">
+                            <img src="go.jpg" alt="Go-Ark" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">Go-Ark & Ayurvedic Products</h4>
+                            <p class="text-gray-600 mb-4 text-sm">An innovative pilot project at Gopi Village utilizing indigenous resources. SHGs produce and market health essentials like Eye Drops and Drakshasav Tonic.</p>
+                            <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full font-semibold">Innovation</span>
+                        </div>
+                        <!-- Project 2 -->
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('health_camps')">
+                            <img src="health2.JPG" alt="Health Camps" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">Women's Health Outreach</h4>
+                            <p class="text-gray-600 mb-4 text-sm">Conducted specialized health awareness camps supported by NABARD, benefiting over 1,500 women with checkups and guidance.</p>
+                            <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full font-semibold">Social Welfare</span>
+                        </div>
+                        <!-- Project 3 -->
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('radio')">
+                            <img src="https://placehold.co/600x400/e2e8f0/1e293b?text=Himmat+Radio" alt="Himmat Radio Station" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">Himmat Radio Station</h4>
+                            <p class="text-gray-600 mb-4 text-sm">A community radio initiative empowering rural voices, spreading awareness about social issues, health, and government schemes.</p>
+                            <span class="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full font-semibold">Community Media</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- HINDI CONTENT -->
+    <div id="hindi-content-area" style="display: none;">
+        <div class="py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold text-gray-900 mb-4">हमारी प्रमुख पहल</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">स्थायी आजीविका, बेहतर स्वास्थ्य और जल सुरक्षा के माध्यम से ग्रामीण जीवन को बदलना।</p>
+                </div>
+
+                <!-- SECTION 1 Hindi: WASH -->
+                <div class="mb-20">
+                    <h3 class="text-2xl font-bold text-center text-green-custom mb-8 border-b-2 border-green-200 pb-2">जल, स्वच्छता और स्वच्छता (WASH)</h3>
+                    <div class="flex flex-wrap justify-center gap-8">
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('jjm')">
+                            <img src="jjm2.JPG" alt="JJM Training" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">जल जीवन मिशन (KRC)</h4>
+                            <p class="text-gray-600 mb-4 text-sm">राष्ट्रीय मुख्य संसाधन केंद्र (KRC) के रूप में, हम महाराष्ट्र, मध्य प्रदेश और अरुणाचल प्रदेश में हितधारकों के लिए क्षमता निर्माण करते हैं।</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('tax')">
+                            <img src="tax.png" alt="Water Tax Collection" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">जल कर वसूली मॉडल</h4>
+                            <p class="text-gray-600 mb-4 text-sm">अकोला जिले में एक अनूठी पहल जहां 25 महिला SHGs आधिकारिक तौर पर ग्राम जल कर वसूली का प्रबंधन करती हैं।</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('sbm')">
+                            <img src="swach.png" alt="SBM 2.0" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">स्वच्छ भारत मिशन 2.0</h4>
+                            <p class="text-gray-600 mb-4 text-sm">ODF+ गांव बनाने के लिए ठोस और तरल अपशिष्ट प्रबंधन (SLWM) पर 14,735 से अधिक PRI सदस्यों को प्रशिक्षण।</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('sani')">
+                            <img src="sani.jpg" alt="Sanitation Units" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">स्वच्छता अवसंरचना</h4>
+                            <p class="text-gray-600 mb-4 text-sm">किफायती स्वच्छता बुनियादी ढांचे तक पहुंच और बेहतर स्वच्छता को बढ़ावा देने के लिए अमरावती और तिवसा में आर्थिक शौचालय उत्पादन केंद्र स्थापित किए।</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 2 Hindi: Livelihood -->
+                <div class="mb-20">
+                    <h3 class="text-2xl font-bold text-center text-green-custom mb-8 border-b-2 border-green-200 pb-2">आजीविका और आर्थिक विकास</h3>
+                    <div class="flex flex-wrap justify-center gap-8">
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('mahagram')">
+                            <img src="https://placehold.co/600x400/e2e8f0/1e293b?text=Surgical+Cotton" alt="Surgical Cotton Unit" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">महाग्राम प्रोड्यूसर कंपनी</h4>
+                            <p class="text-gray-600 mb-4 text-sm">एक सर्जिकल कॉटन प्रोसेसिंग यूनिट स्थापित की गई है जहां SHG सदस्यों की 50% हिस्सेदारी है, जो प्रत्यक्ष लाभ सुनिश्चित करती है।</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('dairy')">
+                            <img src="dairy.webp" alt="Dairy Farming" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">डेयरी विकास</h4>
+                            <p class="text-gray-600 mb-4 text-sm">मदर डेयरी के सहयोग से 70+ डेयरी इकाइयां शुरू की गईं, जिससे ग्रामीण परिवारों को स्थिर मासिक आय मिल रही है।</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('sadi')">
+                            <img src="clothe.jpg" alt="Rukhmini Sadi Unit" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">रुक्मिणी साड़ी यूनिट</h4>
+                            <p class="text-gray-600 mb-4 text-sm">कौंडण्यपुर में एक आगामी कपड़ा परियोजना जो 700 से अधिक महिलाओं के लिए रोजगार उत्पन्न करने के लिए डिज़ाइन की गई है।</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('skill')">
+                            <img src="22.jpg" alt="Skill Development" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">कौशल विकास और प्रशिक्षण</h4>
+                            <p class="text-gray-600 mb-4 text-sm">SGSY और NRLM के तहत 2,000 से अधिक स्वयं सहायता समूहों को प्रशिक्षित किया है।</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('finance')">
+                            <img src="https://placehold.co/600x400/e2e8f0/1e293b?text=Financial+Inclusion" alt="Financial Inclusion" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">वित्तीय समावेशन</h4>
+                            <p class="text-gray-600 mb-4 text-sm">4,000 से अधिक SHGs के लिए बैंक लिंकेज की सुविधा प्रदान की, जिससे सूक्ष्म उद्यमों के लिए ऋण तक पहुंच संभव हुई और ग्रामीण महिलाओं में आर्थिक स्वतंत्रता को बढ़ावा मिला।</p>
+                        </div>
+                    </div>
+                </div>
+                
+                 <!-- SECTION 3 Hindi: Health & Innovation -->
+                <div class="mb-20">
+                    <h3 class="text-2xl font-bold text-center text-green-custom mb-8 border-b-2 border-green-200 pb-2">स्वास्थ्य और सामाजिक नवाचार</h3>
+                    <div class="flex flex-wrap justify-center gap-8">
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('goark')">
+                            <img src="go.jpg" alt="Go-Ark" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">गो-अर्क और आयुर्वेदिक उत्पाद</h4>
+                            <p class="text-gray-600 mb-4 text-sm">गोपी गांव में एक अभिनव पायलट परियोजना। SHG सदस्य आई ड्रॉप्स और द्राक्षासव टॉनिक जैसे स्वास्थ्य उत्पादों का उत्पादन और विपणन करते हैं।</p>
+                            <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full font-semibold">नवाचार</span>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('health_camps')">
+                            <img src="health2.JPG" alt="Health Camps" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">महिला स्वास्थ्य आउटरीच</h4>
+                            <p class="text-gray-600 mb-4 text-sm">नाबार्ड द्वारा समर्थित विशेष स्वास्थ्य जागरूकता शिविर आयोजित किए गए, जिससे 1,500 से अधिक महिलाओं को लाभ हुआ।</p>
+                            <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full font-semibold">सामाजिक कल्याण</span>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('radio')">
+                            <img src="https://placehold.co/600x400/e2e8f0/1e293b?text=Himmat+Radio" alt="Himmat Radio Station" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">हिम्मत रेडियो स्टेशन</h4>
+                            <p class="text-gray-600 mb-4 text-sm">एक सामुदायिक रेडियो पहल जो ग्रामीण आवाजों को सशक्त बनाती है और सामाजिक मुद्दों पर जागरूकता फैलाती है।</p>
+                            <span class="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full font-semibold">सामुदायिक मीडिया</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MARATHI CONTENT -->
+    <div id="marathi-content-area" style="display: none;">
+        <div class="py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold text-gray-900 mb-4">आमचे मुख्य उपक्रम</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">शाश्वत उपजीविका, सुधारित आरोग्य आणि पाणी सुरक्षेच्या माध्यमातून ग्रामीण जीवन बदलणे.</p>
+                </div>
+
+                <!-- SECTION 1 Marathi: WASH -->
+                <div class="mb-20">
+                    <h3 class="text-2xl font-bold text-center text-green-custom mb-8 border-b-2 border-green-200 pb-2">पाणी, स्वच्छता आणि आरोग्य (WASH)</h3>
+                    <div class="flex flex-wrap justify-center gap-8">
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('jjm')">
+                            <img src="jjm2.JPG" alt="JJM Training" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">जल जीवन मिशन (KRC)</h4>
+                            <p class="text-gray-600 mb-4 text-sm">राष्ट्रीय मुख्य संसाधन केंद्र (KRC) म्हणून, आम्ही महाराष्ट्र, मध्य प्रदेश आणि अरुणाचल प्रदेशमध्ये भागधारकांसाठी क्षमता निर्माण करतो.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('tax')">
+                            <img src="tax.png" alt="Water Tax Collection" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">पाणीपट्टी वसुली मॉडेल</h4>
+                            <p class="text-gray-600 mb-4 text-sm">अकोला जिल्ह्यातील एक अनोखा उपक्रम जिथे 25 महिला SHGs अधिकृतपणे गाव पाणीपट्टी वसुलीचे व्यवस्थापन करतात.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('sbm')">
+                            <img src="swach.png" alt="SBM 2.0" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">स्वच्छ भारत मिशन 2.0</h4>
+                            <p class="text-gray-600 mb-4 text-sm">ODF+ गावे तयार करण्यासाठी 14,735 हून अधिक PRI सदस्यांना घन आणि द्रव कचरा व्यवस्थापन (SLWM) वर प्रशिक्षण.</p>
+                        </div>
+                         <!-- New Marathi 3 -->
+                         <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('sani')">
+                            <img src="sani.jpg" alt="Sanitation Units" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">स्वच्छता पायाभूत सुविधा</h4>
+                            <p class="text-gray-600 mb-4 text-sm">परवडणाऱ्या स्वच्छता पायाभूत सुविधांना प्रोत्साहन देण्यासाठी आणि चांगल्या स्वच्छतेसाठी अमरावती आणि तिवसा येथे आर्थिक शौचालय उत्पादन केंद्रे स्थापन केली.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 2 Marathi: Livelihood -->
+                <div class="mb-20">
+                    <h3 class="text-2xl font-bold text-center text-green-custom mb-8 border-b-2 border-green-200 pb-2">उपजीविका आणि आर्थिक विकास</h3>
+                    <div class="flex flex-wrap justify-center gap-8">
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('mahagram')">
+                            <img src="https://placehold.co/600x400/e2e8f0/1e293b?text=Surgical+Cotton" alt="Surgical Cotton Unit" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">महाग्राम प्रोड्यूसर कंपनी</h4>
+                            <p class="text-gray-600 mb-4 text-sm">एक सर्जिकल कॉटन प्रोसेसिंग युनिट स्थापन करण्यात आले आहे जिथे SHG सदस्यांचा 50% सहभाग आहे, ज्यामुळे थेट नफा वाटप सुनिश्चित होते.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('dairy')">
+                            <img src="dairy.webp" alt="Dairy Farming" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">दुग्ध विकास</h4>
+                            <p class="text-gray-600 mb-4 text-sm">मदर डेअरीच्या सहाय्याने 70+ डेअरी युनिट्स सुरू करण्यात आल्या, ज्यामुळे ग्रामीण कुटुंबांना स्थिर मासिक उत्पन्न मिळत आहे.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('sadi')">
+                            <img src="clothe.jpg" alt="Rukhmini साडी युनिट" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">रुक्मिणी साडी युनिट</h4>
+                            <p class="text-gray-600 mb-4 text-sm">कौंडण्यपूर येथील एक आगामी वस्त्रोद्योग प्रकल्प जो 700 हून अधिक महिलांसाठी रोजगार निर्माण करण्यासाठी डिझाइन केला आहे.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('skill')">
+                            <img src="22.jpg" alt="Skill Development" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">कौशल्य विकास आणि प्रशिक्षण</h4>
+                            <p class="text-gray-600 mb-4 text-sm">SGSY आणि NRLM अंतर्गत 2,000 हून अधिक बचत गटांना प्रशिक्षित केले आहे.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('finance')">
+                            <img src="https://placehold.co/600x400/e2e8f0/1e293b?text=Financial+Inclusion" alt="Financial Inclusion" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">आर्थिक समावेशन</h4>
+                            <p class="text-gray-600 mb-4 text-sm">4,000 हून अधिक बचत गटांसाठी बँक लिंकेजची यशस्वीरित्या सुविधा उपलब्ध करून दिली आहे.</p>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- SECTION 3 Marathi: Health & Innovation -->
+                <div class="mb-20">
+                    <h3 class="text-2xl font-bold text-center text-green-custom mb-8 border-b-2 border-green-200 pb-2">आरोग्य आणि सामाजिक नवोपक्रम</h3>
+                    <div class="flex flex-wrap justify-center gap-8">
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('goark')">
+                            <img src="go.jpg" alt="Go-Ark" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">गो-अर्क आणि आयुर्वेदिक उत्पादने</h4>
+                            <p class="text-gray-600 mb-4 text-sm">गोपी गावात देशी संसाधनांचा वापर करणारा एक अभिनव प्रायोगिक प्रकल्प. SHG सदस्य आय ड्रॉप्स आणि द्राक्षासव टॉनिकसारख्या आरोग्य उत्पादनांचे उत्पादन आणि विपणन करतात.</p>
+                            <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full font-semibold">इनोव्हेशन</span>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('health_camps')">
+                            <img src="health2.JPG" alt="Health Camps" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">महिला आरोग्य आउटरीच</h4>
+                            <p class="text-gray-600 mb-4 text-sm">नाबार्डच्या पाठिंब्याने विशेष आरोग्य जनजागृती शिबिरे आयोजित केली, ज्याचा 1,500 हून अधिक महिलांना लाभ झाला.</p>
+                            <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full font-semibold">सामाजिक कल्याण</span>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl card-shadow w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] clickable-card" onclick="openProject('radio')">
+                            <img src="https://placehold.co/600x400/e2e8f0/1e293b?text=Himmat+Radio" alt="Himmat Radio Station" class="work-img">
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">हिम्मत रेडिओ स्टेशन</h4>
+                            <p class="text-gray-600 mb-4 text-sm">ग्रामीण आवाजांना सक्षम करणारा आणि सामाजिक समस्यांवर जनजागृती करणारा सामुदायिक रेडिओ उपक्रम.</p>
+                            <span class="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full font-semibold">सामुदायिक मीडिया</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <!-- NGO Info -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4 text-primary" data-i18n="site_name">Maharashtra Gram Darpan</h3>
+                    <p class="text-sm text-gray-400" data-i18n="footer_desc">Committed to creating a strong and independent society without inequalities and discrimination.</p>
+                </div>
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-i18n="footer_quick_links">Quick Links</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_home">Home</a></li>
+                        <li><a href="about-us.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_about">About Us</a></li>
+                        <li><a href="our-work.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_work">Our Work</a></li>
+                        <li><a href="programmes.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_prog">Programmes</a></li>
+                        <li><a href="trustees-board.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="footer_leadership">Leadership</a></li>
+                    </ul>
+                </div>
+                <!-- Contact -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-i18n="nav_contact">Contact</h3>
+                    <p class="text-sm text-gray-400" data-i18n="footer_address">Amravati-444601, MH</p>
+                    <p class="text-sm text-gray-400">Mob: 9373471897</p>
+                    <p class="text-sm text-gray-400 whitespace-nowrap">Email: maharashtragramdarpan@gmail.com</p>
+                </div>
+                <!-- Legal & Social -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-i18n="footer_legal">Legal</h3>
+                    <p class="text-sm text-gray-400 mb-2">FCRA No: 083740062</p>
+                    <p class="text-sm text-gray-400 mb-2">80G Certified</p>
+                    <p class="text-sm text-gray-400 mb-6">ISO 9000:2015</p>
+
+                    <h3 class="text-lg font-bold mb-4" data-i18n="footer_connect">Connect With Us</h3>
+                    <div class="flex space-x-4">
+                    <a href="https://www.facebook.com/profile.php?id=61573596382473" target="_blank" class="text-gray-400 hover:text-white transition duration-150">
+                        <span class="sr-only">Facebook</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+
+                    <a href="https://www.instagram.com/maharashtragramdarpan?igsh=MTU0YnE3YmhkZzRnNQ==" target="_blank" class="text-gray-400 hover:text-white transition duration-150">
+                        <span class="sr-only">Instagram</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.451 2.53c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-8 border-t border-gray-700 text-center">
+                <p class="text-sm text-gray-400" data-i18n="footer_copyright">&copy; 2025 Maharashtra Gram Darpan. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL STRUCTURE -->
+    <div id="project-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 hidden items-center justify-center z-[100] p-4 overflow-y-auto backdrop-blur-sm transition-opacity duration-300">
+        <div class="bg-white rounded-2xl max-w-3xl w-full mx-auto shadow-2xl relative transform transition-all duration-300 scale-95" id="modal-container">
+            <!-- Close Button -->
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-10 bg-white rounded-full p-1 shadow-md text-gray-500 hover:text-gray-900 focus:outline-none hover:bg-gray-100 transition-colors">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            
+            <!-- Modal Content -->
+            <div class="flex flex-col">
+                <!-- Image Section -->
+                <div class="h-64 sm:h-80 w-full relative">
+                    <img id="modal-img" src="" alt="Project Image" class="w-full h-full object-cover rounded-t-2xl">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+                        <h3 id="modal-title" class="text-2xl sm:text-3xl font-bold text-white p-6 drop-shadow-md"></h3>
+                    </div>
+                </div>
+                
+                <!-- Text Section -->
+                <div class="p-6 sm:p-8">
+                    <div id="modal-body" class="prose max-w-none text-gray-700 text-lg leading-relaxed space-y-4">
+                        <!-- Content injected via JS -->
+                    </div>
+                    
+                    <div class="mt-8 flex justify-end">
+                        <button onclick="closeModal()" class="btn-primary">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- TRANSLATION DICTIONARY ---
+        const translations = {
+            'EN': {
+                'site_name': 'Maharashtra Gram Darpan',
+                'nav_home': 'Home',
+                'nav_about': 'About Us',
+                'nav_foundation': 'Our Foundation',
+                'nav_work': 'Our Work',
+                'nav_mission': 'Mission & Vision',
+                'nav_board': 'Trustees/Board',
+                'nav_careers': 'Careers',
+                'nav_services': 'Services',
+                'nav_rural': 'Rural Development',
+                'nav_prog': 'Programme',
+                'nav_adult': 'Adult Education',
+                'nav_training': 'Training Center',
+                'nav_resources': 'Resources',
+                'nav_newsletter': 'Newsletter',
+                'nav_contact': 'Contact',
+                'footer_desc': 'Committed to creating a strong and independent society without inequalities and discrimination.',
+                'footer_quick_links': 'Quick Links',
+                'footer_leadership': 'Leadership',
+                'footer_address': 'Amravati-444601, MH',
+                'footer_legal': 'Legal',
+                'footer_connect': 'Connect With Us',
+                'footer_copyright': '&copy; 2025 Maharashtra Gram Darpan. All rights reserved.'
+            },
+            'HI': {
+                'site_name': 'महाराष्ट्र ग्राम दर्पण',
+                'nav_home': 'होम',
+                'nav_about': 'हमारे बारे में',
+                'nav_foundation': 'हमारी संस्था',
+                'nav_work': 'हमारा काम',
+                'nav_mission': 'लक्ष्य और दृष्टि',
+                'nav_board': 'ट्रस्टी/बोर्ड',
+                'nav_careers': 'करियर',
+                'nav_services': 'सेवाएं',
+                'nav_rural': 'ग्रामीण विकास',
+                'nav_prog': 'कार्यक्रम',
+                'nav_adult': 'प्रौढ़ शिक्षा',
+                'nav_training': 'प्रशिक्षण केंद्र',
+                'nav_resources': 'संसाधन',
+                'nav_newsletter': 'समाचार पत्र',
+                'nav_contact': 'संपर्क',
+                'footer_desc': 'असमानता और भेदभाव के बिना एक मजबूत और स्वतंत्र समाज बनाने के लिए प्रतिबद्ध।',
+                'footer_quick_links': 'त्वरित लिंक',
+                'footer_leadership': 'नेतृत्व',
+                'footer_address': 'अमरावती-४४४६०१, महाराष्ट्र',
+                'footer_legal': 'कानूनी',
+                'footer_connect': 'हमसे जुड़ें',
+                'footer_copyright': '&copy; २०२५ महाराष्ट्र ग्राम दर्पण। सर्वाधिकार सुरक्षित।'
+            },
+            'MR': {
+                'site_name': 'महाराष्ट्र ग्राम दर्पण',
+                'nav_home': 'मुख्यपृष्ठ',
+                'nav_about': 'आमच्याबद्दल',
+                'nav_foundation': 'आमची संस्था',
+                'nav_work': 'आमचे कार्य',
+                'nav_mission': 'ध्येय आणि दृष्टी',
+                'nav_board': 'विश्वस्त मंडळ',
+                'nav_careers': 'करिअर',
+                'nav_services': 'सेवा',
+                'nav_rural': 'ग्रामीण विकास',
+                'nav_prog': 'कार्यक्रम',
+                'nav_adult': 'प्रौढ शिक्षण',
+                'nav_training': 'प्रशिक्षण केंद्र',
+                'nav_resources': 'संसाधने',
+                'nav_newsletter': 'बातमीपत्र',
+                'nav_contact': 'संपर्क',
+                'footer_desc': 'असमानता आणि भेदभावांशिवाय मजबूत आणि स्वतंत्र समाज निर्माण करण्यासाठी कटिबद्ध.',
+                'footer_quick_links': 'त्वरित लिंक्स',
+                'footer_leadership': 'नेतृत्व',
+                'footer_address': 'अमरावती-४४४६०१, महाराष्ट्र',
+                'footer_legal': 'कायदेशीर',
+                'footer_connect': 'आमच्याशी जुळा',
+                'footer_copyright': '&copy; २०२५ महाराष्ट्र ग्राम दर्पण. सर्व हक्क राखीव.'
+            }
+        };
+        
+        // --- DETAILED PROJECT DATA ---
+        const projectData = {
+            'EN': {
+                'jjm': {
+                    title: 'Jal Jeevan Mission (KRC)',
+                    img: 'jjm2.JPG',
+                    desc: '<p>As an officially recognized National Key Resource Center (KRC), Maharashtra Gram Darpan is pivotal in the successful implementation of the Jal Jeevan Mission, a flagship program of the Government of India aimed at providing safe and adequate drinking water through individual household tap connections by 2024. Our organization has been entrusted with the critical responsibility of capacity building for Level-3 stakeholders. This includes intensive training programs for Village Water and Sanitation Committees (VWSC), Gram Panchayat members, and local grassroots technicians across multiple states, specifically Maharashtra, Madhya Pradesh, and Arunachal Pradesh.</p><br><p>Our comprehensive training modules are designed to ensure long-term sustainability. We focus on teaching communities about sustainable water resource management, water quality monitoring using Field Test Kits (FTK), and the importance of community ownership of water assets. By empowering local stakeholders with technical knowledge and administrative skills, we ensure that the infrastructure created under the mission is maintained effectively by the villagers themselves. This decentralized approach is key to water security in rural India.</p>'
+                },
+                'tax': {
+                    title: 'Water Tax Collection Model',
+                    img: 'tax.png',
+                    desc: '<p>The Water Tax Collection Model is a groundbreaking initiative implemented in the Akola district, addressing the dual challenge of low tax recovery for Gram Panchayats and the lack of sustainable livelihood opportunities for rural women. Maharashtra Gram Darpan has successfully mobilized and empowered 25 Women Self Help Groups (SHGs) to officially take charge of water tax collection in their respective villages. This model transforms women from passive beneficiaries into active administrators of village resources.</p><br><p>Prior to this intervention, many Gram Panchayats struggled with financial sustainability due to non-payment of water dues. By appointing SHGs as collection agents, we have leveraged their social capital and community influence to drastically improve recovery rates. The women earn a commission on the collected amount, providing them with a dignified and steady source of income. This model has not only ensured the financial viability of local water supply schemes but has also significantly boosted the confidence and social standing of the women involved.</p>'
+                },
+                'sbm': {
+                    title: 'Swachh Bharat Mission 2.0',
+                    img: 'swach.png',
+                    desc: '<p>Under the ambitious second phase of the Swachh Bharat Mission (Grameen), Maharashtra Gram Darpan has shifted its focus from merely achieving Open Defecation Free (ODF) status to sustaining it and achieving ODF Plus status. We are actively involved in large-scale capacity building, having trained over 14,735 Panchayati Raj Institution (PRI) members and key stakeholders across 2,947 Gram Panchayats in the districts of Amravati, Gondia, and Hingoli.</p><br><p>Our workshops are comprehensive, covering both the technical and behavioral aspects of Solid and Liquid Waste Management (SLWM). We educate village leaders on segregation of waste at the source, setting up composting units for biodegradable waste, and managing plastic waste effectively. The ultimate goal of this initiative is to create visually clean villages that are ecologically sustainable. By integrating community participation with technical solutions, we are helping transform rural landscapes into model villages of hygiene and sanitation.</p>'
+                },
+                'sani': {
+                    title: 'Sanitation Infrastructure',
+                    img: 'sani.jpg',
+                    desc: '<p>To support the national drive for total sanitation and ensure that hygiene is accessible to the most marginalized communities, Maharashtra Gram Darpan has established dedicated economic latrine production centers in Amravati and Tiwsa. These centers are manufacturing hubs for low-cost, high-quality sanitary materials such as ceramic pans, P-traps, and reinforced concrete rings required for toilet construction.</p><br><p>This initiative serves a dual purpose: it ensures that even the most economically disadvantaged families can afford to construct durable toilets, thereby reducing open defecation, and it generates local employment. The production centers employ local youth and technicians, keeping the economic benefits within the community. Furthermore, by producing materials locally, we drastically reduce logistical costs and carbon footprint. This project was a key factor in our organization receiving the prestigious \'Yuva\' Award from the Government of Maharashtra.</p>'
+                },
+                'mahagram': {
+                    title: 'Mahagram Producer Company',
+                    img: 'https://placehold.co/600x400/e2e8f0/1e293b?text=Surgical+Cotton',
+                    desc: '<p>The Mahagram Producer Company stands as a testament to our commitment to rural industrialization and women\'s economic empowerment. We have established a state-of-the-art surgical cotton processing unit where, uniquely, 50% of the shareholding is held directly by women members of Self Help Groups (SHGs). This cooperative model ensures that the wealth generated from value addition remains with the producers rather than intermediaries.</p><br><p>The unit procures raw cotton directly from local farmers at fair prices, processing it into high-value surgical cotton for medical use. This creates a closed-loop rural economy where farmers get better rates, local women get employment in the factory, and the shareholders receive dividends from the profits. This initiative not only boosts local income but also instills a sense of ownership and entrepreneurship among rural women.</p>'
+                },
+                'dairy': {
+                    title: 'Dairy Development',
+                    img: 'dairy.webp',
+                    desc: '<p>Recognizing the immense potential of dairy farming as a reliable, year-round source of income for rural families, Maharashtra Gram Darpan has successfully launched over 70 dairy units in various rural clusters. Unlike traditional farming which is seasonal and weather-dependent, dairy provides immediate liquidity to households. To ensure the long-term viability of these units, we facilitated a strategic market linkage with Mother Dairy, one of India\'s leading milk cooperatives.</p><br><p>This partnership is crucial as it guarantees a reliable buyer for the milk produced, eliminating the uncertainty and exploitation often found in local unorganized markets. We also provide training on cattle care, feed management, and breed improvement. Participating families have reported a stable monthly increase in income, which translates directly into better nutrition and education for their children.</p>'
+                },
+                'sadi': {
+                    title: 'Rukhmini Sadi Unit',
+                    img: 'clothe.jpg',
+                    desc: '<p>The Rukhmini Sadi Unit is an ambitious upcoming textile project located at Kaudanyapur, designed to be a major employment generator in the region. This large-scale garment manufacturing hub is being developed with the specific goal of employing over 700 rural women, providing them with skills and a steady paycheck close to their homes.</p><br><p>The unit will focus on producing traditional sarees and garments, blending local cultural heritage with modern manufacturing techniques. By standardizing production and ensuring quality control, we aim to make these products competitive in broader markets. Beyond employment, the project aims to preserve local weaving traditions while introducing modern economic resilience to the community.</p>'
+                },
+                'skill': {
+                    title: 'Skill Development & Training',
+                    img: '22.jpg',
+                    desc: '<p>We believe that vocational skills are the most effective tool for poverty alleviation. Under major government schemes like SGSY (Swarnjayanti Gram Swarozgar Yojana) from 2000 to 2012, and subsequently NRLM (National Rural Livelihood Mission) from 2012 to 2017, Maharashtra Gram Darpan has trained over 3,750 Self Help Groups (1250 under SGSY and 2500 under NRLM).</p><br><p>Our vocational training programs are diverse and market-oriented, covering trades such as garment making, bag manufacturing, school uniform production, and food processing. We don\'t just provide training; we also assist with revolving fund distribution and bank linkages. These skills enable women to start their own micro-enterprises or secure employment in local industries, effectively moving them from unskilled labor to skilled artisans.</p>'
+                },
+                'finance': {
+                    title: 'Financial Inclusion',
+                    img: 'https://placehold.co/600x400/e2e8f0/1e293b?text=Financial+Inclusion',
+                    desc: '<p>Access to formal credit is often the biggest hurdle for rural entrepreneurs. To address this, we partnered with NABARD Financial Services (NABFINS) between 2015 and 2018 to facilitate financial inclusion in the Amravati district. We have successfully facilitated bank linkages for a vast network of SHGs, connecting them with formal financial institutions.</p><br><p>Our role involves more than just introductions; we help these groups maintain proper books of accounts, audit their internal lending practices, and demonstrate creditworthiness to banks. This groundwork has unlocked millions of rupees in micro-loans for the community. This capital is used to fund small businesses, purchase agriculture inputs, and meet emergency needs, breaking the cycle of dependence on exploitative local moneylenders.</p>'
+                },
+                'goark': {
+                    title: 'Go-Ark & Ayurvedic Products',
+                    img: 'go.jpg',
+                    desc: '<p>Located at Gopi Village in Nandgaon Khandeshwar, this innovative pilot project combines traditional Ayurvedic wisdom with modern livelihood opportunities. The project focuses on utilizing indigenous resources, particularly from cattle, to produce Go-Ark (Cow Urine distillate) and other Ayurvedic medicines. This initiative promotes the economic viability of indigenous cattle breeds.</p><br><p>SHG members are trained in the scientific production, quality control, and packaging of health essentials like Eye Drops and Drakshasav Tonic. These products are marketed locally, providing a low-cost, effective health alternative to the community while generating a unique stream of income for the producers. This project represents a perfect blend of tradition, health, and economics.</p>'
+                },
+                'health_camps': {
+                    title: "Women's Health Outreach",
+                    img: 'health2.JPG',
+                    desc: '<p>Rural women often neglect their own health due to lack of awareness and financial resources. To combat this, Maharashtra Gram Darpan has been organizing "Maha Arogya Shibir" (Mega Health Camps). Since 2022, we have covered 17 villages through 48 distinct camps, reaching a staggering 74,607 patients. These camps are not just check-ups; they are comprehensive health interventions.</p><br><p>We have distributed 29,010 spectacles to those with vision impairment and facilitated 4,832 critical surgeries, including eye, heart, and brain operations. Additionally, we have organized blood donation drives collecting 3,582 units. Supported by NABARD and other partners, these camps provide free medicines and expert consultations, bringing tertiary healthcare to the doorsteps of the villagers.</p>'
+                },
+                'radio': {
+                    title: 'Himmat Radio Station',
+                    img: 'https://placehold.co/600x400/e2e8f0/1e293b?text=Himmat+Radio',
+                    desc: '<p>Himmat Radio Station is a vibrant community media initiative designed to give a voice to the voiceless in rural Maharashtra. Unlike commercial radio, Himmat Radio serves as a dedicated platform for discussing local issues, sharing success stories of local farmers and entrepreneurs, and spreading awareness about various government welfare schemes that often go unnoticed.</p><br><p>The station broadcasts a variety of educational programs focusing on health, modern agriculture techniques, legal rights, and women\'s empowerment. It also plays a crucial role in preserving local culture by featuring folk music and regional art forms. By facilitating two-way communication, Himmat Radio empowers the community to demand accountability and share knowledge.</p>'
+                }
+            },
+            'HI': {
+                 'jjm': {
+                    title: 'जल जीवन मिशन (KRC)',
+                    img: 'jjm2.JPG',
+                    desc: '<p>आधिकारिक रूप से मान्यता प्राप्त राष्ट्रीय मुख्य संसाधन केंद्र (KRC) के रूप में, महाराष्ट्र ग्राम दर्पण जल जीवन मिशन के सफल कार्यान्वयन में महत्वपूर्ण है, जो 2024 तक व्यक्तिगत घरेलू नल कनेक्शन के माध्यम से सुरक्षित और पर्याप्त पेयजल प्रदान करने के उद्देश्य से भारत सरकार का एक प्रमुख कार्यक्रम है। हमारे संगठन को स्तर-3 हितधारकों की क्षमता निर्माण की महत्वपूर्ण जिम्मेदारी सौंपी गई है। इसमें महाराष्ट्र, मध्य प्रदेश और अरुणाचल प्रदेश जैसे कई राज्यों में ग्राम जल और स्वच्छता समितियों (VWSC), ग्राम पंचायत सदस्यों और स्थानीय जमीनी स्तर के तकनीशियनों के लिए गहन प्रशिक्षण कार्यक्रम शामिल हैं।</p><br><p>हमारे व्यापक प्रशिक्षण मॉड्यूल दीर्घकालिक स्थिरता सुनिश्चित करने के लिए डिज़ाइन किए गए हैं। हम समुदायों को स्थायी जल संसाधन प्रबंधन, फील्ड टेस्ट किट (FTK) का उपयोग करके पानी की गुणवत्ता की निगरानी और जल संपत्तियों के सामुदायिक स्वामित्व के महत्व के बारे में सिखाने पर ध्यान केंद्रित करते हैं। स्थानीय हितधारकों को तकनीकी ज्ञान और प्रशासनिक कौशल के साथ सशक्त बनाकर, हम यह सुनिश्चित करते हैं कि मिशन के तहत बनाए गए बुनियादी ढांचे का ग्रामीणों द्वारा ही प्रभावी ढंग से रखरखाव किया जाए। यह विकेन्द्रीकृत दृष्टिकोण ग्रामीण भारत में जल सुरक्षा की कुंजी है।</p>'
+                },
+                'tax': {
+                    title: 'जल कर वसूली मॉडल',
+                    img: 'tax.png',
+                    desc: '<p>जल कर वसूली मॉडल अकोला जिले में लागू की गई एक अभूतपूर्व पहल है, जो ग्राम पंचायतों के लिए कम कर वसूली और ग्रामीण महिलाओं के लिए स्थायी आजीविका के अवसरों की कमी की दोहरी चुनौती को संबोधित करती है। महाराष्ट्र ग्राम दर्पण ने 25 महिला स्वयं सहायता समूहों (SHG) को उनके संबंधित गांवों में जल कर वसूली का आधिकारिक प्रभार लेने के लिए सफलतापूर्वक संगठित और सशक्त बनाया है। यह मॉडल महिलाओं को निष्क्रिय लाभार्थियों से ग्राम संसाधनों के सक्रिय प्रशासकों में बदल देता है।</p><br><p>इस हस्तक्षेप से पहले, कई ग्राम पंचायतों को पानी के बकाया का भुगतान न करने के कारण वित्तीय स्थिरता के साथ संघर्ष करना पड़ा। SHG को वसूली एजेंटों के रूप में नियुक्त करके, हमने वसूली दरों में भारी सुधार करने के लिए उनकी सामाजिक पूंजी और सामुदायिक प्रभाव का लाभ उठाया है। महिलाएं एकत्रित राशि पर कमीशन कमाती हैं, जिससे उन्हें आय का एक सम्मानजनक और स्थिर स्रोत मिलता है। इस मॉडल ने न केवल स्थानीय जल आपूर्ति योजनाओं की वित्तीय व्यवहार्यता सुनिश्चित की है, बल्कि इसमें शामिल महिलाओं के आत्मविश्वास और सामाजिक प्रतिष्ठा को भी काफी बढ़ाया है।</p>'
+                },
+                'sbm': {
+                    title: 'स्वच्छ भारत मिशन 2.0',
+                    img: 'swach.png',
+                    desc: '<p>स्वच्छ भारत मिशन (ग्रामीण) के महत्वाकांक्षी दूसरे चरण के तहत, महाराष्ट्र ग्राम दर्पण ने अपना ध्यान केवल खुले में शौच मुक्त (ODF) स्थिति प्राप्त करने से हटाकर इसे बनाए रखने और ODF प्लस स्थिति प्राप्त करने पर केंद्रित कर दिया है। हम बड़े पैमाने पर क्षमता निर्माण में सक्रिय रूप से शामिल हैं, अमरावती, गोंदिया और हिंगोली जिलों की 2,947 ग्राम पंचायतों में 14,735 से अधिक पंचायती राज संस्थान (PRI) सदस्यों और प्रमुख हितधारकों को प्रशिक्षित किया है।</p><br><p>हमारी कार्यशालाएं व्यापक हैं, जो ठोस और तरल अपशिष्ट प्रबंधन (SLWM) के तकनीकी और व्यवहारिक दोनों पहलुओं को कवर करती हैं। हम ग्राम प्रधानों को स्रोत पर कचरे को अलग करने, बायोडिग्रेडेबल कचरे के लिए खाद इकाइयां स्थापित करने और प्लास्टिक कचरे का प्रभावी ढंग से प्रबंधन करने के बारे में शिक्षित करते हैं। इस पहल का अंतिम लक्ष्य नेत्रहीन रूप से स्वच्छ गांव बनाना है जो पारिस्थितिक रूप से टिकाऊ हों। तकनीकी समाधानों के साथ सामुदायिक भागीदारी को एकीकृत करके, हम ग्रामीण परिदृश्यों को स्वच्छता और स्वच्छता के मॉडल गांवों में बदलने में मदद कर रहे हैं।</p>'
+                },
+                'sani': {
+                    title: 'स्वच्छता अवसंरचना',
+                    img: 'sani.jpg',
+                    desc: '<p>पूर्ण स्वच्छता के लिए राष्ट्रीय अभियान का समर्थन करने और यह सुनिश्चित करने के लिए कि स्वच्छता सबसे हाशिए पर रहने वाले समुदायों के लिए सुलभ है, महाराष्ट्र ग्राम दर्पण ने अमरावती और तिवसा में समर्पित आर्थिक शौचालय उत्पादन केंद्र स्थापित किए हैं। ये केंद्र शौचालय निर्माण के लिए आवश्यक सिरेमिक पैन, पी-ट्रैप और प्रबलित कंक्रीट के छल्ले जैसी कम लागत वाली, उच्च गुणवत्ता वाली स्वच्छता सामग्री के लिए विनिर्माण केंद्र हैं।</p><br><p>यह पहल दोहरे उद्देश्य को पूरा करती है: यह सुनिश्चित करती है कि सबसे आर्थिक रूप से वंचित परिवार भी टिकाऊ शौचालयों का निर्माण कर सकें, जिससे खुले में शौच कम हो, और यह स्थानीय रोजगार उत्पन्न करता है। उत्पादन केंद्र स्थानीय युवाओं और तकनीशियनों को रोजगार देते हैं, जिससे आर्थिक लाभ समुदाय के भीतर रहता है। इसके अलावा, स्थानीय रूप से सामग्री का उत्पादन करके, हम लॉजिस्टिक लागत और कार्बन फुटप्रिंट को काफी कम करते हैं। यह परियोजना हमारे संगठन को महाराष्ट्र सरकार से प्रतिष्ठित \'युवा\' पुरस्कार प्राप्त करने में एक प्रमुख कारक थी।</p>'
+                },
+                'mahagram': {
+                    title: 'महाग्राम प्रोड्यूसर कंपनी',
+                    img: 'https://placehold.co/600x400/e2e8f0/1e293b?text=Surgical+Cotton',
+                    desc: '<p>महाग्राम प्रोड्यूसर कंपनी ग्रामीण औद्योगीकरण और महिलाओं के आर्थिक सशक्तिकरण के प्रति हमारी प्रतिबद्धता के प्रमाण के रूप में खड़ी है। हमने एक अत्याधुनिक सर्जिकल कॉटन प्रोसेसिंग यूनिट स्थापित की है, जहां विशिष्ट रूप से, 50% शेयरधारिता सीधे स्वयं सहायता समूहों (SHG) की महिला सदस्यों के पास है। यह सहकारी मॉडल यह सुनिश्चित करता है कि मूल्य संवर्धन से उत्पन्न धन बिचौलियों के बजाय उत्पादकों के पास रहे।</p><br><p>यूनिट उचित मूल्य पर स्थानीय किसानों से सीधे कच्चा कपास खरीदती है, इसे चिकित्सा उपयोग के लिए उच्च मूल्य वाले सर्जिकल कपास में संसाधित करती है। यह एक बंद-लूप ग्रामीण अर्थव्यवस्था बनाता है जहां किसानों को बेहतर दरें मिलती हैं, स्थानीय महिलाओं को कारखाने में रोजगार मिलता है, और शेयरधारकों को मुनाफे से लाभांश मिलता है। यह पहल न केवल स्थानीय आय को बढ़ाती है बल्कि ग्रामीण महिलाओं के बीच स्वामित्व और उद्यमिता की भावना भी पैदा करती है।</p>'
+                },
+                'dairy': {
+                    title: 'डेयरी विकास',
+                    img: 'dairy.webp',
+                    desc: '<p>ग्रामीण परिवारों के लिए आय के एक विश्वसनीय, साल भर के स्रोत के रूप में डेयरी फार्मिंग की अपार क्षमता को पहचानते हुए, महाराष्ट्र ग्राम दर्पण ने विभिन्न ग्रामीण समूहों में 70 से अधिक डेयरी इकाइयां सफलतापूर्वक शुरू की हैं। पारंपरिक खेती के विपरीत जो मौसमी और मौसम पर निर्भर है, डेयरी घरों को तत्काल तरलता प्रदान करती है। इन इकाइयों की दीर्घकालिक व्यवहार्यता सुनिश्चित करने के लिए, हमने भारत की अग्रणी दुग्ध सहकारी समितियों में से एक, मदर डेयरी के साथ एक रणनीतिक बाजार लिंकेज की सुविधा प्रदान की।</p><br><p>यह साझेदारी महत्वपूर्ण है क्योंकि यह उत्पादित दूध के लिए एक विश्वसनीय खरीदार की गारंटी देती है, जो अक्सर स्थानीय असंगठित बाजारों में पाई जाने वाली अनिश्चितता और शोषण को समाप्त करती है। हम मवेशियों की देखभाल, चारा प्रबंधन और नस्ल सुधार पर प्रशिक्षण भी प्रदान करते हैं। भाग लेने वाले परिवारों ने आय में स्थिर मासिक वृद्धि की सूचना दी है, जो सीधे उनके बच्चों के लिए बेहतर पोषण और शिक्षा में तब्दील हो जाती है।</p>'
+                },
+                'sadi': {
+                    title: 'रुक्मिणी साड़ी यूनिट',
+                    img: 'clothe.jpg',
+                    desc: '<p>रुक्मिणी साड़ी यूनिट कौंडण्यपुर में स्थित एक महत्वाकांक्षी आगामी कपड़ा परियोजना है, जिसे क्षेत्र में एक प्रमुख रोजगार जनरेटर बनने के लिए डिज़ाइन किया गया है। यह बड़े पैमाने पर परिधान निर्माण केंद्र 700 से अधिक ग्रामीण महिलाओं को रोजगार देने के विशिष्ट लक्ष्य के साथ विकसित किया जा रहा है, जिससे उन्हें अपने घरों के करीब कौशल और एक स्थिर वेतन मिल सके।</p><br><p>यूनिट आधुनिक विनिर्माण तकनीकों के साथ स्थानीय सांस्कृतिक विरासत को मिलाते हुए पारंपरिक साड़ियों और कपड़ों के उत्पादन पर ध्यान केंद्रित करेगी। उत्पादन को मानकीकृत करके और गुणवत्ता नियंत्रण सुनिश्चित करके, हमारा लक्ष्य इन उत्पादों को व्यापक बाजारों में प्रतिस्पर्धी बनाना है। रोजगार के अलावा, परियोजना का उद्देश्य स्थानीय बुनाई परंपराओं को संरक्षित करना है, साथ ही समुदाय में आधुनिक आर्थिक लचीलापन लाना है।</p>'
+                },
+                'skill': {
+                    title: 'कौशल विकास और प्रशिक्षण',
+                    img: '22.jpg',
+                    desc: '<p>हमारा मानना है कि व्यावसायिक कौशल गरीबी उन्मूलन के लिए सबसे प्रभावी उपकरण हैं। 2000 से 2012 तक SGSY (स्वर्णजयंती ग्राम स्वरोजगार योजना) और बाद में 2012 से 2017 तक NRLM (राष्ट्रीय ग्रामीण आजीविका मिशन) जैसी प्रमुख सरकारी योजनाओं के तहत, महाराष्ट्र ग्राम दर्पण ने 3,750 से अधिक स्वयं सहायता समूहों (SGSY के तहत 1250 और NRLM के तहत 2500) को प्रशिक्षित किया है।</p><br><p>हमारे व्यावसायिक प्रशिक्षण कार्यक्रम विविध और बाजार उन्मुख हैं, जिसमें परिधान निर्माण, बैग निर्माण, स्कूल यूनिफॉर्म उत्पादन और खाद्य प्रसंस्करण जैसे व्यापार शामिल हैं। हम केवल प्रशिक्षण प्रदान नहीं करते हैं; हम रिवॉल्विंग फंड वितरण और बैंक लिंकेज में भी सहायता करते हैं। ये कौशल महिलाओं को अपना सूक्ष्म उद्यम शुरू करने या स्थानीय उद्योगों में रोजगार सुरक्षित करने में सक्षम बनाते हैं, जो उन्हें अकुशल श्रम से कुशल कारीगरों में प्रभावी रूप से ले जाते हैं।</p>'
+                },
+                'finance': {
+                    title: 'वित्तीय समावेशन',
+                    img: 'https://placehold.co/600x400/e2e8f0/1e293b?text=Financial+Inclusion',
+                    desc: '<p>औपचारिक ऋण तक पहुंच अक्सर ग्रामीण उद्यमियों के लिए सबसे बड़ी बाधा होती है। इसे संबोधित करने के लिए, हमने अमरावती जिले में वित्तीय समावेशन को सुविधाजनक बनाने के लिए 2015 और 2018 के बीच नाबार्ड वित्तीय सेवाओं (NABFINS) के साथ भागीदारी की। हमने SHG के एक विशाल नेटवर्क के लिए बैंक लिंकेज को सफलतापूर्वक सुविधाजनक बनाया है, उन्हें औपचारिक वित्तीय संस्थानों से जोड़ा है।</p><br><p>हमारी भूमिका केवल परिचय से अधिक है; हम इन समूहों को खातों की उचित किताबें बनाए रखने, उनके आंतरिक उधार प्रथाओं का ऑडिट करने और बैंकों को साख प्रदर्शित करने में मदद करते हैं। इस आधारभूत कार्य ने समुदाय के लिए सूक्ष्म ऋणों में लाखों रुपये अनलॉक किए हैं। इस पूंजी का उपयोग छोटे व्यवसायों को निधि देने, कृषि इनपुट खरीदने और आपातकालीन जरूरतों को पूरा करने के लिए किया जाता है, जिससे शोषणकारी स्थानीय साहूकारों पर निर्भरता का चक्र टूट जाता है।</p>'
+                },
+                'goark': {
+                    title: 'गो-अर्क और आयुर्वेदिक उत्पाद',
+                    img: 'go.jpg',
+                    desc: '<p>नांदगांव खंडेश्वर के गोपी गांव में स्थित, यह अभिनव पायलट परियोजना पारंपरिक आयुर्वेदिक ज्ञान को आधुनिक आजीविका के अवसरों के साथ जोड़ती है। परियोजना गो-अर्क (गाय मूत्र आसुत) और अन्य आयुर्वेदिक दवाओं का उत्पादन करने के लिए स्वदेशी संसाधनों, विशेष रूप से मवेशियों का उपयोग करने पर केंद्रित है। यह पहल स्वदेशी मवेशियों की नस्लों की आर्थिक व्यवहार्यता को बढ़ावा देती है।</p><br><p>SHG सदस्यों को आई ड्रॉप्स और द्राक्षासव टॉनिक जैसे स्वास्थ्य अनिवार्यताओं के वैज्ञानिक उत्पादन, गुणवत्ता नियंत्रण और पैकेजिंग में प्रशिक्षित किया जाता है। इन उत्पादों का स्थानीय रूप से विपणन किया जाता है, जो उत्पादकों के लिए आय की एक अनूठी धारा उत्पन्न करते हुए समुदाय को कम लागत वाला, प्रभावी स्वास्थ्य विकल्प प्रदान करता है। यह परियोजना परंपरा, स्वास्थ्य और अर्थशास्त्र का एक आदर्श मिश्रण प्रस्तुत करती है।</p>'
+                },
+                'health_camps': {
+                    title: "महिला स्वास्थ्य आउटरीच",
+                    img: 'health2.JPG',
+                    desc: '<p>जागरूकता और वित्तीय संसाधनों की कमी के कारण ग्रामीण महिलाएं अक्सर अपने स्वास्थ्य की उपेक्षा करती हैं। इसका मुकाबला करने के लिए, महाराष्ट्र ग्राम दर्पण "महा आरोग्य शिविर" (मेगा हेल्थ कैंप) आयोजित कर रहा है। 2022 से, हमने 48 अलग-अलग शिविरों के माध्यम से 17 गांवों को कवर किया है, जो 74,607 रोगियों तक पहुंचे हैं। ये शिविर केवल चेक-अप नहीं हैं; वे व्यापक स्वास्थ्य हस्तक्षेप हैं।</p><br><p>हमने दृष्टि दोष वाले लोगों को 29,010 चश्मे वितरित किए हैं और आंख, हृदय और मस्तिष्क के ऑपरेशन सहित 4,832 महत्वपूर्ण सर्जरी की सुविधा प्रदान की है। इसके अतिरिक्त, हमने 3,582 यूनिट रक्त एकत्र करने वाले रक्तदान अभियान आयोजित किए हैं। नाबार्ड और अन्य भागीदारों द्वारा समर्थित, ये शिविर मुफ्त दवाएं और विशेषज्ञ परामर्श प्रदान करते हैं, जिससे ग्रामीणों के घर तक तृतीयक स्वास्थ्य सेवा पहुंचती है।</p>'
+                },
+                'radio': {
+                    title: 'हिम्मत रेडियो स्टेशन',
+                    img: 'https://placehold.co/600x400/e2e8f0/1e293b?text=Himmat+Radio',
+                    desc: '<p>हिम्मत रेडियो स्टेशन ग्रामीण महाराष्ट्र में बेजुबानों को आवाज देने के लिए डिज़ाइन की गई एक जीवंत सामुदायिक मीडिया पहल है। वाणिज्यिक रेडियो के विपरीत, हिम्मत रेडियो स्थानीय मुद्दों पर चर्चा करने, स्थानीय किसानों और उद्यमियों की सफलता की कहानियों को साझा करने और विभिन्न सरकारी कल्याणकारी योजनाओं के बारे में जागरूकता फैलाने के लिए एक समर्पित मंच के रूप में कार्य करता है जो अक्सर किसी का ध्यान नहीं जाता है।</p><br><p>स्टेशन स्वास्थ्य, आधुनिक कृषि तकनीकों, कानूनी अधिकारों और महिला सशक्तिकरण पर केंद्रित विभिन्न प्रकार के शैक्षिक कार्यक्रम प्रसारित करता है। यह लोक संगीत और क्षेत्रीय कला रूपों को प्रदर्शित करके स्थानीय संस्कृति को संरक्षित करने में भी महत्वपूर्ण भूमिका निभाता है। दोतरफा संचार की सुविधा प्रदान करके, हिम्मत रेडियो समुदाय को जवाबदेही की मांग करने और ज्ञान साझा करने के लिए सशक्त बनाता है।</p>'
+                }
+            },
+            'MR': {
+                 'jjm': {
+                    title: 'जल जीवन मिशन (KRC)',
+                    img: 'jjm2.JPG',
+                    desc: '<p>अधिकृतपणे मान्यताप्राप्त राष्ट्रीय मुख्य संसाधन केंद्र (KRC) म्हणून, महाराष्ट्र ग्राम दर्पण जल जीवन मिशनच्या यशस्वी अंमलबजावणीमध्ये महत्त्वपूर्ण आहे, जो 2024 पर्यंत वैयक्तिक घरगुती नळ जोडणीद्वारे सुरक्षित आणि पुरेसे पिण्याचे पाणी प्रदान करण्याच्या उद्देशाने भारत सरकारचा एक प्रमुख कार्यक्रम आहे. आमच्या संस्थेला स्तर-3 भागधारकांच्या क्षमता बांधणीची महत्त्वपूर्ण जबाबदारी सोपवण्यात आली आहे. यामध्ये महाराष्ट्र, मध्य प्रदेश आणि अरुणाचल प्रदेश सारख्या अनेक राज्यांमध्ये ग्राम पाणी आणि स्वच्छता समित्या (VWSC), ग्रामपंचायत सदस्य आणि स्थानिक तळागाळातील तंत्रज्ञांसाठी गहन प्रशिक्षण कार्यक्रमांचा समावेश आहे.</p><br><p>आमचे सर्वसमावेशक प्रशिक्षण मॉड्यूल दीर्घकालीन शाश्वतता सुनिश्चित करण्यासाठी डिझाइन केलेले आहेत. आम्ही समुदायांना शाश्वत जल संसाधन व्यवस्थापन, फील्ड टेस्ट किट (FTK) वापरून पाण्याची गुणवत्ता देखरेख आणि पाण्याच्या मालमत्तेच्या सामुदायिक मालकीचे महत्त्व याबद्दल शिकवण्यावर लक्ष केंद्रित करतो. स्थानिक भागधारकांना तांत्रिक ज्ञान आणि प्रशासकीय कौशल्यासह सक्षम करून, आम्ही हे सुनिश्चित करतो की मिशन अंतर्गत तयार केलेल्या पायाभूत सुविधांची देखभाल गावकऱ्यांनीच प्रभावीपणे केली आहे. हा विकेंद्रित दृष्टिकोन ग्रामीण भारतातील जल सुरक्षेची गुरुकिल्ली आहे.</p>'
+                },
+                'tax': {
+                    title: 'पाणीपट्टी वसुली मॉडेल',
+                    img: 'tax.png',
+                    desc: '<p>पाणीपट्टी वसुली मॉडेल हा अकोला जिल्ह्यात राबविण्यात आलेला एक अभिनव उपक्रम आहे, जो ग्रामपंचायतींसाठी कमी कर वसुली आणि ग्रामीण महिलांसाठी शाश्वत उपजीविकेच्या संधींचा अभाव या दुहेरी आव्हानाला संबोधित करतो. महाराष्ट्र ग्राम दर्पणने 25 महिला बचत गटांना (SHGs) त्यांच्या संबंधित गावांमध्ये पाणीपट्टी गोळा करण्याची अधिकृत जबाबदारी घेण्यासाठी यशस्वीरित्या संघटित आणि सक्षम केले आहे. हे मॉडेल महिलांना निष्क्रिय लाभार्थ्यांपासून गाव संसाधनांच्या सक्रिय प्रशासकांमध्ये बदलते.</p><br><p>या हस्तक्षेपापूर्वी, अनेक ग्रामपंचायतींना पाण्याची थकबाकी न भरल्यामुळे आर्थिक स्थिरतेसाठी संघर्ष करावा लागला. बचत गटांना वसुली प्रतिनिधी म्हणून नियुक्त करून, आम्ही वसुली दरात लक्षणीय सुधारणा करण्यासाठी त्यांच्या सामाजिक भांडवल आणि सामुदायिक प्रभावाचा फायदा घेतला आहे. महिला जमा झालेल्या रकमेवर कमिशन मिळवतात, ज्यामुळे त्यांना उत्पन्नाचा सन्मानजनक आणि स्थिर स्रोत मिळतो. या मॉडेलने केवळ स्थानिक पाणीपुरवठा योजनांची आर्थिक व्यवहार्यता सुनिश्चित केली नाही, तर त्यात सहभागी असलेल्या महिलांचा आत्मविश्वास आणि सामाजिक प्रतिष्ठा देखील लक्षणीयरीत्या वाढवली आहे.</p>'
+                },
+                'sbm': {
+                    title: 'स्वच्छ भारत मिशन 2.0',
+                    img: 'swach.png',
+                    desc: '<p>स्वच्छ भारत मिशन (ग्रामीण) च्या महत्त्वाकांक्षी दुसऱ्या टप्प्याअंतर्गत, महाराष्ट्र ग्राम दर्पणने आपले लक्ष केवळ हागणदारी मुक्त (ODF) स्थिती प्राप्त करण्यावरून ते टिकवून ठेवण्यावर आणि ODF प्लस स्थिती प्राप्त करण्यावर केंद्रित केले आहे. आम्ही मोठ्या प्रमाणावर क्षमता बांधणीमध्ये सक्रियपणे सहभागी आहोत, अमरावती, गोंदिया आणि हिंगोली जिल्ह्यातील 2,947 ग्रामपंचायतींमध्ये 14,735 हून अधिक पंचायती राज संस्था (PRI) सदस्य आणि प्रमुख भागधारकांना प्रशिक्षित केले आहे.</p><br><p>आमच्या कार्यशाळा सर्वसमावेशक आहेत, ज्या घन आणि द्रव कचरा व्यवस्थापनाच्या (SLWM) तांत्रिक आणि वर्तणुकीशी संबंधित दोन्ही पैलूंना कव्हर करतात. आम्ही गाव प्रमुखांना स्रोतावर कचरा वेगळा करणे, बायोडिग्रेडेबल कचऱ्यासाठी कंपोस्टिंग युनिट्स स्थापित करणे आणि प्लास्टिक कचरा प्रभावीपणे व्यवस्थापित करणे याबद्दल शिक्षित करतो. या उपक्रमाचे अंतिम उद्दिष्ट हे आहे की दृष्यदृष्ट्या स्वच्छ गावे तयार करणे जी पर्यावरणीयदृष्ट्या शाश्वत आहेत. तांत्रिक उपायांसह सामुदायिक सहभाग एकत्रित करून, आम्ही ग्रामीण लँडस्केपला स्वच्छता आणि स्वच्छतेच्या आदर्श गावांमध्ये बदलण्यास मदत करत आहोत.</p>'
+                },
+                'sani': {
+                    title: 'स्वच्छता पायाभूत सुविधा',
+                    img: 'sani.jpg',
+                    desc: '<p>संपूर्ण स्वच्छतेच्या राष्ट्रीय मोहिमेला पाठिंबा देण्यासाठी आणि स्वच्छता सर्वात उपेक्षित समुदायांना उपलब्ध आहे याची खात्री करण्यासाठी, महाराष्ट्र ग्राम दर्पणने अमरावती आणि तिवसा येथे समर्पित आर्थिक शौचालय उत्पादन केंद्रे स्थापन केली आहेत. ही केंद्रे शौचालय बांधकामासाठी आवश्यक असलेल्या सिरॅमिक पॅन, पी-ट्रॅप आणि प्रबलित काँक्रीट रिंग यांसारख्या कमी किमतीच्या, उच्च-गुणवत्तेच्या स्वच्छता साहित्यासाठी उत्पादन केंद्रे आहेत.</p><br><p>हा उपक्रम दुहेरी उद्देश पूर्ण करतो: हे सुनिश्चित करते की सर्वात आर्थिकदृष्ट्या वंचित कुटुंबे देखील टिकाऊ शौचालये बांधू शकतात, ज्यामुळे उघड्यावर शौच करणे कमी होते, आणि यामुळे स्थानिक रोजगार निर्माण होतो. उत्पादन केंद्रे स्थानिक तरुण आणि तंत्रज्ञांना रोजगार देतात, ज्यामुळे आर्थिक लाभ समुदायाच्या आत राहतो. शिवाय, स्थानिक पातळीवर साहित्याचे उत्पादन करून, आम्ही लॉजिस्टिक खर्च आणि कार्बन फूटप्रिंट लक्षणीयरीत्या कमी करतो. हा प्रकल्प आमच्या संस्थेला महाराष्ट्र सरकारकडून प्रतिष्ठित \'युवा\' पुरस्कार मिळवून देणारा एक प्रमुख घटक होता.</p>'
+                },
+                'mahagram': {
+                    title: 'महाग्राम प्रोड्युसर कंपनी',
+                    img: 'https://placehold.co/600x400/e2e8f0/1e293b?text=Surgical+Cotton',
+                    desc: '<p>महाग्राम प्रोड्युसर कंपनी ग्रामीण औद्योगिकीकरण आणि महिलांच्या आर्थिक सक्षमीकरणाच्या आमच्या वचनबद्धतेचा पुरावा म्हणून उभी आहे. आम्ही एक अत्याधुनिक सर्जिकल कॉटन प्रोसेसिंग युनिट स्थापन केले आहे, जिथे विशिष्टपणे, 50% शेअरहोल्डिंग थेट बचत गटाच्या (SHG) महिला सदस्यांकडे आहे. हे सहकारी मॉडेल सुनिश्चित करते की मूल्यवर्धनातून निर्माण झालेली संपत्ती मध्यस्थांऐवजी उत्पादकांकडे राहते.</p><br><p>युनिट स्थानिक शेतकऱ्यांकडून थेट योग्य भावात कच्चा कापूस खरेदी करते, त्यावर वैद्यकीय वापरासाठी उच्च-मूल्याच्या सर्जिकल कापसात प्रक्रिया करते. यामुळे एक बंद-लूप ग्रामीण अर्थव्यवस्था तयार होते जिथे शेतकऱ्यांना चांगले दर मिळतात, स्थानिक महिलांना कारखान्यात रोजगार मिळतो आणि भागधारकांना नफ्यातून लाभांश मिळतो. हा उपक्रम केवळ स्थानिक उत्पन्न वाढवत नाही तर ग्रामीण महिलांमध्ये मालकी आणि उद्योजकतेची भावना देखील निर्माण करतो.</p>'
+                },
+                'dairy': {
+                    title: 'दुग्ध विकास',
+                    img: 'dairy.webp',
+                    desc: '<p>ग्रामीण कुटुंबांसाठी उत्पन्नाचा एक विश्वासार्ह, वर्षभर चालणारा स्रोत म्हणून दुग्धव्यवसायाची अफाट क्षमता ओळखून, महाराष्ट्र ग्राम दर्पणने विविध ग्रामीण क्लस्टर्समध्ये 70 हून अधिक डेअरी युनिट्स यशस्वीरित्या सुरू केल्या आहेत. पारंपारिक शेती जी हंगामी आणि हवामानावर अवलंबून असते, त्याउलट डेअरी घरांना त्वरित तरलता प्रदान करते. या युनिट्सची दीर्घकालीन व्यवहार्यता सुनिश्चित करण्यासाठी, आम्ही मदर डेअरी, भारतातील एक आघाडीची दूध सहकारी संस्था सोबत धोरणात्मक बाजार लिंकेजची सुविधा उपलब्ध करून दिली.</p><br><p>ही भागीदारी महत्त्वपूर्ण आहे कारण ती उत्पादित दुधासाठी विश्वासार्ह खरेदीदाराची हमी देते, जी अनेकदा स्थानिक असंगठित बाजारपेठांमध्ये आढळणारी अनिश्चितता आणि शोषण दूर करते. आम्ही गुरांची काळजी, चारा व्यवस्थापन आणि जाती सुधारणा यावर प्रशिक्षण देखील देतो. सहभागी कुटुंबांनी उत्पन्नात स्थिर मासिक वाढ नोंदवली आहे, जे थेट त्यांच्या मुलांसाठी चांगले पोषण आणि शिक्षणामध्ये रूपांतरित होते.</p>'
+                },
+                'sadi': {
+                    title: 'रुक्मिणी साडी युनिट',
+                    img: 'clothe.jpg',
+                    desc: '<p>रुक्मिणी साडी युनिट हा कौंडण्यपूर येथे स्थित एक महत्त्वाकांक्षी आगामी वस्त्रोद्योग प्रकल्प आहे, जो प्रदेशात एक प्रमुख रोजगार निर्माणकर्ता बनण्यासाठी डिझाइन केला आहे. हे मोठ्या प्रमाणावरील गारमेंट मॅन्युफॅक्चरिंग हब 700 हून अधिक ग्रामीण महिलांना रोजगार देण्याच्या विशिष्ट उद्देशाने विकसित केले जात आहे, ज्यामुळे त्यांना त्यांच्या घराजवळ कौशल्ये आणि स्थिर पगार मिळू शकेल.</p><br><p>युनिट आधुनिक उत्पादन तंत्रांसह स्थानिक सांस्कृतिक वारसा मिसळून पारंपारिक साड्या आणि कपडे उत्पादनावर लक्ष केंद्रित करेल. उत्पादनाचे मानकीकरण करून आणि गुणवत्ता नियंत्रण सुनिश्चित करून, आमचे लक्ष्य ही उत्पादने व्यापक बाजारपेठांमध्ये स्पर्धात्मक बनवणे आहे. रोजगाराव्यतिरिक्त, प्रकल्पाचे उद्दिष्ट स्थानिक विणकाम परंपरा जतन करणे आहे, तसेच समुदायामध्ये आधुनिक आर्थिक लवचिकता आणणे आहे.</p>'
+                },
+                'skill': {
+                    title: 'कौशल्य विकास आणि प्रशिक्षण',
+                    img: '22.jpg',
+                    desc: '<p>आमचा विश्वास आहे की व्यावसायिक कौशल्ये हे गरिबी निर्मूलनासाठी सर्वात प्रभावी साधन आहे. 2000 ते 2012 पर्यंत SGSY (सुवर्णजयंती ग्राम स्वरोजगार योजना) आणि त्यानंतर 2012 ते 2017 पर्यंत NRLM (राष्ट्रीय ग्रामीण उपजीविका अभियान) यांसारख्या प्रमुख सरकारी योजनांतर्गत, महाराष्ट्र ग्राम दर्पणने 3,750 हून अधिक बचत गटांना (SGSY अंतर्गत 1250 आणि NRLM अंतर्गत 2500) प्रशिक्षित केले आहे.</p><br><p>आमचे व्यावसायिक प्रशिक्षण कार्यक्रम वैविध्यपूर्ण आणि बाजारपेठेनुसार आहेत, ज्यामध्ये गारमेंट मेकिंग, बॅग मॅन्युफॅक्चरिंग, शालेय गणवेश उत्पादन आणि अन्न प्रक्रिया यांसारख्या व्यापारांचा समावेश आहे. आम्ही केवळ प्रशिक्षण देत नाही; आम्ही रिव्हॉल्व्हिंग फंड वितरण आणि बँक लिंकेजमध्ये देखील मदत करतो. ही कौशल्ये महिलांना त्यांचे स्वतःचे सूक्ष्म उद्योग सुरू करण्यास किंवा स्थानिक उद्योगांमध्ये रोजगार मिळविण्यास सक्षम करतात, ज्यामुळे त्यांना अकुशल मजुरांपासून कुशल कारागीरांमध्ये प्रभावीपणे नेले जाते.</p>'
+                },
+                'finance': {
+                    title: 'आर्थिक समावेशन',
+                    img: 'https://placehold.co/600x400/e2e8f0/1e293b?text=Financial+Inclusion',
+                    desc: '<p>औपचारिक कर्जाची उपलब्धता हा अनेकदा ग्रामीण उद्योजकांसाठी सर्वात मोठा अडथळा असतो. याला संबोधित करण्यासाठी, आम्ही अमरावती जिल्ह्यात आर्थिक समावेशन सुलभ करण्यासाठी 2015 आणि 2018 दरम्यान नाबार्ड फायनान्शियल सर्व्हिसेस (NABFINS) सोबत भागीदारी केली. आम्ही बचत गटांच्या विशाल नेटवर्कसाठी बँक लिंकेज यशस्वीरित्या सुलभ केले आहे, त्यांना औपचारिक वित्तीय संस्थांशी जोडले आहे.</p><br><p>आमची भूमिका केवळ परिचयापेक्षा अधिक आहे; आम्ही या गटांना हिशोबाची योग्य पुस्तके ठेवण्यास, त्यांच्या अंतर्गत कर्ज देण्याच्या पद्धतींचे ऑडिट करण्यास आणि बँकांना पतपात्रता प्रदर्शित करण्यास मदत करतो. या पायाभूत कामामुळे समुदायासाठी सूक्ष्म कर्जांमध्ये लाखो रुपये अनलॉक झाले आहेत. हे भांडवल छोटे व्यवसाय सुरू करण्यासाठी, शेती निविष्ठा खरेदी करण्यासाठी आणि आपत्कालीन गरजा पूर्ण करण्यासाठी वापरले जाते, ज्यामुळे शोषणकारी स्थानिक सावकारांवरील अवलंबित्व चक्र तुटते.</p>'
+                },
+                'goark': {
+                    title: 'गो-अर्क आणि आयुर्वेदिक उत्पादने',
+                    img: 'go.jpg',
+                    desc: '<p>नांदगाव खंडेश्वरच्या गोपी गावात स्थित, हा अभिनव प्रायोगिक प्रकल्प पारंपारिक आयुर्वेदिक ज्ञान आधुनिक उपजीविकेच्या संधींशी जोडतो. प्रकल्प गो-अर्क (गोमूत्र अर्क) आणि इतर आयुर्वेदिक औषधे तयार करण्यासाठी देशी संसाधनांचा, विशेषतः गुरांचा वापर करण्यावर लक्ष केंद्रित करतो. हा उपक्रम देशी गुरांच्या जातींच्या आर्थिक व्यवहार्यतेला प्रोत्साहन देतो.</p><br><p>बचत गटाच्या सदस्यांना आय ड्रॉप्स आणि द्राक्षासव टॉनिकसारख्या आरोग्य आवश्यक वस्तूंच्या वैज्ञानिक उत्पादन, गुणवत्ता नियंत्रण आणि पॅकेजिंगमध्ये प्रशिक्षित केले जाते. या उत्पादनांचे स्थानिक पातळीवर विपणन केले जाते, जे उत्पादकांसाठी उत्पन्नाचा एक अनोखा प्रवाह निर्माण करताना समुदायाला कमी किमतीचा, प्रभावी आरोग्य पर्याय प्रदान करते. हा प्रकल्प परंपरा, आरोग्य आणि अर्थशास्त्र यांचे परिपूर्ण मिश्रण दर्शवतो.</p>'
+                },
+                'health_camps': {
+                    title: "महिला आरोग्य आउटरीच",
+                    img: 'health2.JPG',
+                    desc: '<p>जागरूकता आणि आर्थिक संसाधनांच्या अभावामुळे ग्रामीण महिला अनेकदा त्यांच्या स्वतःच्या आरोग्याकडे दुर्लक्ष करतात. याचा सामना करण्यासाठी, महाराष्ट्र ग्राम दर्पण "महा आरोग्य शिबिरे" (मेगा हेल्थ कॅम्प) आयोजित करत आहे. 2022 पासून, आम्ही 48 वेगवेगळ्या शिबिरांच्या माध्यमातून 17 गावे कव्हर केली आहेत, जी 74,607 रुग्णांपर्यंत पोहोचली आहेत. ही शिबिरे केवळ तपासणी नाहीत; ते सर्वसमावेशक आरोग्य हस्तक्षेप आहेत.</p><br><p>आम्ही दृष्टीदोष असलेल्यांना 29,010 चष्मे वितरित केले आहेत आणि डोळे, हृदय आणि मेंदूच्या ऑपरेशन्ससह 4,832 महत्त्वपूर्ण शस्त्रक्रियांची सुविधा उपलब्ध करून दिली आहे. याव्यतिरिक्त, आम्ही 3,582 युनिट रक्त गोळा करणारे रक्तदान शिबिरे आयोजित केली आहेत. नाबार्ड आणि इतर भागीदारांच्या पाठिंब्याने, ही शिबिरे मोफत औषधे आणि तज्ञ सल्ला देतात, ज्यामुळे गावकऱ्यांच्या दारात तृतीयक आरोग्य सेवा पोहोचते.</p>'
+                },
+                'radio': {
+                    title: 'हिम्मत रेडिओ स्टेशन',
+                    img: 'https://placehold.co/600x400/e2e8f0/1e293b?text=Himmat+Radio',
+                    desc: '<p>हिम्मत रेडिओ स्टेशन हा ग्रामीण महाराष्ट्रातील आवाजहीनांना आवाज देण्यासाठी डिझाइन केलेला एक जीवंत सामुदायिक माध्यम उपक्रम आहे. व्यावसायिक रेडिओच्या विपरीत, हिम्मत रेडिओ स्थानिक मुद्द्यांवर चर्चा करण्यासाठी, स्थानिक शेतकरी आणि उद्योजकांच्या यशाच्या कथा सामायिक करण्यासाठी आणि अनेकदा दुर्लक्षित राहणाऱ्या विविध सरकारी कल्याणकारी योजनांबद्दल जागरूकता पसरवण्यासाठी एक समर्पित व्यासपीठ म्हणून कार्य करते.</p><br><p>स्टेशन आरोग्य, आधुनिक कृषी तंत्रे, कायदेशीर अधिकार आणि महिला सक्षमीकरणावर केंद्रित विविध शैक्षणिक कार्यक्रम प्रसारित करते. हे लोकसंगीत आणि प्रादेशिक कला प्रकार प्रदर्शित करून स्थानिक संस्कृती जतन करण्यात देखील महत्त्वपूर्ण भूमिका बजावते. दुतर्फा संवाद सुलभ करून, हिम्मत रेडिओ समुदायाला उत्तरदायित्वाची मागणी करण्यास आणि ज्ञान सामायिक करण्यास सक्षम करते.</p>'
+                }
+            }
+        };
+
+        // --- LANGUAGE TRANSLATION LOGIC ---
+        const MAIN_CONTENT_ID = 'main-content-area';
+        const MARATHI_CONTENT_ID = 'marathi-content-area';
+        const HINDI_CONTENT_ID = 'hindi-content-area';
+        const LANG_TOGGLE_KEY = 'mgd_current_lang'; 
+
+        let currentLanguage = localStorage.getItem(LANG_TOGGLE_KEY) || 'EN';
+        let mainContentArea = document.getElementById(MAIN_CONTENT_ID);
+        let marathiContentArea = document.getElementById(MARATHI_CONTENT_ID);
+        let hindiContentArea = document.getElementById(HINDI_CONTENT_ID);
+        let buttonTextElement = document.getElementById('lang-text');
+        let mobileButtonTextElement = document.getElementById('mobile-lang-text');
+
+        function updateLanguageUI(lang) {
+            // Update Toggle Button Text
+            let btnText = '';
+            if (lang === 'MR') {
+                btnText = 'English (EN)';
+            } else if (lang === 'HI') {
+                btnText = 'मराठी (MR)';
+            } else {
+                btnText = 'हिंदी (HI)';
+            }
+            if(buttonTextElement) buttonTextElement.textContent = btnText;
+            if(mobileButtonTextElement) mobileButtonTextElement.textContent = btnText;
+
+            // Hide all first
+            mainContentArea.style.display = 'none';
+            marathiContentArea.style.display = 'none';
+            hindiContentArea.style.display = 'none';
+
+            if (lang === 'MR') {
+                marathiContentArea.style.display = 'block';
+            } else if (lang === 'HI') {
+                hindiContentArea.style.display = 'block';
+            } else {
+                mainContentArea.style.display = 'block';
+            }
+
+            // Translate Header and Footer dynamically
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+        }
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem(LANG_TOGGLE_KEY, currentLanguage);
+            updateLanguageUI(currentLanguage);
+        }
+
+        function toggleLanguage() {
+            const spinner = document.getElementById('lang-spinner');
+            const mobileSpinner = document.getElementById('mobile-lang-spinner');
+            if(spinner) spinner.classList.remove('hidden');
+            if(mobileSpinner) mobileSpinner.classList.remove('hidden');
+
+            setTimeout(() => {
+                if (currentLanguage === 'EN') {
+                    setLanguage('HI');
+                } else if (currentLanguage === 'HI') {
+                    setLanguage('MR');
+                } else {
+                    setLanguage('EN');
+                }
+                if(spinner) spinner.classList.add('hidden');
+                if(mobileSpinner) mobileSpinner.classList.add('hidden');
+            }, 300);
+        }
+
+        // --- MODAL LOGIC ---
+        function openProject(projectId) {
+            // Get data based on current language
+            const data = projectData[currentLanguage][projectId];
+            
+            if (data) {
+                // Populate Modal
+                document.getElementById('modal-img').src = data.img;
+                document.getElementById('modal-title').textContent = data.title;
+                document.getElementById('modal-body').innerHTML = data.desc;
+                
+                // Show Modal
+                const modal = document.getElementById('project-modal');
+                const container = document.getElementById('modal-container');
+                modal.classList.remove('hidden');
+                modal.classList.add('flex'); // Ensure flex is added for centering
+                
+                // Slight delay for animation
+                setTimeout(() => {
+                    container.classList.remove('scale-95');
+                    container.classList.add('scale-100');
+                }, 10);
+                
+                // Prevent background scrolling
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('project-modal');
+            const container = document.getElementById('modal-container');
+            
+            // Animation out
+            container.classList.remove('scale-100');
+            container.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = 'auto'; // Restore scrolling
+            }, 200);
+        }
+
+        // Close on outside click
+        document.getElementById('project-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !document.getElementById('project-modal').classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+
+        window.onload = function() {
+            updateLanguageUI(currentLanguage);
+        };
+
+        // JavaScript for mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

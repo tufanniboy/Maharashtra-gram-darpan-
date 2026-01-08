@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Center - Maharashtra Gram Darpan</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles matching the theme */
+        :root {
+            --color-primary: #065F46; /* Lighter Forest Green */
+            --color-secondary: #B91C1C; /* Brick Red */
+            --color-background: #F4F8F5; 
+            --color-text: #1F2937; /* Dark Gray */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background); 
+            color: var(--color-text);
+        }
+        header { background-color: white; }
+        .text-primary { color: #B91C1C; }
+        .bg-primary { background-color: var(--color-primary); }
+        .text-green-custom { color: #065F46; }
+
+        /* Custom shadow for cards */
+        .card-shadow {
+            box-shadow: 0 10px 15px -3px rgba(6, 95, 70, 0.1), 0 4px 6px -2px rgba(6, 95, 70, 0.05);
+            transition: transform 0.3s ease;
+        }
+        .card-shadow:hover {
+            transform: translateY(-5px);
+        }
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 0.5rem 1rem; 
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            font-size: 1rem; 
+            line-height: 1.5; 
+            display: inline-flex; 
+            align-items: center; 
+        }
+        .btn-primary:hover {
+            background-color: #044F36;
+        }
+        
+        .project-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-top-left-radius: 0.75rem;
+            border-top-right-radius: 0.75rem;
+        }
+
+        /* Loading spinner CSS */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid white;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20 gap-4">
+                <!-- Logo/Site Name -->
+                <div class="flex-shrink-0 flex items-center"> 
+                    <a href="index.html" class="flex items-center space-x-3">
+                        <img src="IMG-20251214-WA0002.jpg" 
+                             onerror="this.onerror=null; this.src='https://placehold.co/64x64/9CA3AF/ffffff?text=LOGO';" 
+                             alt="Maharashtra Gram Darpan Logo" 
+                             class="w-12 h-12 lg:w-16 lg:h-16 rounded-md flex items-center justify-center font-bold text-xl object-cover">
+                        <span class="text-xl lg:text-xl xl:text-2xl font-extrabold text-primary leading-tight" data-i18n="site_name">Maharashtra Gram Darpan</span>
+                    </a>
+                </div>
+
+                <!-- Navigation Menu (Desktop) -->
+                <nav class="hidden lg:flex space-x-6 xl:space-x-10 items-center"> 
+                    <a href="index.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_home">Home</a>
+
+                    <!-- About Us Dropdown -->
+                    <div class="relative group">
+                        <button class="flex items-center text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg focus:outline-none py-2">
+                            <span data-i18n="nav_about">About Us</span>
+                            <svg class="w-4 h-4 ml-1 transform group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="absolute left-0 mt-0 w-64 bg-white rounded-lg shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border-t-4 border-primary transform translate-y-4 group-hover:translate-y-0">
+                            <a href="about-us.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_foundation">Our Foundation</a>
+                            <a href="our-work.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_work">Our Work</a>
+                            <a href="mission-vision.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_mission">Mission & Vision</a>
+                            <a href="trustees-board.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_board">Trustees/Board</a>
+                        </div>
+                    </div>
+
+                    <a href="careers.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_careers">Careers</a>
+
+                    <!-- Services Dropdown -->
+                    <div class="relative group">
+                        <button class="flex items-center text-primary font-bold transition duration-150 ease-in-out text-base xl:text-lg focus:outline-none py-2">
+                            <span data-i18n="nav_services">Services</span>
+                            <svg class="w-4 h-4 ml-1 transform group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="absolute left-0 mt-0 w-56 bg-white rounded-lg shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border-t-4 border-primary transform translate-y-4 group-hover:translate-y-0">
+                            <a href="rural-development.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_rural">Rural Development</a>
+                            <a href="programmes.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_prog">Programme</a>
+                            <a href="adult-education.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_adult">Adult Education</a>
+                            <!-- Active Page Highlight -->
+                            <a href="training-center.html" class="block px-4 py-3 text-sm text-primary font-bold bg-green-50 transition" data-i18n="nav_training">Training Center</a>
+                        </div>
+                    </div>
+
+                    <a href="resources.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_resources">Resources</a>
+
+                    <a href="newsletter.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_newsletter">Newsletter</a>
+                    
+                    <a href="contact.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_contact">Contact</a>
+                    
+                    <button id="lang-toggle-button" class="btn-primary flex items-center justify-center text-sm xl:text-base px-4 py-2" onclick="toggleLanguage()">
+                        <span id="lang-text">हिंदी (HI)</span>
+                        <div id="lang-spinner" class="spinner hidden ml-2"></div>
+                    </button>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="lg:hidden p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none transition duration-150 ease-in-out">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 shadow-inner bg-gray-50">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_home">Home</a>
+                
+                <div class="border-t border-gray-100 pt-2 pb-2">
+                    <div class="px-3 py-2 text-base font-bold text-gray-900" data-i18n="nav_about">About Us</div>
+                    <div class="pl-6 space-y-1 border-l-2 border-gray-200 ml-3">
+                        <a href="about-us.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100" data-i18n="nav_foundation">Our Foundation</a>
+                        <a href="our-work.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100" data-i18n="nav_work">Our Work</a>
+                        <a href="mission-vision.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100" data-i18n="nav_mission">Mission & Vision</a>
+                        <a href="trustees-board.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100" data-i18n="nav_board">Trustees/Board</a>
+                    </div>
+                </div>
+
+                <a href="careers.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_careers">Careers</a>
+
+                <div class="border-t border-gray-100 pt-2 pb-2">
+                    <div class="px-3 py-2 text-base font-bold text-primary" data-i18n="nav_services">Services</div>
+                    <div class="pl-6 space-y-1 border-l-2 border-gray-200 ml-3">
+                        <a href="rural-development.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_rural">Rural Development</a>
+                        <a href="programmes.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_prog">Programme</a>
+                        <a href="adult-education.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_adult">Adult Education</a>
+                        <a href="training-center.html" class="block px-3 py-2 rounded-md text-sm font-bold text-primary bg-green-50" data-i18n="nav_training">Training Center</a>
+                    </div>
+                </div>
+                
+                <a href="resources.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_resources">Resources</a>
+                <a href="newsletter.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_newsletter">Newsletter</a>
+                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_contact">Contact</a>
+                
+                <button class="block px-3 py-2 rounded-md text-base font-medium text-white bg-primary text-center w-full mt-2" onclick="toggleLanguage()">
+                    <span id="mobile-lang-text">हिंदी (HI)</span>
+                    <div id="mobile-lang-spinner" class="spinner hidden ml-2"></div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content AREA (English Default) -->
+    <main id="main-content-area">
+        <div class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Page Title -->
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-4" data-i18n="train_title">Technical & Vocational Training Centers</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto" data-i18n="train_subtitle">Hands-on learning hubs equipping rural youth and artisans with practical skills for a sustainable future.</p>
+                </div>
+
+                <!-- Introduction Section -->
+                <div class="mb-16 grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6">
+                        <h3 class="text-3xl font-bold text-primary mb-2">Building Skills, Building Lives</h3>
+                        <p class="text-gray-700 text-lg leading-relaxed">
+                            Maharashtra Gram Darpan operates dedicated training centers aimed at transforming unskilled labor into a skilled workforce. Our centers are not just classrooms; they are production hubs where learning happens by doing.
+                        </p>
+                        <p class="text-gray-700 text-lg leading-relaxed">
+                            From masonry and construction techniques to modern sanitation infrastructure production, our curriculum is tailored to meet local market demands, ensuring immediate employability for our trainees.
+                        </p>
+                        <div class="bg-green-50 p-6 rounded-lg border-l-4 border-primary">
+                            <p class="text-gray-800 font-medium">
+                                <strong>Focus:</strong> Practical application, quality standards, and entrepreneurship development.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="relative h-80 rounded-xl overflow-hidden shadow-lg">
+                        <img src="https://placehold.co/800x600/e2e8f0/1e293b?text=Training+Center+Workshop" alt="Training Center Workshop" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <!-- IMPACT STATS (Animated) -->
+                <div class="mb-20 bg-primary rounded-2xl p-8 shadow-xl text-white">
+                    <h3 class="text-2xl font-bold text-center mb-8 border-b border-green-400 pb-4 inline-block mx-auto">Training Impact Metrics</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                        <div>
+                            <div class="text-4xl font-extrabold mb-1"><span class="counter" data-target="2000">0</span>+</div>
+                            <div class="text-sm text-green-100 font-medium">SHGs Trained</div>
+                        </div>
+                        <div>
+                            <div class="text-4xl font-extrabold mb-1"><span class="counter" data-target="1500">0</span>+</div>
+                            <div class="text-sm text-green-100 font-medium">Youth Employed</div>
+                        </div>
+                        <div>
+                            <div class="text-4xl font-extrabold mb-1"><span class="counter" data-target="2">0</span></div>
+                            <div class="text-sm text-green-100 font-medium">Production Centers</div>
+                        </div>
+                        <div>
+                            <div class="text-4xl font-extrabold mb-1"><span class="counter" data-target="10000">0</span>+</div>
+                            <div class="text-sm text-green-100 font-medium">Toilets Constructed</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Core Training Modules -->
+                <div class="mb-20">
+                    <h3 class="text-3xl font-extrabold text-gray-900 mb-8 text-center border-b-2 border-gray-200 pb-4 inline-block">Specialized Training Programs</h3>
+                    
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        
+                        <!-- Module 1: Construction -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col border-t-4 border-secondary">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Masonry+Training" alt="Masonry Training" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">Construction & Masonry</h4>
+                                <p class="text-sm text-secondary font-semibold mb-3 uppercase tracking-wide">Infrastructure</p>
+                                <p class="text-gray-600 mb-4 flex-grow">
+                                    Comprehensive training in bricklaying, concrete mixing, and structural safety. Trainees build real-world infrastructure like toilets and community halls.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Module 2: Sanitation Production -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Sanitation+Production" alt="Sanitation Production" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">Sanitation Unit Manufacturing</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">Production</p>
+                                <p class="text-gray-600 mb-4 flex-grow">
+                                    Learning to manufacture low-cost sanitary materials: ceramic pans, P-traps, and reinforced concrete rings at our Amravati and Tiwsa centers.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Module 3: Animal Management -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Animal+Management" alt="Animal Management" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">Animal Husbandry</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">Agriculture</p>
+                                <p class="text-gray-600 mb-4 flex-grow">
+                                    Scientific training on cattle rearing, feed management, and disease prevention to maximize yield from dairy and livestock businesses.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Module 4: Garment Making -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Garment+Making" alt="Garment Making" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">Textile & Garment Making</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">Vocational</p>
+                                <p class="text-gray-600 mb-4 flex-grow">
+                                    Training women in cutting, tailoring, and stitching. Focused on producing school uniforms, bags, and traditional sarees for local markets.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Module 5: Agro-Processing -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Food+Processing" alt="Food Processing" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">Food Processing</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">Value Addition</p>
+                                <p class="text-gray-600 mb-4 flex-grow">
+                                    Techniques for processing local produce like fruits and grains into marketable products (pickles, jams, flour) to increase farmer income.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Module 6: Entrepreneurship -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Business+Skills" alt="Business Skills" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">EDP (Entrepreneurship)</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">Business</p>
+                                <p class="text-gray-600 mb-4 flex-grow">
+                                    Entrepreneurship Development Programs teaching financial literacy, marketing strategies, and business management to aspiring rural entrepreneurs.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Call to Action -->
+                <div class="bg-gray-900 rounded-2xl p-8 md:p-12 text-center text-white">
+                    <h3 class="text-3xl font-bold mb-4">Join Our Training Programs</h3>
+                    <p class="text-lg text-gray-300 max-w-2xl mx-auto mb-8">
+                        Are you looking to upgrade your skills or start a new business? Contact us to find out about upcoming batches and workshops.
+                    </p>
+                    <a href="contact.html" class="inline-block bg-white text-gray-900 font-bold py-3 px-8 rounded-full hover:bg-gray-100 transition duration-300">
+                        Register Now
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Translations Placeholder (Hindi) -->
+    <div id="hindi-content-area" style="display: none;">
+        <div class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-4">तकनीकी और व्यावसायिक प्रशिक्षण केंद्र</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">व्यावहारिक शिक्षण केंद्र जो ग्रामीण युवाओं और कारीगरों को स्थायी भविष्य के लिए व्यावहारिक कौशल से लैस करते हैं।</p>
+                </div>
+
+                <div class="mb-16 grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6">
+                        <h3 class="text-3xl font-bold text-primary mb-2">कौशल निर्माण, जीवन निर्माण</h3>
+                        <p class="text-gray-700 text-lg leading-relaxed">
+                            महाराष्ट्र ग्राम दर्पण अकुशल श्रमिकों को कुशल कार्यबल में बदलने के उद्देश्य से समर्पित प्रशिक्षण केंद्र संचालित करता है। हमारे केंद्र केवल कक्षाएं नहीं हैं; वे उत्पादन केंद्र हैं जहां काम करके सीखा जाता है।
+                        </p>
+                        <div class="bg-green-50 p-6 rounded-lg border-l-4 border-primary">
+                            <p class="text-gray-800 font-medium">
+                                <strong>फोकस:</strong> व्यावहारिक अनुप्रयोग, गुणवत्ता मानक और उद्यमिता विकास।
+                            </p>
+                        </div>
+                    </div>
+                    <div class="relative h-80 rounded-xl overflow-hidden shadow-lg">
+                        <img src="https://placehold.co/800x600/e2e8f0/1e293b?text=Training+Center+Workshop" alt="Training Center Workshop" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                
+                <!-- Hindi Stats -->
+                <div class="mb-20 bg-primary rounded-2xl p-8 shadow-xl text-white">
+                    <h3 class="text-2xl font-bold text-center mb-8 border-b border-green-400 pb-4 inline-block mx-auto">प्रशिक्षण प्रभाव मेट्रिक्स</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                        <div><div class="text-4xl font-extrabold mb-1"><span class="counter" data-target="2000">0</span>+</div><div class="text-sm text-green-100 font-medium">SHGs प्रशिक्षित</div></div>
+                        <div><div class="text-4xl font-extrabold mb-1"><span class="counter" data-target="1500">0</span>+</div><div class="text-sm text-green-100 font-medium">युवा नियोजित</div></div>
+                        <div><div class="text-4xl font-extrabold mb-1"><span class="counter" data-target="2">0</span></div><div class="text-sm text-green-100 font-medium">उत्पादन केंद्र</div></div>
+                        <div><div class="text-4xl font-extrabold mb-1"><span class="counter" data-target="10000">0</span>+</div><div class="text-sm text-green-100 font-medium">शौचालय निर्मित</div></div>
+                    </div>
+                </div>
+
+                <div class="mb-20">
+                    <h3 class="text-3xl font-extrabold text-gray-900 mb-8 text-center border-b-2 border-gray-200 pb-4 inline-block">विशिष्ट प्रशिक्षण कार्यक्रम</h3>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Project 1 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col border-t-4 border-secondary">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Masonry+Training" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">निर्माण और राजमिस्त्री</h4>
+                                <p class="text-sm text-secondary font-semibold mb-3 uppercase tracking-wide">बुनियादी ढांचा</p>
+                                <p class="text-gray-600 mb-4 flex-grow">ईंट बिछाने और कंक्रीट मिश्रण में व्यापक प्रशिक्षण। प्रशिक्षु वास्तविक दुनिया के बुनियादी ढांचे का निर्माण करते हैं।</p>
+                            </div>
+                        </div>
+                        <!-- Project 2 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Sanitation+Production" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">स्वच्छता इकाई निर्माण</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">उत्पादन</p>
+                                <p class="text-gray-600 mb-4 flex-grow">कम लागत वाली सैनिटरी सामग्री का निर्माण सीखना: हमारे अमरावती और तिवसा केंद्रों पर सिरेमिक पैन और कंक्रीट के छल्ले।</p>
+                            </div>
+                        </div>
+                        <!-- Project 3 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Animal+Management" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">पशुपालन</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">कृषि</p>
+                                <p class="text-gray-600 mb-4 flex-grow">डेयरी और पशुधन व्यवसायों से अधिकतम उपज प्राप्त करने के लिए मवेशी पालन और चारा प्रबंधन पर वैज्ञानिक प्रशिक्षण।</p>
+                            </div>
+                        </div>
+                         <!-- Project 4 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Garment+Making" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">कपड़ा और परिधान निर्माण</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">व्यावसायिक</p>
+                                <p class="text-gray-600 mb-4 flex-grow">महिलाओं को कटाई, सिलाई और सिलाई में प्रशिक्षण देना। स्थानीय बाजारों के लिए स्कूल की वर्दी और बैग बनाने पर केंद्रित।</p>
+                            </div>
+                        </div>
+                        <!-- Project 5 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Food+Processing" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">खाद्य प्रसंस्करण</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">मूल्य संवर्धन</p>
+                                <p class="text-gray-600 mb-4 flex-grow">किसानों की आय बढ़ाने के लिए स्थानीय उपज को विपणन योग्य उत्पादों (अचार, जैम) में संसाधित करने की तकनीकें।</p>
+                            </div>
+                        </div>
+                        <!-- Project 6 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Business+Skills" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">उद्यमिता विकास</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">व्यवसाय</p>
+                                <p class="text-gray-600 mb-4 flex-grow">आकांक्षी ग्रामीण उद्यमियों को वित्तीय साक्षरता, विपणन रणनीतियाँ और व्यवसाय प्रबंधन सिखाना।</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Translations Placeholder (Marathi) -->
+    <div id="marathi-content-area" style="display: none;">
+        <div class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-4">तांत्रिक आणि व्यावसायिक प्रशिक्षण केंद्रे</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">ग्रामीण तरुण आणि कारागिरांना शाश्वत भविष्यासाठी व्यावहारिक कौशल्यांनी सुसज्ज करणारे प्रत्यक्ष शिक्षण केंद्र.</p>
+                </div>
+
+                <div class="mb-16 grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6">
+                        <h3 class="text-3xl font-bold text-primary mb-2">कौशल्य निर्मिती, जीवन निर्मिती</h3>
+                        <p class="text-gray-700 text-lg leading-relaxed">
+                            महाराष्ट्र ग्राम दर्पण अकुशल मजुरांचे कुशल कामगारांमध्ये रूपांतर करण्याच्या उद्देशाने समर्पित प्रशिक्षण केंद्रे चालवते. आमची केंद्रे केवळ वर्गखोल्या नाहीत; ती उत्पादन केंद्रे आहेत जिथे काम करून शिक्षण मिळते.
+                        </p>
+                        <div class="bg-green-50 p-6 rounded-lg border-l-4 border-primary">
+                            <p class="text-gray-800 font-medium">
+                                <strong>फोकस:</strong> व्यावहारिक उपयोग, गुणवत्ता मानके आणि उद्योजकता विकास.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="relative h-80 rounded-xl overflow-hidden shadow-lg">
+                        <img src="https://placehold.co/800x600/e2e8f0/1e293b?text=Training+Center+Workshop" alt="Training Center Workshop" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                
+                <!-- Marathi Stats -->
+                <div class="mb-20 bg-primary rounded-2xl p-8 shadow-xl text-white">
+                    <h3 class="text-2xl font-bold text-center mb-8 border-b border-green-400 pb-4 inline-block mx-auto">प्रशिक्षण प्रभाव मेट्रिक्स</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                        <div><div class="text-4xl font-extrabold mb-1"><span class="counter" data-target="2000">0</span>+</div><div class="text-sm text-green-100 font-medium">SHGs प्रशिक्षित</div></div>
+                        <div><div class="text-4xl font-extrabold mb-1"><span class="counter" data-target="1500">0</span>+</div><div class="text-sm text-green-100 font-medium">युवा रोजगार</div></div>
+                        <div><div class="text-4xl font-extrabold mb-1"><span class="counter" data-target="2">0</span></div><div class="text-sm text-green-100 font-medium">उत्पादन केंद्रे</div></div>
+                        <div><div class="text-4xl font-extrabold mb-1"><span class="counter" data-target="10000">0</span>+</div><div class="text-sm text-green-100 font-medium">शौचालय निर्मित</div></div>
+                    </div>
+                </div>
+
+                <div class="mb-20">
+                    <h3 class="text-3xl font-extrabold text-gray-900 mb-8 text-center border-b-2 border-gray-200 pb-4 inline-block">विशिष्ट प्रशिक्षण कार्यक्रम</h3>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Project 1 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col border-t-4 border-secondary">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Masonry+Training" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">बांधकाम आणि गवंडीकाम</h4>
+                                <p class="text-sm text-secondary font-semibold mb-3 uppercase tracking-wide">पायाभूत सुविधा</p>
+                                <p class="text-gray-600 mb-4 flex-grow">वीटकाम आणि काँक्रीट मिश्रणाचे सर्वसमावेशक प्रशिक्षण. प्रशिक्षणार्थी वास्तविक जगातील पायाभूत सुविधा तयार करतात.</p>
+                            </div>
+                        </div>
+                        <!-- Project 2 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Sanitation+Production" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">स्वच्छता युनिट उत्पादन</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">उत्पादन</p>
+                                <p class="text-gray-600 mb-4 flex-grow">कमी किमतीचे सॅनिटरी साहित्य तयार करणे शिकणे: आमच्या अमरावती आणि तिवसा केंद्रांवर सिरॅमिक पॅन आणि काँक्रीट रिंग्ज.</p>
+                            </div>
+                        </div>
+                        <!-- Project 3 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Animal+Management" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">पशुपालन</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">कृषी</p>
+                                <p class="text-gray-600 mb-4 flex-grow">डेअरी आणि पशुधन व्यवसायातून जास्तीत जास्त उत्पन्न मिळवण्यासाठी गुरांचे संगोपन आणि चारा व्यवस्थापनावर वैज्ञानिक प्रशिक्षण.</p>
+                            </div>
+                        </div>
+                         <!-- Project 4 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Garment+Making" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">वस्त्रोद्योग आणि गारमेंट मेकिंग</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">व्यावसायिक</p>
+                                <p class="text-gray-600 mb-4 flex-grow">महिलांना कटिंग, टेलरिंग आणि शिलाईचे प्रशिक्षण देणे. स्थानिक बाजारपेठांसाठी शाळेचा गणवेश आणि पिशव्या तयार करण्यावर लक्ष केंद्रित.</p>
+                            </div>
+                        </div>
+                        <!-- Project 5 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Food+Processing" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">अन्न प्रक्रिया</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">मूल्यवर्धन</p>
+                                <p class="text-gray-600 mb-4 flex-grow">शेतकऱ्यांचे उत्पन्न वाढवण्यासाठी स्थानिक उत्पादनांवर प्रक्रिया करून विक्रीयोग्य उत्पादने (लोणचे, जॅम) तयार करण्याचे तंत्र.</p>
+                            </div>
+                        </div>
+                        <!-- Project 6 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Business+Skills" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">उद्योजकता विकास</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">व्यवसाय</p>
+                                <p class="text-gray-600 mb-4 flex-grow">ग्रामीण उद्योजकांना आर्थिक साक्षरता, विपणन धोरणे आणि व्यवसाय व्यवस्थापन शिकवणे.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <!-- NGO Info -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4 text-primary" data-i18n="site_name">Maharashtra Gram Darpan</h3>
+                    <p class="text-sm text-gray-400" data-i18n="footer_desc">Committed to creating a strong and independent society without inequalities and discrimination.</p>
+                </div>
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-i18n="footer_quick_links">Quick Links</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_home">Home</a></li>
+                        <li><a href="about-us.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_about">About Us</a></li>
+                        <li><a href="our-work.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_work">Our Work</a></li>
+                        <li><a href="trustees-board.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="footer_leadership">Leadership</a></li>
+                    </ul>
+                </div>
+                <!-- Contact -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-i18n="nav_contact">Contact</h3>
+                    <p class="text-sm text-gray-400" data-i18n="footer_address">Amravati-444601, MH</p>
+                    <p class="text-sm text-gray-400">Mob: 9373471897</p>
+                    <p class="text-sm text-gray-400 whitespace-nowrap">Email: maharashtragramdarpan@gmail.com</p>
+                </div>
+                <!-- Legal & Social -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-i18n="footer_legal">Legal</h3>
+                    <p class="text-sm text-gray-400 mb-2">FCRA No: 083740062</p>
+                    <p class="text-sm text-gray-400 mb-2">80G Certified</p>
+                    <p class="text-sm text-gray-400 mb-6">ISO 9000:2015</p>
+
+                    <h3 class="text-lg font-bold mb-4" data-i18n="footer_connect">Connect With Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-150">
+                            <span class="sr-only">Facebook</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-150">
+                            <span class="sr-only">Instagram</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.451 2.53c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" /></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-8 border-t border-gray-700 text-center">
+                <p class="text-sm text-gray-400" data-i18n="footer_copyright">&copy; 2025 Maharashtra Gram Darpan. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- TRANSLATION DICTIONARY ---
+        const translations = {
+            'EN': {
+                'site_name': 'Maharashtra Gram Darpan',
+                'nav_home': 'Home',
+                'nav_about': 'About Us',
+                'nav_foundation': 'Our Foundation',
+                'nav_work': 'Our Work',
+                'nav_mission': 'Mission & Vision',
+                'nav_board': 'Trustees/Board',
+                'nav_careers': 'Careers',
+                'nav_services': 'Services',
+                'nav_rural': 'Rural Development',
+                'nav_prog': 'Programme',
+                'nav_adult': 'Adult Education',
+                'nav_training': 'Training Center',
+                'nav_resources': 'Resources',
+                'nav_newsletter': 'Newsletter',
+                'nav_contact': 'Contact',
+                'footer_desc': 'Committed to creating a strong and independent society without inequalities and discrimination.',
+                'footer_quick_links': 'Quick Links',
+                'footer_leadership': 'Leadership',
+                'footer_address': 'Amravati-444601, MH',
+                'footer_legal': 'Legal',
+                'footer_connect': 'Connect With Us',
+                'footer_copyright': '&copy; 2025 Maharashtra Gram Darpan. All rights reserved.',
+                'train_title': 'Technical & Vocational Training Centers',
+                'train_subtitle': 'Hands-on learning hubs equipping rural youth and artisans with practical skills for a sustainable future.'
+            },
+            'HI': {
+                'site_name': 'महाराष्ट्र ग्राम दर्पण',
+                'nav_home': 'होम',
+                'nav_about': 'हमारे बारे में',
+                'nav_foundation': 'हमारी संस्था',
+                'nav_work': 'हमारा काम',
+                'nav_mission': 'लक्ष्य और दृष्टि',
+                'nav_board': 'ट्रस्टी/बोर्ड',
+                'nav_careers': 'करियर',
+                'nav_services': 'सेवाएं',
+                'nav_rural': 'ग्रामीण विकास',
+                'nav_prog': 'कार्यक्रम',
+                'nav_adult': 'प्रौढ़ शिक्षा',
+                'nav_training': 'प्रशिक्षण केंद्र',
+                'nav_resources': 'संसाधन',
+                'nav_newsletter': 'समाचार पत्र',
+                'nav_contact': 'संपर्क',
+                'footer_desc': 'असमानता और भेदभाव के बिना एक मजबूत और स्वतंत्र समाज बनाने के लिए प्रतिबद्ध।',
+                'footer_quick_links': 'त्वरित लिंक',
+                'footer_leadership': 'नेतृत्व',
+                'footer_address': 'अमरावती-४४४६०१, महाराष्ट्र',
+                'footer_legal': 'कानूनी',
+                'footer_connect': 'हमसे जुड़ें',
+                'footer_copyright': '&copy; २०२५ महाराष्ट्र ग्राम दर्पण। सर्वाधिकार सुरक्षित।',
+                'train_title': 'तकनीकी और व्यावसायिक प्रशिक्षण केंद्र',
+                'train_subtitle': 'व्यावहारिक शिक्षण केंद्र जो ग्रामीण युवाओं और कारीगरों को स्थायी भविष्य के लिए व्यावहारिक कौशल से लैस करते हैं।'
+            },
+            'MR': {
+                'site_name': 'महाराष्ट्र ग्राम दर्पण',
+                'nav_home': 'मुख्यपृष्ठ',
+                'nav_about': 'आमच्याबद्दल',
+                'nav_foundation': 'आमची संस्था',
+                'nav_work': 'आमचे कार्य',
+                'nav_mission': 'ध्येय आणि दृष्टी',
+                'nav_board': 'विश्वस्त मंडळ',
+                'nav_careers': 'करिअर',
+                'nav_services': 'सेवा',
+                'nav_rural': 'ग्रामीण विकास',
+                'nav_prog': 'कार्यक्रम',
+                'nav_adult': 'प्रौढ शिक्षण',
+                'nav_training': 'प्रशिक्षण केंद्र',
+                'nav_resources': 'संसाधने',
+                'nav_newsletter': 'बातमीपत्र',
+                'nav_contact': 'संपर्क',
+                'footer_desc': 'असमानता आणि भेदभावांशिवाय मजबूत आणि स्वतंत्र समाज निर्माण करण्यासाठी कटिबद्ध.',
+                'footer_quick_links': 'जलद लिंक्स',
+                'footer_leadership': 'नेतृत्व',
+                'footer_address': 'अमरावती-४४४६०१, महाराष्ट्र',
+                'footer_legal': 'कायदेशीर',
+                'footer_connect': 'आमच्याशी जुळा',
+                'footer_copyright': '&copy; २०२५ महाराष्ट्र ग्राम दर्पण. सर्व हक्क राखीव.',
+                'train_title': 'तांत्रिक आणि व्यावसायिक प्रशिक्षण केंद्रे',
+                'train_subtitle': 'ग्रामीण तरुण आणि कारागिरांना शाश्वत भविष्यासाठी व्यावहारिक कौशल्यांनी सुसज्ज करणारे प्रत्यक्ष शिक्षण केंद्र.'
+            }
+        };
+
+        const MAIN_CONTENT_ID = 'main-content-area';
+        const MARATHI_CONTENT_ID = 'marathi-content-area';
+        const HINDI_CONTENT_ID = 'hindi-content-area';
+        const LANG_TOGGLE_KEY = 'mgd_current_lang'; 
+
+        let currentLanguage = localStorage.getItem(LANG_TOGGLE_KEY) || 'EN';
+        let mainContentArea = document.getElementById(MAIN_CONTENT_ID);
+        let marathiContentArea = document.getElementById(MARATHI_CONTENT_ID);
+        let hindiContentArea = document.getElementById(HINDI_CONTENT_ID);
+        let buttonTextElement = document.getElementById('lang-text');
+        let mobileButtonTextElement = document.getElementById('mobile-lang-text');
+        
+        function updateLanguageUI(lang) {
+            mainContentArea.style.display = 'none';
+            marathiContentArea.style.display = 'none';
+            hindiContentArea.style.display = 'none';
+
+            let btnText = '';
+            if (lang === 'MR') {
+                marathiContentArea.style.display = 'block';
+                btnText = 'English (EN)';
+            } else if (lang === 'HI') {
+                hindiContentArea.style.display = 'block';
+                btnText = 'मराठी (MR)';
+            } else {
+                mainContentArea.style.display = 'block';
+                btnText = 'हिंदी (HI)';
+            }
+
+            if(buttonTextElement) buttonTextElement.textContent = btnText;
+            if(mobileButtonTextElement) mobileButtonTextElement.textContent = btnText;
+
+            // Translate Header and Footer dynamically
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+        }
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem(LANG_TOGGLE_KEY, currentLanguage);
+            updateLanguageUI(currentLanguage);
+        }
+
+        function toggleLanguage() {
+            const spinner = document.getElementById('lang-spinner');
+            const mobileSpinner = document.getElementById('mobile-lang-spinner');
+            if(spinner) spinner.classList.remove('hidden');
+            if(mobileSpinner) mobileSpinner.classList.remove('hidden');
+
+            setTimeout(() => {
+                if (currentLanguage === 'EN') {
+                    setLanguage('HI');
+                } else if (currentLanguage === 'HI') {
+                    setLanguage('MR');
+                } else {
+                    setLanguage('EN');
+                }
+                if(spinner) spinner.classList.add('hidden');
+                if(mobileSpinner) mobileSpinner.classList.add('hidden');
+            }, 300);
+        }
+
+        function initializeTranslationState() {
+            if (!mainContentArea || !marathiContentArea) return;
+            updateLanguageUI(currentLanguage);
+        }
+
+        window.onload = function() {
+            initializeTranslationState();
+
+            // === ANIMATION LOGIC ===
+            const counters = document.querySelectorAll('.counter');
+            const speed = 200;
+
+            const startCounter = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counter = entry.target;
+                        const target = parseFloat(counter.getAttribute('data-target'));
+                        const isFloat = target % 1 !== 0; 
+                        
+                        const updateCount = () => {
+                            const current = parseFloat(counter.innerText.replace(/,/g, ''));
+                            const increment = target / speed;
+
+                            if (current < target) {
+                                if (isFloat) {
+                                    counter.innerText = (current + increment).toFixed(1);
+                                } else {
+                                    counter.innerText = Math.ceil(current + increment);
+                                }
+                                setTimeout(updateCount, 20);
+                            } else {
+                                counter.innerText = isFloat ? target : target.toLocaleString('en-IN');
+                            }
+                        };
+
+                        updateCount();
+                        observer.unobserve(counter);
+                    }
+                });
+            };
+
+            const observer = new IntersectionObserver(startCounter, {
+                threshold: 0.5
+            });
+
+            counters.forEach(counter => {
+                observer.observe(counter);
+            });
+        };
+
+        // Mobile Menu Toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

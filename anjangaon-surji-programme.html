@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anjangaon Surji Programme - Maharashtra Gram Darpan</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles based on the logo (Slightly Lighter Dark Green and Red theme) */
+        :root {
+            --color-primary: #065F46; /* Lighter Forest Green */
+            --color-secondary: #B91C1C; /* Brick Red */
+            --color-background: #F4F8F5; 
+            --color-text: #1F2937; /* Dark Gray */
+            --color-alt-row: #F7FDF7;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background); 
+            color: var(--color-text);
+        }
+        header { background-color: white; }
+        .text-primary { color: #B91C1C; }
+        .bg-primary { background-color: var(--color-primary); }
+
+        /* Custom shadow for cards */
+        .card-shadow {
+            box-shadow: 0 10px 15px -3px rgba(6, 95, 70, 0.1), 0 4px 6px -2px rgba(6, 95, 70, 0.05);
+            transition: transform 0.3s ease;
+        }
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 0.5rem 1rem; 
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            font-size: 1rem; 
+            line-height: 1.5; 
+            display: inline-flex; 
+            align-items: center; 
+        }
+        .btn-primary:hover {
+            background-color: #044F36;
+        }
+
+        /* Programme Image Styling */
+        .programme-img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            transition: transform 0.3s ease;
+        }
+        .programme-img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Feature Card Styling */
+        .feature-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border-left: 5px solid var(--color-primary);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Table Styling */
+        .data-table th {
+            background-color: #f3f4f6;
+            color: #374151;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            padding: 0.75rem 1.5rem;
+            text-align: left;
+        }
+        .data-table td {
+            padding: 0.75rem 1.5rem;
+            border-top: 1px solid #e5e7eb;
+            color: #4b5563;
+            font-size: 0.875rem;
+        }
+        .data-table tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+
+        /* Loading spinner CSS */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid white;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation (Updated to match programmes.html) -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20 gap-4">
+                <!-- Logo/Site Name -->
+                <div class="flex-shrink-0 flex items-center"> 
+                    <a href="index.html" class="flex items-center space-x-3">
+                        <img src="IMG-20251214-WA0002.jpg" 
+                             onerror="this.onerror=null; this.src='https://placehold.co/64x64/9CA3AF/ffffff?text=LOGO';" 
+                             alt="Maharashtra Gram Darpan Logo" 
+                             class="w-12 h-12 lg:w-16 lg:h-16 rounded-md flex items-center justify-center font-bold text-xl object-cover">
+                        <span class="text-xl lg:text-xl xl:text-2xl font-extrabold text-primary leading-tight" data-i18n="site_name">Maharashtra Gram Darpan</span>
+                    </a>
+                </div>
+
+                <!-- Navigation Menu (Desktop) -->
+                <nav class="hidden lg:flex space-x-6 xl:space-x-10 items-center"> 
+                <a href="index.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_home">Home</a>
+
+                <div class="relative group">
+                    <button class="flex items-center text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg focus:outline-none py-2">
+                        <span data-i18n="nav_about">About Us</span>
+                        <svg class="w-4 h-4 ml-1 transform group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="absolute left-0 mt-0 w-64 bg-white rounded-lg shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border-t-4 border-primary transform translate-y-4 group-hover:translate-y-0">
+                        <a href="about-us.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_foundation">Our Foundation</a>
+                        <a href="our-work.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_work">Our Work</a>
+                        <a href="mission-vision.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_mission">Mission & Vision</a>
+                        <a href="trustees-board.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_board">Trustees/Board</a>
+                    </div>
+                </div>
+
+                <a href="careers.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_careers">Careers</a>
+
+                <div class="relative group">
+                    <button class="flex items-center text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg focus:outline-none py-2">
+                        <span data-i18n="nav_services">Services</span>
+                        <svg class="w-4 h-4 ml-1 transform group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="absolute left-0 mt-0 w-56 bg-white rounded-lg shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border-t-4 border-primary transform translate-y-4 group-hover:translate-y-0">
+                        <a href="rural-development.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_rural">Rural Development</a>
+                        <a href="programmes.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_prog">Programme</a>
+                        <a href="adult-education.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_adult">Adult Education</a>
+                        <a href="training-center.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_training">Training Center</a>
+                    </div>
+                </div>
+
+                <a href="resources.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_resources">Resources</a>
+
+                <a href="newsletter.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_newsletter">Newsletter</a>
+                
+                <a href="contact.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_contact">Contact</a>
+                
+                <button id="lang-toggle-button" class="btn-primary flex items-center justify-center text-sm xl:text-base px-4 py-2" onclick="toggleLanguage()">
+                    <span id="lang-text">हिंदी (HI)</span>
+                    <div id="lang-spinner" class="spinner hidden ml-2"></div>
+                </button>
+            </nav>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="lg:hidden p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none transition duration-150 ease-in-out">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu (Updated) -->
+        <div id="mobile-menu" class="hidden lg:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 shadow-inner bg-gray-50">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_home">Home</a>
+                
+                <div class="border-t border-gray-100 pt-2 pb-2">
+                    <div class="px-3 py-2 text-base font-bold text-gray-900" data-i18n="nav_about">About Us</div>
+                    <div class="pl-6 space-y-1 border-l-2 border-gray-200 ml-3">
+                        <a href="about-us.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_foundation">Our Foundation</a>
+                        <a href="our-work.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_work">Our Work</a>
+                        <a href="mission-vision.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_mission">Mission & Vision</a>
+                        <a href="trustees-board.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_board">Trustees/Board</a>
+                    </div>
+                </div>
+
+                <a href="careers.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_careers">Careers</a>
+
+                <div class="border-t border-gray-100 pt-2 pb-2">
+                    <div class="px-3 py-2 text-base font-bold text-gray-900" data-i18n="nav_services">Services</div>
+                    <div class="pl-6 space-y-1 border-l-2 border-gray-200 ml-3">
+                        <a href="rural-development.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_rural">Rural Development</a>
+                        <a href="programmes.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_prog">Programme</a>
+                        <a href="adult-education.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_adult">Adult Education</a>
+                        <a href="training-center.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_training">Training Center</a>
+                    </div>
+                </div>
+                
+                <a href="resources.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_resources">Resources</a>
+                <a href="newsletter.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_newsletter">Newsletter</a>
+                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_contact">Contact</a>
+                
+                <button class="block px-3 py-2 rounded-md text-base font-medium text-white bg-green-700 text-center w-full mt-2" onclick="toggleLanguage()">
+                    <span id="mobile-lang-text">हिंदी (HI)</span>
+                    <div id="mobile-lang-spinner" class="spinner hidden ml-2"></div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content AREA (English Default) -->
+    <main id="main-content-area">
+        <section class="py-16 md:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-2">Anjangaon Surji Programme</h2>
+                    <p class="text-xl text-primary font-semibold max-w-4xl mx-auto">
+                        Empowering Rural Communities through Water, Sanitation, and Livelihood Initiatives in Anjangaon Surji.
+                    </p>
+                </div>
+
+                <!-- Impact Dashboard (Charts) -->
+                <div class="mb-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+                     <!-- SBM/JJM Chart -->
+                     <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-primary">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4 text-center">Training & Capacity Building (JJM/SBM)</h3>
+                        <div class="relative h-64 w-full">
+                            <canvas id="trainingChart"></canvas>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2 text-center">Focusing on VWSC Members and Gram Panchayat officials.</p>
+                     </div>
+                     <!-- SHG Chart -->
+                     <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-secondary">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4 text-center">Women Empowerment (SHGs)</h3>
+                        <div class="relative h-64 w-full">
+                            <canvas id="shgChart"></canvas>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2 text-center">Self-Help Groups linked to sustainable livelihoods.</p>
+                     </div>
+                </div>
+
+                <div class="space-y-16 text-sm text-gray-700">
+                    
+                    <!-- 1. Swachh Bharat Mission (SBM 2.0) -->
+                    <div class="bg-white p-8 rounded-xl card-shadow border-l-8 border-primary">
+                        <div class="grid md:grid-cols-2 gap-10 items-center">
+                            <div class="order-2 md:order-1">
+                                <h3 class="text-2xl font-bold mb-4 text-primary">Swachh Bharat Mission (SBM 2.0)</h3>
+                                <p class="text-lg mb-4 text-gray-600">
+                                    In Anjangaon Surji, MGD is actively implementing the <strong>Solid and Liquid Waste Management (SLWM)</strong> component of SBM 2.0. Our goal is to create "Garbage Free" villages through community participation.
+                                </p>
+                                <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-600">
+                                    <li><strong>Training:</strong> Orientation for Gram Panchayat members on waste segregation and processing.</li>
+                                    <li><strong>DPR Preparation:</strong> Assisting local bodies in preparing Detailed Project Reports for waste management units.</li>
+                                    <li><strong>Awareness:</strong> Public campaigns on hygiene and plastic ban.</li>
+                                </ul>
+                            </div>
+                            <div class="order-1 md:order-2">
+                                <img src="sawh3.png" 
+                                     alt="SBM Training" 
+                                     class="programme-img shadow-md cursor-pointer"
+                                     onclick="openImageModal(this.src, 'SBM Training in Anjangaon')">
+                                <p class="text-xs text-center text-gray-500 mt-2">Training Gram Panchayat members on SLWM.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Jal Jeevan Mission (JJM) -->
+                    <div class="bg-white p-8 rounded-xl card-shadow border-l-8 border-blue-500">
+                        <div class="grid md:grid-cols-2 gap-10 items-center">
+                            <div class="order-1">
+                                <img src="jjm1.JPG" 
+                                     alt="JJM Workshop" 
+                                     class="programme-img shadow-md cursor-pointer"
+                                     onclick="openImageModal(this.src, 'JJM Workshop')">
+                                <p class="text-xs text-center text-gray-500 mt-2">VWSC Capacity Building Workshop.</p>
+                            </div>
+                            <div class="order-2">
+                                <h3 class="text-2xl font-bold mb-4 text-blue-700">Jal Jeevan Mission (JJM)</h3>
+                                <p class="text-lg mb-4 text-gray-600">
+                                    As a Key Resource Center (KRC), we are strengthening the "Har Ghar Jal" initiative in Anjangaon Surji. We focus on empowering the <strong>Village Water & Sanitation Committees (VWSC)</strong> to manage their own water schemes.
+                                </p>
+                                <div class="feature-card mb-4">
+                                    <h4 class="font-bold text-gray-900">Key Activities</h4>
+                                    <ul class="list-disc pl-5 mt-2 text-gray-600">
+                                        <li>Technical training on water quality testing using Field Test Kits (FTK).</li>
+                                        <li>Community contribution mobilization for scheme ownership.</li>
+                                        <li>Ensuring functional tap connections (FHTC) for every household.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Upsa Sinchan (Lift Irrigation) Scheme -->
+                    <div class="bg-white p-8 rounded-xl card-shadow border-l-8 border-cyan-600">
+                        <div class="grid md:grid-cols-2 gap-10 items-center">
+                            <div class="order-2 md:order-1">
+                                <h3 class="text-2xl font-bold mb-4 text-cyan-800">Upsa Sinchan (Lift Irrigation) Scheme</h3>
+                                <p class="text-lg mb-4 text-gray-600">
+                                    To combat water scarcity and enhance agricultural productivity, Maharashtra Gram Darpan has facilitated the <strong>Upsa Sinchan (Lift Irrigation)</strong> scheme in the Anjangaon Surji region.
+                                </p>
+                                <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-600">
+                                    <li><strong>Objective:</strong> To lift water from lower levels to irrigate higher farmlands, ensuring water reaches underserved areas.</li>
+                                    <li><strong>Impact:</strong> Significantly increased the area under cultivation for Rabi and summer crops.</li>
+                                    <li><strong>Sustainability:</strong> Promoting efficient water usage techniques among beneficiary farmers to maximize yield per drop.</li>
+                                </ul>
+                            </div>
+                            <div class="order-1 md:order-2">
+                                <img src="https://placehold.co/600x400/ecfeff/0891b2?text=Lift+Irrigation+Scheme" 
+                                     alt="Upsa Sinchan Project" 
+                                     class="programme-img shadow-md cursor-pointer"
+                                     onclick="openImageModal(this.src, 'Upsa Sinchan (Lift Irrigation)')">
+                                <p class="text-xs text-center text-gray-500 mt-2">Providing water access to farmlands.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Livelihood & Women Empowerment -->
+                    <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-8 rounded-xl card-shadow border border-green-100">
+                        <h3 class="text-2xl font-bold mb-6 text-gray-900 text-center">Women Empowerment & Livelihoods</h3>
+                        
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <!-- SHG Formation -->
+                            <div class="bg-white p-6 rounded-lg shadow-sm">
+                                <img src="aa1.jpg" 
+                                     class="w-full h-48 object-cover rounded mb-4 border border-gray-200" 
+                                     alt="SHG Meeting"
+                                     onclick="openImageModal(this.src, 'SHG Monthly Meeting')">
+                                <div class="flex items-center gap-2 mb-3">
+                                    <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-2 py-1 rounded">Community</span>
+                                    <span class="font-bold text-gray-700">Self-Help Groups</span>
+                                </div>
+                                <h4 class="text-xl font-bold text-primary mb-2">SHG Formation & Linkage</h4>
+                                <p class="text-gray-600 text-sm">
+                                    Organizing women into Self-Help Groups (SHGs) to foster savings and credit discipline. We facilitate bank linkages to help them start small enterprises.
+                                </p>
+                            </div>
+
+                            <!-- Health Camps -->
+                            <div class="bg-white p-6 rounded-lg shadow-sm">
+                                <img src="aah1.jpg" 
+                                     class="w-full h-48 object-cover rounded mb-4 border border-gray-200" 
+                                     alt="Health Camp"
+                                     onclick="openImageModal(this.src, 'Eye Checkup Camp')">
+                                <div class="flex items-center gap-2 mb-3">
+                                    <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded">Health</span>
+                                    <span class="font-bold text-gray-700">Community Health</span>
+                                </div>
+                                <h4 class="text-xl font-bold text-primary mb-2">Health & Eye Checkup Camps</h4>
+                                <p class="text-gray-600 text-sm">
+                                    Regular health camps are organized in Anjangaon Surji villages to provide free medical checkups, eye exams, and distribute spectacles to the needy.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- HINDI CONTENT -->
+    <div id="hindi-content-area" style="display: none;">
+        <section class="py-16 md:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-2">अंजनगांव सुरजी कार्यक्रम</h2>
+                    <p class="text-xl text-primary font-semibold max-w-4xl mx-auto">
+                        अंजनगांव सुरजी में जल, स्वच्छता और आजीविका पहल के माध्यम से ग्रामीण समुदायों का सशक्तिकरण।
+                    </p>
+                </div>
+
+                 <!-- Impact Dashboard (Hindi) -->
+                 <div class="mb-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-primary">
+                       <h3 class="text-lg font-bold text-gray-800 mb-4 text-center">प्रशिक्षण और क्षमता निर्माण (JJM/SBM)</h3>
+                       <div class="relative h-64 w-full">
+                           <canvas id="trainingChartHI"></canvas>
+                       </div>
+                       <p class="text-sm text-gray-500 mt-2 text-center">VWSC सदस्यों और ग्राम पंचायत अधिकारियों पर ध्यान केंद्रित।</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-secondary">
+                       <h3 class="text-lg font-bold text-gray-800 mb-4 text-center">महिला सशक्तिकरण (SHG)</h3>
+                       <div class="relative h-64 w-full">
+                           <canvas id="shgChartHI"></canvas>
+                       </div>
+                       <p class="text-sm text-gray-500 mt-2 text-center">सतत आजीविका से जुड़े स्वयं सहायता समूह।</p>
+                    </div>
+               </div>
+
+                <div class="space-y-16 text-sm text-gray-700">
+                    
+                    <!-- 1. SBM Hindi -->
+                    <div class="bg-white p-8 rounded-xl card-shadow border-l-8 border-primary">
+                        <div class="grid md:grid-cols-2 gap-10 items-center">
+                            <div class="order-2 md:order-1">
+                                <h3 class="text-2xl font-bold mb-4 text-primary">स्वच्छ भारत मिशन (SBM 2.0)</h3>
+                                <p class="text-lg mb-4 text-gray-600">
+                                    अंजनगांव सुरजी में, MGD सक्रिय रूप से SBM 2.0 के <strong>ठोस और तरल अपशिष्ट प्रबंधन (SLWM)</strong> घटका को लागू कर रहा है। हमारा लक्ष्य सामुदायिक भागीदारी के माध्यम से "कचरा मुक्त" गांव बनाना है।
+                                </p>
+                                <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-600">
+                                    <li><strong>प्रशिक्षण:</strong> अपशिष्ट पृथक्करण और प्रसंस्करण पर ग्राम पंचायत सदस्यों का ओरिएंटेशन।</li>
+                                    <li><strong>DPR तैयारी:</strong> अपशिष्ट प्रबंधन इकाइयों के लिए विस्तृत परियोजना रिपोर्ट तैयार करने में स्थानीय निकायों की सहायता करना।</li>
+                                </ul>
+                            </div>
+                            <div class="order-1 md:order-2">
+                                <img src="sawh3.png" 
+                                     alt="SBM Training" 
+                                     class="programme-img shadow-md cursor-pointer"
+                                     onclick="openImageModal(this.src, 'SBM Training Hindi')">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. JJM Hindi -->
+                    <div class="bg-white p-8 rounded-xl card-shadow border-l-8 border-blue-500">
+                        <div class="grid md:grid-cols-2 gap-10 items-center">
+                            <div class="order-1">
+                                <img src="jjm1.JPG" 
+                                     alt="JJM Workshop" 
+                                     class="programme-img shadow-md cursor-pointer"
+                                     onclick="openImageModal(this.src, 'JJM Workshop Hindi')">
+                            </div>
+                            <div class="order-2">
+                                <h3 class="text-2xl font-bold mb-4 text-blue-700">जल जीवन मिशन (JJM)</h3>
+                                <p class="text-lg mb-4 text-gray-600">
+                                    एक प्रमुख संसाधन केंद्र (KRC) के रूप में, हम अंजनगांव सुरजी में "हर घर जल" पहल को मजबूत कर रहे हैं। हम अपनी जल योजनाओं के प्रबंधन के लिए <strong>ग्राम जल और स्वच्छता समितियों (VWSC)</strong> को सशक्त बनाने पर ध्यान केंद्रित करते हैं।
+                                </p>
+                                <div class="feature-card mb-4">
+                                    <h4 class="font-bold text-gray-900">मुख्य गतिविधियाँ</h4>
+                                    <ul class="list-disc pl-5 mt-2 text-gray-600">
+                                        <li>फील्ड टेस्ट किट (FTK) का उपयोग करके जल गुणवत्ता परीक्षण पर तकनीकी प्रशिक्षण।</li>
+                                        <li>योजना के स्वामित्व के लिए सामुदायिक योगदान जुटाना।</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Upsa Sinchan (Lift Irrigation) Scheme Hindi -->
+                    <div class="bg-white p-8 rounded-xl card-shadow border-l-8 border-cyan-600">
+                        <div class="grid md:grid-cols-2 gap-10 items-center">
+                            <div class="order-2 md:order-1">
+                                <h3 class="text-2xl font-bold mb-4 text-cyan-800">उपसा सिंचाई (Lift Irrigation) योजना</h3>
+                                <p class="text-lg mb-4 text-gray-600">
+                                    पानी की कमी से निपटने और कृषि उत्पादकता बढ़ाने के लिए, महाराष्ट्र ग्राम दर्पण ने अंजनगांव सुरजी क्षेत्र में <strong>उपसा सिंचाई (लिफ्ट सिंचाई)</strong> योजना की सुविधा प्रदान की है।
+                                </p>
+                                <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-600">
+                                    <li><strong>उद्देश्य:</strong> ऊंचे खेतों की सिंचाई के लिए निचले स्तर से पानी उठाना, ताकि वंचित क्षेत्रों तक पानी पहुंचे।</li>
+                                    <li><strong>प्रभाव:</strong> रबी और ग्रीष्मकालीन फसलों के तहत खेती के क्षेत्र में उल्लेखनीय वृद्धि।</li>
+                                    <li><strong>स्थिरता:</strong> प्रति बूंद पैदावार को अधिकतम करने के लिए लाभार्थी किसानों के बीच कुशल जल उपयोग तकनीकों को बढ़ावा देना।</li>
+                                </ul>
+                            </div>
+                            <div class="order-1 md:order-2">
+                                <img src="https://placehold.co/600x400/ecfeff/0891b2?text=Lift+Irrigation+Scheme" 
+                                     alt="Upsa Sinchan Project Hindi" 
+                                     class="programme-img shadow-md cursor-pointer"
+                                     onclick="openImageModal(this.src, 'Upsa Sinchan Hindi')">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Livelihood Hindi -->
+                    <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-8 rounded-xl card-shadow border border-green-100">
+                        <h3 class="text-2xl font-bold mb-6 text-gray-900 text-center">महिला सशक्तिकरण और आजीविका</h3>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="bg-white p-6 rounded-lg shadow-sm">
+                                <img src="aa1.jpg" 
+                                     class="w-full h-48 object-cover rounded mb-4 border border-gray-200" 
+                                     alt="SHG Meeting"
+                                     onclick="openImageModal(this.src, 'SHG Meeting Hindi')">
+                                <h4 class="text-xl font-bold text-primary mb-2">SHG गठन और लिंकेज</h4>
+                                <p class="text-gray-600 text-sm">
+                                    बचत और ऋण अनुशासन को बढ़ावा देने के लिए महिलाओं को स्वयं सहायता समूहों (SHG) में संगठित करना। हम उन्हें छोटे उद्यम शुरू करने में मदद करने के लिए बैंक लिंकेज की सुविधा प्रदान करते हैं।
+                                </p>
+                            </div>
+                            <div class="bg-white p-6 rounded-lg shadow-sm">
+                                <img src="aah1.jpg" 
+                                     class="w-full h-48 object-cover rounded mb-4 border border-gray-200" 
+                                     alt="Health Camp"
+                                     onclick="openImageModal(this.src, 'Health Camp Hindi')">
+                                <h4 class="text-xl font-bold text-primary mb-2">स्वास्थ्य और नेत्र जांच शिविर</h4>
+                                <p class="text-gray-600 text-sm">
+                                    मुफ्त चिकित्सा जांच, नेत्र परीक्षण और जरूरतमंदों को चश्मा वितरित करने के लिए अंजनगांव सुरजी के गांवों में नियमित स्वास्थ्य शिविर आयोजित किए जाते हैं।
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- MARATHI CONTENT -->
+    <div id="marathi-content-area" style="display: none;">
+        <section class="py-16 md:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-2">अंजनगाव सुर्जी कार्यक्रम</h2>
+                    <p class="text-xl text-primary font-semibold max-w-4xl mx-auto">
+                        अंजनगाव सुर्जीमध्ये पाणी, स्वच्छता आणि उपजीविका उपक्रमांद्वारे ग्रामीण समुदायांचे सक्षमीकरण.
+                    </p>
+                </div>
+
+                 <!-- Impact Dashboard (Marathi) -->
+                 <div class="mb-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-primary">
+                       <h3 class="text-lg font-bold text-gray-800 mb-4 text-center">प्रशिक्षण आणि क्षमता बांधणी (JJM/SBM)</h3>
+                       <div class="relative h-64 w-full">
+                           <canvas id="trainingChartMR"></canvas>
+                       </div>
+                       <p class="text-sm text-gray-500 mt-2 text-center">VWSC सदस्य आणि ग्रामपंचायत अधिकाऱ्यांवर लक्ष केंद्रित.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-secondary">
+                       <h3 class="text-lg font-bold text-gray-800 mb-4 text-center">महिला सक्षमीकरण (SHG)</h3>
+                       <div class="relative h-64 w-full">
+                           <canvas id="shgChartMR"></canvas>
+                       </div>
+                       <p class="text-sm text-gray-500 mt-2 text-center">शाश्वत उपजीविकेशी जोडलेले बचत गट.</p>
+                    </div>
+               </div>
+
+                <div class="space-y-16 text-sm text-gray-700">
+                    
+                    <!-- 1. SBM Marathi -->
+                    <div class="bg-white p-8 rounded-xl card-shadow border-l-8 border-primary">
+                        <div class="grid md:grid-cols-2 gap-10 items-center">
+                            <div class="order-2 md:order-1">
+                                <h3 class="text-2xl font-bold mb-4 text-primary">स्वच्छ भारत मिशन (SBM 2.0)</h3>
+                                <p class="text-lg mb-4 text-gray-600">
+                                    अंजनगाव सुर्जीमध्ये, MGD सक्रियपणे SBM 2.0 च्या <strong>घन आणि द्रव कचरा व्यवस्थापन (SLWM)</strong> घटकाची अंमलबजावणी करत आहे. लोकसहभागातून "कचरामुक्त" गावे निर्माण करणे हे आमचे ध्येय आहे.
+                                </p>
+                                <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-600">
+                                    <li><strong>प्रशिक्षण:</strong> कचरा वर्गीकरण आणि प्रक्रियेबाबत ग्रामपंचायत सदस्यांचे उद्बोधन.</li>
+                                    <li><strong>DPR तयारी:</strong> कचरा व्यवस्थापन प्रकल्पांसाठी सविस्तर प्रकल्प अहवाल (DPR) तयार करण्यात स्थानिक स्वराज्य संस्थांना मदत करणे.</li>
+                                </ul>
+                            </div>
+                            <div class="order-1 md:order-2">
+                                <img src="sawh3.png" 
+                                     alt="SBM Training" 
+                                     class="programme-img shadow-md cursor-pointer"
+                                     onclick="openImageModal(this.src, 'SBM Training Marathi')">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. JJM Marathi -->
+                    <div class="bg-white p-8 rounded-xl card-shadow border-l-8 border-blue-500">
+                        <div class="grid md:grid-cols-2 gap-10 items-center">
+                            <div class="order-1">
+                                <img src="jjm1.JPG" 
+                                     alt="JJM Workshop" 
+                                     class="programme-img shadow-md cursor-pointer"
+                                     onclick="openImageModal(this.src, 'JJM Workshop Marathi')">
+                            </div>
+                            <div class="order-2">
+                                <h3 class="text-2xl font-bold mb-4 text-blue-700">जल जीवन मिशन (JJM)</h3>
+                                <p class="text-lg mb-4 text-gray-600">
+                                    की रिसोर्स सेंटर (KRC) म्हणून, आम्ही अंजनगाव सुर्जीमध्ये "हर घर जल" उपक्रमाला बळकट करत आहोत. स्वतःच्या पाणी योजनांचे व्यवस्थापन करण्यासाठी <strong>ग्राम पाणी व स्वच्छता समित्यांचे (VWSC)</strong> सक्षमीकरण करण्यावर आमचा भर आहे.
+                                </p>
+                                <div class="feature-card mb-4">
+                                    <h4 class="font-bold text-gray-900">मुख्य उपक्रम</h4>
+                                    <ul class="list-disc pl-5 mt-2 text-gray-600">
+                                        <li>फील्ड टेस्ट किट (FTK) वापरून पाण्याची गुणवत्ता तपासणीचे तांत्रिक प्रशिक्षण.</li>
+                                        <li>योजनेच्या मालकी हक्कासाठी लोकवर्गणी जमा करणे.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Upsa Sinchan (Lift Irrigation) Scheme Marathi -->
+                    <div class="bg-white p-8 rounded-xl card-shadow border-l-8 border-cyan-600">
+                        <div class="grid md:grid-cols-2 gap-10 items-center">
+                            <div class="order-2 md:order-1">
+                                <h3 class="text-2xl font-bold mb-4 text-cyan-800">उपसा सिंचन योजना</h3>
+                                <p class="text-lg mb-4 text-gray-600">
+                                    पाणी टंचाईवर मात करण्यासाठी आणि कृषी उत्पादकता वाढवण्यासाठी, महाराष्ट्र ग्राम दर्पणने अंजनगाव सुर्जी परिसरात <strong>उपसा सिंचन</strong> योजनेची सुविधा उपलब्ध करून दिली आहे.
+                                </p>
+                                <ul class="list-disc pl-5 space-y-2 mb-4 text-gray-600">
+                                    <li><strong>उद्देश:</strong> वंचितांपर्यंत पाणी पोहोचवण्यासाठी खालच्या पातळीवरून पाणी उचलून उंचावरील शेतजमिनीला सिंचन करणे.</li>
+                                    <li><strong>परिणाम:</strong> रब्बी आणि उन्हाळी पिकांखालील क्षेत्रात लक्षणीय वाढ.</li>
+                                    <li><strong>शाश्वतता:</strong> पाण्याचा कार्यक्षम वापर करण्यासाठी लाभार्थी शेतकऱ्यांमध्ये जनजागृती.</li>
+                                </ul>
+                            </div>
+                            <div class="order-1 md:order-2">
+                                <img src="https://placehold.co/600x400/ecfeff/0891b2?text=Lift+Irrigation+Scheme" 
+                                     alt="Upsa Sinchan Project Marathi" 
+                                     class="programme-img shadow-md cursor-pointer"
+                                     onclick="openImageModal(this.src, 'Upsa Sinchan Marathi')">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Livelihood Marathi -->
+                    <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-8 rounded-xl card-shadow border border-green-100">
+                        <h3 class="text-2xl font-bold mb-6 text-gray-900 text-center">महिला सक्षमीकरण आणि उपजीविका</h3>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="bg-white p-6 rounded-lg shadow-sm">
+                                <img src="aa1.jpg" 
+                                     class="w-full h-48 object-cover rounded mb-4 border border-gray-200" 
+                                     alt="SHG Meeting"
+                                     onclick="openImageModal(this.src, 'SHG Meeting Marathi')">
+                                <h4 class="text-xl font-bold text-primary mb-2">बचत गट निर्मिती</h4>
+                                <p class="text-gray-600 text-sm">
+                                    बचत आणि कर्जाची शिस्त लावण्यासाठी महिलांना स्वयं-सहायता गटांमध्ये (SHGs) संघटित करणे. त्यांना छोटे उद्योग सुरू करण्यासाठी बँक लिंकेज उपलब्ध करून दिले जाते.
+                                </p>
+                            </div>
+                            <div class="bg-white p-6 rounded-lg shadow-sm">
+                                <img src="aah1.jpg" 
+                                     class="w-full h-48 object-cover rounded mb-4 border border-gray-200" 
+                                     alt="Health Camp"
+                                     onclick="openImageModal(this.src, 'Health Camp Marathi')">
+                                <h4 class="text-xl font-bold text-primary mb-2">आरोग्य आणि नेत्र तपासणी शिबिरे</h4>
+                                <p class="text-gray-600 text-sm">
+                                    मोफत वैद्यकीय तपासणी, डोळ्यांची तपासणी आणि गरजूंना चष्मा वाटप करण्यासाठी अंजनगाव सुर्जीच्या गावांमध्ये नियमित आरोग्य शिबिरे आयोजित केली जातात.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="image-modal" class="fixed inset-0 z-[60] hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" onclick="closeImageModal()"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 relative">
+                    <button type="button" class="absolute top-2 right-2 text-gray-400 hover:text-gray-500 text-3xl font-bold focus:outline-none" onclick="closeImageModal()">
+                        &times;
+                    </button>
+                    <div class="mt-3 text-center sm:mt-0 sm:text-left">
+                        <img id="modal-image" src="" alt="Full View" class="w-full h-auto rounded-md object-contain max-h-[80vh]">
+                        <p id="modal-caption" class="mt-2 text-sm text-gray-500 text-center font-medium"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold mb-4 text-primary" data-i18n="site_name">Maharashtra Gram Darpan</h3>
+                    <p class="text-sm text-gray-400" data-i18n="footer_desc">Committed to creating a strong and independent society without inequalities and discrimination.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-i18n="footer_quick_links">Quick Links</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_home">Home</a></li>
+                        <li><a href="about-us.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_about">About Us</a></li>
+                        <li><a href="our-work.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_work">Our Work</a></li>
+                        <li><a href="programmes.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_prog">Programmes</a></li>
+                        <li><a href="trustees-board.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="footer_leadership">Leadership</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-i18n="nav_contact">Contact</h3>
+                    <p class="text-sm text-gray-400" data-i18n="footer_address">Amravati-444601, MH</p>
+                    <p class="text-sm text-gray-400">Mob: 9373471897</p>
+                    <p class="text-sm text-gray-400 whitespace-nowrap">Email: maharashtragramdarpan@gmail.com</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-i18n="footer_legal">Legal</h3>
+                    <p class="text-sm text-gray-400">FCRA No: 083740062</p>
+                    <p class="text-sm text-gray-400">80G Certified</p>
+                    <p class="text-sm text-gray-400">ISO 9000:2015</p>
+
+                    <h3 class="text-lg font-bold mb-4" data-i18n="footer_connect">Connect With Us</h3>
+                    <div class="flex space-x-4">
+                    <a href="https://www.facebook.com/profile.php?id=61573596382473" target="_blank" class="text-gray-400 hover:text-white transition duration-150">
+                        <span class="sr-only">Facebook</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+
+                    <a href="https://www.instagram.com/maharashtragramdarpan?igsh=MTU0YnE3YmhkZzRnNQ==" target="_blank" class="text-gray-400 hover:text-white transition duration-150">
+                        <span class="sr-only">Instagram</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.451 2.53c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-8 border-t border-gray-700 text-center">
+                <p class="text-sm text-gray-400" data-i18n="footer_copyright">&copy; 2025 Maharashtra Gram Darpan. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- CHART.JS LOGIC ---
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Function to create Doughnut Chart
+            function createDoughnutChart(canvasId, labels, data) {
+                const ctx = document.getElementById(canvasId);
+                if (!ctx) return;
+
+                new Chart(ctx.getContext('2d'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Focus',
+                            data: data,
+                            backgroundColor: ['#065F46', '#B91C1C', '#F59E0B'],
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom' } }
+                    }
+                });
+            }
+
+            // Function to create Bar Chart
+            function createBarChart(canvasId, label, data, titleText) {
+                const ctx = document.getElementById(canvasId);
+                if (!ctx) return;
+
+                new Chart(ctx.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['GP Members', 'VWSC Members'],
+                        datasets: [{
+                            label: label,
+                            data: data,
+                            backgroundColor: ['rgba(6, 95, 70, 0.7)', 'rgba(59, 130, 246, 0.7)'],
+                            borderColor: ['rgba(6, 95, 70, 1)', 'rgba(59, 130, 246, 1)'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                        },
+                        scales: { y: { beginAtZero: true, title: { display: true, text: titleText } } }
+                    }
+                });
+            }
+
+            // --- RENDER ENGLISH ---
+            createBarChart('trainingChart', 'Trainees', [150, 450], 'Count (Estimated)');
+            createDoughnutChart('shgChart', ['Savings Linked', 'Bank Linked', 'Enterprise Linked'], [40, 35, 25]);
+
+             // --- RENDER HINDI ---
+             createBarChart('trainingChartHI', 'प्रशिक्षु', [150, 450], 'संख्या (अनुमानित)');
+             createDoughnutChart('shgChartHI', ['बचत लिंक्ड', 'बैंक लिंक्ड', 'उद्यम लिंक्ड'], [40, 35, 25]);
+
+             // --- RENDER MARATHI ---
+             createBarChart('trainingChartMR', 'प्रशिक्षणार्थी', [150, 450], 'संख्या (अंदाजे)');
+             createDoughnutChart('shgChartMR', ['बचत संलग्न', 'बँक संलग्न', 'उद्योग संलग्न'], [40, 35, 25]);
+        });
+
+        // --- IMAGE MODAL LOGIC ---
+        function openImageModal(src, caption) {
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-image');
+            const modalCaption = document.getElementById('modal-caption');
+            
+            modalImg.src = src;
+            if(caption) modalCaption.textContent = caption;
+            
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('image-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // --- TRANSLATION DICTIONARY (Updated) ---
+        const translations = {
+            'EN': {
+                'site_name': 'Maharashtra Gram Darpan',
+                'nav_home': 'Home',
+                'nav_about': 'About Us',
+                'nav_foundation': 'Our Foundation',
+                'nav_work': 'Our Work',
+                'nav_mission': 'Mission & Vision',
+                'nav_board': 'Trustees/Board',
+                'nav_careers': 'Careers',
+                'nav_services': 'Services',
+                'nav_rural': 'Rural Development',
+                'nav_prog': 'Programme',
+                'nav_adult': 'Adult Education',
+                'nav_training': 'Training Center',
+                'nav_resources': 'Resources',
+                'nav_newsletter': 'Newsletter',
+                'nav_contact': 'Contact',
+                'footer_desc': 'Committed to creating a strong and independent society without inequalities and discrimination.',
+                'footer_quick_links': 'Quick Links',
+                'footer_leadership': 'Leadership',
+                'footer_address': 'Amravati-444601, MH',
+                'footer_legal': 'Legal',
+                'footer_connect': 'Connect With Us',
+                'footer_copyright': '&copy; 2025 Maharashtra Gram Darpan. All rights reserved.'
+            },
+            'HI': {
+                'site_name': 'महाराष्ट्र ग्राम दर्पण',
+                'nav_home': 'होम',
+                'nav_about': 'हमारे बारे में',
+                'nav_foundation': 'हमारी संस्था',
+                'nav_work': 'हमारा काम',
+                'nav_mission': 'लक्ष्य और दृष्टि',
+                'nav_board': 'ट्रस्टी/बोर्ड',
+                'nav_careers': 'करियर',
+                'nav_services': 'सेवाएं',
+                'nav_rural': 'ग्रामीण विकास',
+                'nav_prog': 'कार्यक्रम',
+                'nav_adult': 'प्रौढ़ शिक्षा',
+                'nav_training': 'प्रशिक्षण केंद्र',
+                'nav_resources': 'संसाधन',
+                'nav_newsletter': 'समाचार पत्र',
+                'nav_contact': 'संपर्क',
+                'footer_desc': 'असमानता और भेदभाव के बिना एक मजबूत और स्वतंत्र समाज बनाने के लिए प्रतिबद्ध।',
+                'footer_quick_links': 'त्वरित लिंक',
+                'footer_leadership': 'नेतृत्व',
+                'footer_address': 'अमरावती-४४४६०१, महाराष्ट्र',
+                'footer_legal': 'कानूनी',
+                'footer_connect': 'हमसे जुड़ें',
+                'footer_copyright': '&copy; २०२५ महाराष्ट्र ग्राम दर्पण। सर्वाधिकार सुरक्षित।'
+            },
+            'MR': {
+                'site_name': 'महाराष्ट्र ग्राम दर्पण',
+                'nav_home': 'मुख्यपृष्ठ',
+                'nav_about': 'आमच्याबद्दल',
+                'nav_foundation': 'आमची संस्था',
+                'nav_work': 'आमचे कार्य',
+                'nav_mission': 'ध्येय आणि दृष्टी',
+                'nav_board': 'विश्वस्त मंडळ',
+                'nav_careers': 'करिअर',
+                'nav_services': 'सेवा',
+                'nav_rural': 'ग्रामीण विकास',
+                'nav_prog': 'कार्यक्रम',
+                'nav_adult': 'प्रौढ शिक्षण',
+                'nav_training': 'प्रशिक्षण केंद्र',
+                'nav_resources': 'संसाधने',
+                'nav_newsletter': 'बातमीपत्र',
+                'nav_contact': 'संपर्क',
+                'footer_desc': 'असमानता आणि भेदभावांशिवाय मजबूत आणि स्वतंत्र समाज निर्माण करण्यासाठी कटिबद्ध.',
+                'footer_quick_links': 'जलद लिंक्स',
+                'footer_leadership': 'नेतृत्व',
+                'footer_address': 'अमरावती-४४४६०१, महाराष्ट्र',
+                'footer_legal': 'कायदेशीर',
+                'footer_connect': 'आमच्याशी जुळा',
+                'footer_copyright': '&copy; २०२५ महाराष्ट्र ग्राम दर्पण. सर्व हक्क राखीव.'
+            }
+        };
+
+        // --- LANGUAGE TRANSLATION LOGIC ---
+        const MAIN_CONTENT_ID = 'main-content-area';
+        const MARATHI_CONTENT_ID = 'marathi-content-area';
+        const HINDI_CONTENT_ID = 'hindi-content-area';
+        const LANG_TOGGLE_KEY = 'mgd_current_lang'; 
+
+        let currentLanguage = localStorage.getItem(LANG_TOGGLE_KEY) || 'EN';
+        let mainContentArea = document.getElementById(MAIN_CONTENT_ID);
+        let marathiContentArea = document.getElementById(MARATHI_CONTENT_ID);
+        let hindiContentArea = document.getElementById(HINDI_CONTENT_ID);
+        let buttonTextElement = document.getElementById('lang-toggle-button');
+        let mobileButtonTextElement = document.getElementById('mobile-lang-text');
+
+        function updateLanguageUI(lang) {
+            // Hide all content areas first
+            mainContentArea.style.display = 'none';
+            marathiContentArea.style.display = 'none';
+            hindiContentArea.style.display = 'none';
+
+            // Show selected language
+            if (lang === 'MR') {
+                marathiContentArea.style.display = 'block';
+                if(buttonTextElement) buttonTextElement.textContent = 'English (EN)';
+                if(mobileButtonTextElement) mobileButtonTextElement.textContent = 'English (EN)';
+            } else if (lang === 'HI') {
+                hindiContentArea.style.display = 'block';
+                if(buttonTextElement) buttonTextElement.textContent = 'मराठी (MR)';
+                if(mobileButtonTextElement) mobileButtonTextElement.textContent = 'मराठी (MR)';
+            } else {
+                mainContentArea.style.display = 'block';
+                if(buttonTextElement) buttonTextElement.textContent = 'हिंदी (HI)';
+                if(mobileButtonTextElement) mobileButtonTextElement.textContent = 'हिंदी (HI)';
+            }
+
+            // Update common elements (nav/footer)
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+        }
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem(LANG_TOGGLE_KEY, currentLanguage);
+            updateLanguageUI(currentLanguage);
+        }
+
+        function toggleLanguage() {
+            if (currentLanguage === 'EN') {
+                setLanguage('HI');
+            } else if (currentLanguage === 'HI') {
+                setLanguage('MR');
+            } else {
+                setLanguage('EN');
+            }
+        }
+
+        function initializeTranslationState() {
+            if (!mainContentArea || !marathiContentArea) return;
+            updateLanguageUI(currentLanguage);
+        }
+
+        window.onload = initializeTranslationState;
+
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

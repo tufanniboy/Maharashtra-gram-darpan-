@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Maharashtra Gram Darpan</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles based on the logo (Slightly Lighter Dark Green and Red theme) */
+        :root {
+            --color-primary: #065F46; /* Lighter Forest Green */
+            --color-secondary: #B91C1C; /* Brick Red */
+            --color-background: #F4F8F5; 
+            --color-text: #1F2937; /* Dark Gray */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background); 
+            color: var(--color-text);
+        }
+        header { background-color: white; }
+        .text-primary { color: #B91C1C; }
+        .bg-primary { background-color: var(--color-primary); }
+        .text-green-custom { color: #065F46; }
+
+        /* Custom shadow for cards */
+        .card-shadow {
+            box-shadow: 0 10px 15px -3px rgba(6, 95, 70, 0.1), 0 4px 6px -2px rgba(6, 95, 70, 0.05);
+            transition: transform 0.3s ease;
+        }
+        .card-shadow:hover {
+            transform: translateY(-5px);
+        }
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 0.5rem 1rem; 
+            border-radius: 9999px; /* Rounded shape */
+            font-weight: 600;
+            transition: background-color 0.3s;
+            font-size: 1rem; 
+            line-height: 1.5; 
+            display: inline-flex; 
+            align-items: center; 
+        }
+        .btn-primary:hover {
+            background-color: #044F36;
+        }
+        
+        .story-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 0.75rem;
+            transition: transform 0.3s ease;
+        }
+        .gallery-img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Stat Card Styling */
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            text-align: center;
+            border-bottom: 4px solid var(--color-primary);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Member Image Styling (Added from Trustees Page) */
+        .member-img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Loading spinner CSS */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid white;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation (Updated from Index) -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20 gap-4">
+                <!-- Logo/Site Name -->
+                <div class="flex-shrink-0 flex items-center"> 
+                    <a href="index.html" class="flex items-center space-x-3">
+                        <img src="IMG-20251214-WA0002.jpg" 
+                             onerror="this.onerror=null; this.src='https://placehold.co/64x64/9CA3AF/ffffff?text=LOGO';" 
+                             alt="Maharashtra Gram Darpan Logo" 
+                             class="w-12 h-12 lg:w-16 lg:h-16 rounded-md flex items-center justify-center font-bold text-xl object-cover">
+                        <span class="text-xl lg:text-xl xl:text-2xl font-extrabold text-primary leading-tight" data-i18n="site_name">Maharashtra Gram Darpan</span>
+                    </a>
+                </div>
+
+                <!-- Navigation Menu (Desktop) -->
+                <nav class="hidden lg:flex space-x-6 xl:space-x-10 items-center"> 
+                <a href="index.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_home">Home</a>
+
+                <div class="relative group">
+                    <button class="flex items-center text-primary font-bold transition duration-150 ease-in-out text-base xl:text-lg focus:outline-none py-2">
+                        <span data-i18n="nav_about">About Us</span>
+                        <svg class="w-4 h-4 ml-1 transform group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="absolute left-0 mt-0 w-64 bg-white rounded-lg shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border-t-4 border-primary transform translate-y-4 group-hover:translate-y-0">
+                        <a href="about-us.html" class="block px-4 py-3 text-sm text-primary font-bold bg-green-50 transition" data-i18n="nav_foundation">Our Foundation</a>
+                        
+                        <a href="our-work.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_work">Our Work</a>
+                        <a href="mission-vision.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_mission">Mission & Vision</a>
+                        <a href="trustees-board.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_board">Trustees/Board</a>
+                    </div>
+                </div>
+
+                <a href="careers.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_careers">Careers</a>
+
+                <div class="relative group">
+                    <button class="flex items-center text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg focus:outline-none py-2">
+                        <span data-i18n="nav_services">Services</span>
+                        <svg class="w-4 h-4 ml-1 transform group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="absolute left-0 mt-0 w-56 bg-white rounded-lg shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border-t-4 border-primary transform translate-y-4 group-hover:translate-y-0">
+                        <a href="rural-development.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_rural">Rural Development</a>
+                        <a href="programmes.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_prog">Programme</a>
+                        <a href="adult-education.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_adult">Adult Education</a>
+                        <a href="training-center.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_training">Training Center</a>
+                    </div>
+                </div>
+
+                <a href="resources.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_resources">Resources</a>
+                <a href="newsletter.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_newsletter">Newsletter</a>
+                <a href="contact.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_contact">Contact</a>
+                
+                <button id="lang-toggle-button" class="btn-primary flex items-center justify-center text-sm xl:text-base px-4 py-2" onclick="toggleLanguage()">
+                    <span id="lang-text">हिंदी (HI)</span>
+                    <div id="lang-spinner" class="spinner hidden ml-2"></div>
+                </button>
+            </nav>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="lg:hidden p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none transition duration-150 ease-in-out">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 shadow-inner bg-gray-50">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_home">Home</a>
+                
+                <div class="border-t border-gray-100 pt-2 pb-2">
+                    <div class="px-3 py-2 text-base font-bold text-primary" data-i18n="nav_about">About Us</div>
+                    <div class="pl-6 space-y-1 border-l-2 border-gray-200 ml-3">
+                        <a href="about-us.html" class="block px-3 py-2 rounded-md text-sm font-medium text-primary bg-green-50" data-i18n="nav_foundation">Our Foundation</a>
+                        <a href="our-work.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_work">Our Work</a>
+                        <a href="mission-vision.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_mission">Mission & Vision</a>
+                        <a href="trustees-board.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_board">Trustees/Board</a>
+                    </div>
+                </div>
+
+                <a href="careers.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_careers">Careers</a>
+
+                <div class="border-t border-gray-100 pt-2 pb-2">
+                    <div class="px-3 py-2 text-base font-bold text-gray-900" data-i18n="nav_services">Services</div>
+                    <div class="pl-6 space-y-1 border-l-2 border-gray-200 ml-3">
+                        <a href="rural-development.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_rural">Rural Development</a>
+                        <a href="programmes.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_prog">Programme</a>
+                        <a href="adult-education.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_adult">Adult Education</a>
+                        <a href="training-center.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_training">Training Center</a>
+                    </div>
+                </div>
+                
+                <a href="resources.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_resources">Resources</a>
+                <a href="newsletter.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_newsletter">Newsletter</a>
+                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_contact">Contact</a>
+                
+                <button class="block px-3 py-2 rounded-md text-base font-medium text-white bg-primary text-center w-full mt-2" onclick="toggleLanguage()">
+                    <span id="mobile-lang-text">हिंदी (HI)</span>
+                    <div id="mobile-lang-spinner" class="spinner hidden ml-2"></div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content AREA (English Default) -->
+    <main id="main-content-area">
+        <div class="py-16 md:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Hero Text -->
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-4">Our Legacy & Philosophy</h2>
+                    <p class="text-xl text-primary font-semibold max-w-4xl mx-auto leading-relaxed">
+                        Established in 1998, Maharashtra Gram Darpan is a pioneering force in rural transformation, registered under the Charity Commissioner, Amravati (Reg No. MH7979/Amt F-7197). We are driven by a commitment to social justice and sustainable community development.
+                    </p>
+                </div>
+
+                <!-- Story Section -->
+                <div class="grid lg:grid-cols-2 gap-12 mb-20 items-start">
+                    <!-- Text Content -->
+                    <div class="space-y-6">
+                        <h3 class="text-3xl font-extrabold mb-4 text-gray-900 border-b-2 border-primary pb-2 inline-block">The Genesis & Journey</h3>
+                        <p class="text-gray-700 text-lg leading-relaxed">
+                            Maharashtra Gram Darpan (MGD) was founded in 1998 through the vision and perseverance of <strong>Shri. Ravindra Himmatrao Deshmukh</strong>. Born into a rural agricultural family, Shri Deshmukh experienced first-hand the socio-economic challenges that plague India's hinterlands. His deep understanding of grassroots issues—ranging from water scarcity to lack of livelihood opportunities—became the cornerstone of MGD's philosophy.
+                        </p>
+                        <p class="text-gray-700 text-lg leading-relaxed">
+                            Over the last two decades, our operational footprint has expanded significantly. Starting from Amravati, we now implement impactful projects across multiple districts in Maharashtra, including <strong>Akola, Gondia, and Hingoli</strong>. Our success in these regions has empowered us to extend our reach nationally, with ongoing initiatives in <strong>Madhya Pradesh and Arunachal Pradesh</strong>. Our approach remains rooted in "Jan Bhagidari" (People's Participation), ensuring that beneficiaries are active partners in their own development.
+                        </p>
+                        <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                            <p class="text-gray-800 text-base font-medium">
+                                <strong>Official Certifications & Compliance:</strong><br>
+                                We maintain the highest standards of transparency and are fully compliant with government regulations. We hold FCRA registration (No: 083740062) for foreign contributions, 12A and 80G tax-exemption certifications, and are registered on the NITI Aayog's NGO Darpan portal (MH/2018/87031) as well as the CSR-1 registry (CSR00008286).
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Image & Founder Quote -->
+                    <div id="vision">
+                        <img src="baba.jpg" onerror="this.onerror=null; this.src='https://placehold.co/800x600/e2e8f0/1e293b?text=Founder+Shri+Ravindra+Deshmukh';" alt="Founder Shri Ravindra Himmatrao Deshmukh" class="story-image shadow-xl">
+                        <div class="bg-primary text-white p-6 rounded-xl -mt-10 relative mx-6 shadow-lg">
+                            <h4 class="font-bold text-xl">Founder's Vision</h4>
+                            <p class="mt-2 italic">"To make a positive difference in the lives of the underprivileged by overcoming economic and social challenges through community leadership. True development happens only when the community takes ownership of its resources."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Interventions -->
+                <div class="mb-20">
+                    <div class="text-center mb-12">
+                        <h3 class="text-3xl font-extrabold text-gray-900">Key Projects & Interventions</h3>
+                        <p class="text-lg text-gray-600 max-w-3xl mx-auto mt-2">Our holistic approach covers economic empowerment, water security, and public health through a variety of targeted initiatives.</p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <!-- Card 1 -->
+                        <div class="bg-white p-6 rounded-xl card-shadow border-t-4 border-primary">
+                            <h4 class="text-xl font-bold text-gray-900 mb-3">Livelihood & Entrepreneurship</h4>
+                            <p class="text-gray-600 mb-4 text-sm">We focus on creating sustainable income sources for rural women through large-scale cooperative models.</p>
+                            <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm">
+                                <li><strong>Mahagram Producer Company:</strong> A flagship initiative establishing a Surgical Cotton processing unit where SHG members hold 50% participation stake.</li>
+                                <li><strong>Dairy Development:</strong> Successfully launched 70 Dairy units with market linkage support from Mother Dairy, ensuring reliable income.</li>
+                                <li><strong>Rukhmini Sadi Unit:</strong> An ambitious upcoming textile project at Kaudanyapur designed to provide direct employment to 700 women.</li>
+                                <li><strong>Skill Training:</strong> Under SGSY & NRLM, we have trained over 2000+ SHGs in vocational trades like garment making and uniform manufacturing.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="bg-white p-6 rounded-xl card-shadow border-t-4 border-secondary">
+                            <h4 class="text-xl font-bold text-gray-900 mb-3">Water, Sanitation & KRC</h4>
+                            <p class="text-gray-600 mb-4 text-sm">As a recognized implementation partner for national missions, we drive large-scale sanitation and water security projects.</p>
+                            <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm">
+                                <li><strong>National Key Resource Center (KRC):</strong> We are an empaneled KRC agency conducting capacity building for the Jal Jeevan Mission across Maharashtra, MP, and Arunachal Pradesh.</li>
+                                <li><strong>Water Tax Collection Model:</strong> In a first-of-its-kind initiative in Akola district, 25 Women SHGs are officially managing village water tax collection, improving recovery rates and empowering women.</li>
+                                <li><strong>Swachh Bharat Mission (SBM) 2.0:</strong> Training over 14,735 PRI members and stakeholders on sustainable solid and liquid waste management practices.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="bg-white p-6 rounded-xl card-shadow border-t-4 border-primary">
+                            <h4 class="text-xl font-bold text-gray-900 mb-3">Health & Innovation</h4>
+                            <p class="text-gray-600 mb-4 text-sm">We combine traditional knowledge with modern needs to improve rural health standards.</p>
+                            <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm">
+                                <li><strong>Go-Ark Project:</strong> An innovative pilot project at Gopi Village, Nandgaon Khandeshwar, utilizing indigenous resources for health benefits.</li>
+                                <li><strong>Ayurvedic Health Products:</strong> SHG members are trained in producing and marketing health essentials like Eye Drops and Drakshasav Tonic.</li>
+                                <li><strong>Women's Health Outreach:</strong> Reached over 1500+ women through specialized NABARD-supported health awareness camps.</li>
+                                <li><strong>Sanitation Infrastructure:</strong> Established economic latrine production centers at Amravati and Tiwsa to promote affordable hygiene.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Section (Detailed Board - First 5 Members + CEO) -->
+                <div class="mb-20">
+                    <div class="text-center mb-12">
+                        <h3 class="text-3xl font-extrabold text-gray-900">Our Leadership Team</h3>
+                        <p class="text-lg text-gray-600">Our organization is guided by a blend of social workers and retired government officers with decades of administrative experience.</p>
+                    </div>
+                    
+                    <!-- Board Members Grid -->
+                    <div class="flex flex-wrap justify-center gap-8">
+                        
+                        <!-- Member 1: President -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden group hover:shadow-xl transition duration-300 flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]">
+                            <div class="h-32 bg-green-custom relative">
+                                <div class="absolute -bottom-14 left-1/2 transform -translate-x-1/2">
+                                    <img src="https://placehold.co/150x150/e2e8f0/1e293b?text=MPR" 
+                                         alt="Mrs. Megha P. Raut" 
+                                         class="member-img">
+                                </div>
+                            </div>
+                            <div class="pt-16 pb-6 px-6 text-center flex-grow">
+                                <h3 class="text-xl font-bold text-gray-900 mb-1">Mrs. Megha P. Raut</h3>
+                                <p class="text-primary font-bold text-sm uppercase tracking-wide mb-4">President</p>
+                                
+                                <div class="space-y-2 text-sm text-gray-600">
+                                    <p><span class="font-semibold text-gray-800">Occupation:</span> Social Work</p>
+                                    <p><span class="font-semibold text-gray-800">Experience:</span> 38 Years</p>
+                                    <p class="text-xs text-gray-500 mt-3 italic"><svg class="w-3 h-3 inline mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>Indrayani Nagar, Chichwad, Pune</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Member 2: Vice President -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden group hover:shadow-xl transition duration-300 flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]">
+                            <div class="h-32 bg-green-custom relative">
+                                <div class="absolute -bottom-14 left-1/2 transform -translate-x-1/2">
+                                    <img src="https://placehold.co/150x150/e2e8f0/1e293b?text=SNT" 
+                                         alt="Sharayu N. Tatad" 
+                                         class="member-img">
+                                </div>
+                            </div>
+                            <div class="pt-16 pb-6 px-6 text-center flex-grow">
+                                <h3 class="text-xl font-bold text-gray-900 mb-1">Sharayu N. Tatad</h3>
+                                <p class="text-primary font-bold text-sm uppercase tracking-wide mb-4">Vice President</p>
+                                
+                                <div class="space-y-2 text-sm text-gray-600">
+                                    <p><span class="font-semibold text-gray-800">Occupation:</span> Beautician & Social Worker</p>
+                                    <p><span class="font-semibold text-gray-800">Experience:</span> 35 Years</p>
+                                    <p class="text-xs text-gray-500 mt-3 italic"><svg class="w-3 h-3 inline mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>Sambhaji Nagar, Yawatmal</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Member 3: Secretary -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden group hover:shadow-xl transition duration-300 flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]">
+                            <div class="h-32 bg-green-custom relative">
+                                <div class="absolute -bottom-14 left-1/2 transform -translate-x-1/2">
+                                    <img src="https://placehold.co/150x150/e2e8f0/1e293b?text=RHD" 
+                                         alt="Ravindra H. Deshmukh" 
+                                         class="member-img">
+                                </div>
+                            </div>
+                            <div class="pt-16 pb-6 px-6 text-center flex-grow">
+                                <h3 class="text-xl font-bold text-gray-900 mb-1">Ravindra H. Deshmukh</h3>
+                                <p class="text-primary font-bold text-sm uppercase tracking-wide mb-4">Secretary</p>
+                                
+                                <div class="space-y-2 text-sm text-gray-600">
+                                    <p><span class="font-semibold text-gray-800">Occupation:</span> Engineer & Social Worker</p>
+                                    <p><span class="font-semibold text-gray-800">Experience:</span> 38 Years</p>
+                                    <p class="text-xs text-gray-500 mt-3 italic"><svg class="w-3 h-3 inline mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>V.M.V., Amravati</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Member 4: Vice Secretary -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden group hover:shadow-xl transition duration-300 flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]">
+                            <div class="h-32 bg-green-custom relative">
+                                <div class="absolute -bottom-14 left-1/2 transform -translate-x-1/2">
+                                    <img src="https://placehold.co/150x150/e2e8f0/1e293b?text=SVU" 
+                                         alt="Sarika V. Ulhe" 
+                                         class="member-img">
+                                </div>
+                            </div>
+                            <div class="pt-16 pb-6 px-6 text-center flex-grow">
+                                <h3 class="text-xl font-bold text-gray-900 mb-1">Sarika V. Ulhe</h3>
+                                <p class="text-gray-500 font-bold text-sm uppercase tracking-wide mb-4">Vice Secretary</p>
+                                
+                                <div class="space-y-2 text-sm text-gray-600">
+                                    <p><span class="font-semibold text-gray-800">Occupation:</span> Business</p>
+                                    <p><span class="font-semibold text-gray-800">Experience:</span> 34 Years</p>
+                                    <p class="text-xs text-gray-500 mt-3 italic"><svg class="w-3 h-3 inline mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>Pulgaon, Dist. Wardha</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Member 5: Treasurer -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden group hover:shadow-xl transition duration-300 flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]">
+                            <div class="h-32 bg-green-custom relative">
+                                <div class="absolute -bottom-14 left-1/2 transform -translate-x-1/2">
+                                    <img src="https://placehold.co/150x150/e2e8f0/1e293b?text=GPT" 
+                                         alt="Gayatri P. Tidake" 
+                                         class="member-img">
+                                </div>
+                            </div>
+                            <div class="pt-16 pb-6 px-6 text-center flex-grow">
+                                <h3 class="text-xl font-bold text-gray-900 mb-1">Gayatri P. Tidake</h3>
+                                <p class="text-primary font-bold text-sm uppercase tracking-wide mb-4">Treasurer</p>
+                                
+                                <div class="space-y-2 text-sm text-gray-600">
+                                    <p><span class="font-semibold text-gray-800">Occupation:</span> Fashion Designer & Social Worker</p>
+                                    <p><span class="font-semibold text-gray-800">Experience:</span> 35 Years</p>
+                                    <p class="text-xs text-gray-500 mt-3 italic"><svg class="w-3 h-3 inline mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>Ganesh Peth, Nagpur</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Member 6: CEO (Added) -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden group hover:shadow-xl transition duration-300 flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]">
+                            <div class="h-32 bg-green-custom relative">
+                                <div class="absolute -bottom-14 left-1/2 transform -translate-x-1/2">
+                                    <img src="https://placehold.co/150x150/e2e8f0/1e293b?text=SD" 
+                                         alt="Subodh Deshmukh" 
+                                         class="member-img">
+                                </div>
+                            </div>
+                            <div class="pt-16 pb-6 px-6 text-center flex-grow">
+                                <h3 class="text-xl font-bold text-gray-900 mb-1">Subodh Deshmukh</h3>
+                                <p class="text-primary font-bold text-sm uppercase tracking-wide mb-4">CEO</p>
+                                
+                                <div class="space-y-2 text-sm text-gray-600">
+                                    <p><span class="font-semibold text-gray-800">Occupation:</span> Social Worker</p>
+                                    <p><span class="font-semibold text-gray-800">Role:</span> Chief Executive Officer</p>
+                                    <p class="text-xs text-gray-500 mt-3 italic"><svg class="w-3 h-3 inline mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>Amravati</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <!-- Expanded Staff List -->
+                    <div class="mt-8 bg-gray-50 p-6 rounded-lg border border-gray-200">
+                        <h5 class="font-bold text-gray-800 mb-3">Key Operational Staff:</h5>
+                        <div class="grid md:grid-cols-3 gap-4 text-sm text-gray-700">
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li><strong>Chandrashekhar Babaraoji Deole:</strong> Administrative Officer</li>
+                                <li><strong>Darshana Gajanan Sable:</strong> Traning Coardinator</li>
+                                <li><strong>Ravindra Harishchandr Deshmukh:</strong> Account Officer,Recovery Officer</li>
+                            </ul>
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li><strong>Sanjay Baburao Sangekar:</strong> Senior Distric Coardinator Officer</li>
+                                <li><strong>Sonal Panjabrao Badrake:</strong> Field Officer</li>
+                                <li><strong>Shubhangi  Devendra Raut:</strong> Head Of The Department</li>
+                            </ul>
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li><strong>Prapti Rajendra Kadu:</strong> Accountant Assistant</li>
+                                <li><strong>Neha Pankaj Raut:</strong> Data Operator</li>
+                                <li><strong>Pratiksha Dilip Dhaskat:</strong> Data Operator</li>
+                            </ul>
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li><strong>Dipali Suresh Rode:</strong> Data Operator</li>
+                                <li><strong>Sakshi Babarao Bhonge:</strong> Data Operator</li>
+                                <li><strong>Pooja Kishor Jadhav:</strong> Data Operator</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Awards Section -->
+                <div class="bg-white rounded-2xl p-8 md:p-12 card-shadow">
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <div class="flex-1">
+                            <h3 class="text-3xl font-extrabold text-gray-900 mb-4">Awards & Recognition</h3>
+                            <div class="w-20 h-1 bg-secondary mb-6"></div>
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <svg class="h-6 w-6 text-yellow-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                    <span class="text-gray-700 font-medium"><strong>'Yuva' Award:</strong> Secured First Place in the state, awarded by the Government of Maharashtra for excellence in cooperative movement mobilization and village cleanliness awareness campaigns.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="h-6 w-6 text-yellow-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                    <span class="text-gray-700 font-medium"><strong>Ministerial Appreciation:</strong> Formally appreciated by Hon’ble Shree Anna Saheb Dange, former Minister for Rural Development, for our consistent efforts in rural upliftment.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Hindi Content -->
+    <div id="hindi-content-area" style="display: none;">
+        <div class="py-16 md:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Hero Text -->
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-4">हमारी विरासत और दर्शन</h2>
+                    <p class="text-xl text-primary font-semibold max-w-4xl mx-auto leading-relaxed">
+                        1998 में स्थापित, महाराष्ट्र ग्राम दर्पण ग्रामीण परिवर्तन में एक अग्रणी शक्ति है, जो चैरिटी कमिश्नर, अमरावती (पंजीकरण संख्या MH7979/Amt F-7197) के तहत पंजीकृत है। हम सामाजिक न्याय और सतत सामुदायिक विकास के प्रति प्रतिबद्धता से प्रेरित हैं।
+                    </p>
+                </div>
+
+                <!-- Story Section -->
+                <div class="grid lg:grid-cols-2 gap-12 mb-20 items-start">
+                    <!-- Text Content -->
+                    <div class="space-y-6">
+                        <h3 class="text-3xl font-extrabold mb-4 text-gray-900 border-b-2 border-primary pb-2 inline-block">शुरुआत और सफर</h3>
+                        <p class="text-gray-700 text-lg leading-relaxed">
+                            महाराष्ट्र ग्राम दर्पण (एमजीडी) की स्थापना 1998 में संस्थापक <strong>श्री रवींद्र हिम्मतराव देशमुख</strong> की दृष्टि और दृढ़ता के माध्यम से हुई थी। एक ग्रामीण कृषक परिवार में जन्मे, श्री देशमुख ने भारत के पिछड़े इलाकों की सामाजिक-आर्थिक चुनौतियों का प्रत्यक्ष अनुभव किया। जमीनी स्तर की समस्याओं की उनकी गहरी समझ - पानी की कमी से लेकर आजीविका के अवसरों की कमी तक - एमजीडी के दर्शन की आधारशिला बन गई।
+                        </p>
+                        <p class="text-gray-700 text-lg leading-relaxed">
+                            पिछले दो दशकों में, हमारा कार्यक्षेत्र काफी विस्तृत हुआ है। अमरावती से शुरुआत करके, अब हम महाराष्ट्र के कई जिलों में प्रभावशाली परियोजनाएं लागू कर रहे हैं, जिनमें <strong>अकोला, गोंदिया और हिंगोली</strong> शामिल हैं। इन क्षेत्रों में हमारी सफलता ने हमें राष्ट्रीय स्तर पर अपनी पहुंच बढ़ाने के लिए सशक्त बनाया है, जिसमें <strong>मध्य प्रदेश और अरुणाचल प्रदेश</strong> में चल रही पहल शामिल हैं। हमारा दृष्टिकोण "जन भागीदारी" (लोगों की भागीदारी) में निहित है, यह सुनिश्चित करते हुए कि लाभार्थी अपने स्वयं के विकास में सक्रिय भागीदार हैं।
+                        </p>
+                        <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                            <p class="text-gray-800 text-base font-medium">
+                                <strong>आधिकारिक प्रमाणन और अनुपालन:</strong><br>
+                                हम पारदर्शिता के उच्चतम मानकों को बनाए रखते हैं और सरकारी नियमों का पूरी तरह से पालन करते हैं। हमारे पास विदेशी योगदान के लिए FCRA पंजीकरण (संख्या: 083740062), 12A और 80G कर-छूट प्रमाणन है, और हम NITI आयोग के NGO दर्पण पोर्टल (MH/2018/87031) के साथ-साथ CSR-1 रजिस्ट्री (CSR00008286) पर पंजीकृत हैं।
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Image & Founder Quote -->
+                    <div>
+                        <img src="baba.jpg" onerror="this.onerror=null; this.src='https://placehold.co/800x600/e2e8f0/1e293b?text=Founder+Shri+Ravindra+Deshmukh';" alt="Founder Shri Ravindra Himmatrao Deshmukh" class="story-image shadow-xl">
+                        <div class="bg-primary text-white p-6 rounded-xl -mt-10 relative mx-6 shadow-lg">
+                            <h4 class="font-bold text-xl">संस्थापक का दृष्टिकोण</h4>
+                            <p class="mt-2 italic">"सामुदायिक नेतृत्व के माध्यम से आर्थिक और सामाजिक चुनौतियों पर काबू पाकर वंचितों के जीवन में सकारात्मक बदलाव लाना। सच्चा विकास तभी होता है जब समुदाय अपने संसाधनों का स्वामित्व लेता है।"</p>
+                        </div>
+                    </div>
+                </div>
+
+                
+
+                <!-- Key Interventions -->
+                <div class="mb-20">
+                    <div class="text-center mb-12">
+                        <h3 class="text-3xl font-extrabold text-gray-900">प्रमुख परियोजनाएं और हस्तक्षेप</h3>
+                        <p class="text-lg text-gray-600 max-w-3xl mx-auto mt-2">हमारा समग्र दृष्टिकोण विभिन्न लक्षित पहलों के माध्यम से आर्थिक सशक्तिकरण, जल सुरक्षा और सार्वजनिक स्वास्थ्य को कवर करता है।</p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <!-- Card 1 -->
+                        <div class="bg-white p-6 rounded-xl card-shadow border-t-4 border-primary">
+                            <h4 class="text-xl font-bold text-gray-900 mb-3">आजीविका और उद्यमिता</h4>
+                            <p class="text-gray-600 mb-4 text-sm">हम बड़े पैमाने पर सहकारी मॉडल के माध्यम से ग्रामीण महिलाओं के लिए आय के स्थायी स्रोत बनाने पर ध्यान केंद्रित करते हैं।</p>
+                            <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm">
+                                <li><strong>महाग्राम प्रोड्यूसर कंपनी:</strong> एक प्रमुख पहल जिसमें सर्जिकल कॉटन प्रोसेसिंग युनिट स्थापित की गई है जहां SHG सदस्यों की 50% हिस्सेदारी है।</li>
+                                <li><strong>डेयरी विकास:</strong> मदर डेयरी के बाजार लिंकेज समर्थन के साथ 70 डेयरी इकाइयां सफलतापूर्वक शुरू की गईं, जिससे विश्वसनीय आय सुनिश्चित हुई।</li>
+                                <li><strong>रुक्मिणी साड़ी यूनिट:</strong> कौंडण्यपुर में एक महत्वाकांक्षी आगामी कपड़ा परियोजना जो 700 महिलाओं को प्रत्यक्ष रोजगार प्रदान करने के लिए डिज़ाइन की गई है।</li>
+                                <li><strong>कौशल प्रशिक्षण:</strong> SGSY और NRLM के तहत, हमने 2000+ SHGs को परिधान निर्माण और वर्दी निर्माण जैसे व्यावसायिक ट्रेडों में प्रशिक्षित किया है।</li>
+                            </ul>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="bg-white p-6 rounded-xl card-shadow border-t-4 border-secondary">
+                            <h4 class="text-xl font-bold text-gray-900 mb-3">जल, स्वच्छता और KRC</h4>
+                            <p class="text-gray-600 mb-4 text-sm">राष्ट्रीय मिशनों के लिए एक मान्यता प्राप्त कार्यान्वयन भागीदार के रूप में, हम बड़े पैमाने पर स्वच्छता और जल सुरक्षा परियोजनाओं को चलाते हैं।</p>
+                            <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm">
+                                <li><strong>राष्ट्रीय मुख्य संसाधन केंद्र (KRC):</strong> हम महाराष्ट्र, मध्य प्रदेश और अरुणाचल प्रदेश में जल जीवन मिशन के लिए क्षमता निर्माण करने वाली एक सूचीबद्ध KRC एजेंसी हैं।</li>
+                                <li><strong>जल कर वसूली मॉडल:</strong> अकोला जिले में अपनी तरह की पहली पहल में, 25 महिला SHGs आधिकारिक तौर पर ग्राम जल कर वसूली का प्रबंधन कर रही हैं, जिससे वसूली दर में सुधार हो रहा है और महिलाएं सशक्त हो रही हैं।</li>
+                                <li><strong>स्वच्छ भारत मिशन (SBM) 2.0:</strong> 14,735 से अधिक PRI सदस्यों और हितधारकों को स्थायी ठोस और तरल अपशिष्ट प्रबंधन प्रथाओं पर प्रशिक्षण।</li>
+                            </ul>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="bg-white p-6 rounded-xl card-shadow border-t-4 border-primary">
+                            <h4 class="text-xl font-bold text-gray-900 mb-3">स्वास्थ्य और नवाचार</h4>
+                            <p class="text-gray-600 mb-4 text-sm">हम ग्रामीण स्वास्थ्य मानकों को सुधारने के लिए पारंपरिक ज्ञान को आधुनिक आवश्यकताओं के साथ जोड़ते हैं।</p>
+                            <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm">
+                                <li><strong>गो-अर्क परियोजना:</strong> स्वास्थ्य लाभ के लिए स्वदेशी संसाधनों का उपयोग करते हुए गोपी ग्राम, नांदगांव खंडेश्वर में एक अभिनव पायलट परियोजना।</li>
+                                <li><strong>आयुर्वेदिक स्वास्थ्य उत्पाद:</strong> SHG सदस्यों को आई ड्रॉप्स और द्राक्षासव टॉनिक जैसे स्वास्थ्य अनिवार्यताओं के उत्पादन और विपणन में प्रशिक्षित किया जाता है।</li>
+                                <li><strong>महिला स्वास्थ्य आउटरीच:</strong> विशेष नाबार्ड-समर्थित स्वास्थ्य जागरूकता शिविरों के माध्यम से 1500+ महिलाओं तक पहुंच।</li>
+                                <li><strong>स्वच्छता अवसंरचना:</strong> किफायती स्वच्छता को बढ़ावा देने के लिए अमरावती और तिवसा में आर्थिक शौचालय उत्पादन केंद्र स्थापित किए।</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Section (Replaced with Detailed Board - First 5 + CEO) -->
+                <div class="mb-20">
+                    <div class="text-center mb-12">
+                        <h3 class="text-3xl font-extrabold text-gray-900">हमारी नेतृत्व टीम</h3>
+                        <p class="text-lg text-gray-600">हमारा संगठन सामाजिक कार्यकर्ताओं और दशकों के प्रशासनिक अनुभव वाले सेवानिवृत्त सरकारी अधिकारियों के मिश्रण द्वारा निर्देशित है।</p>
+                    </div>
+                    
+                    <div class="flex flex-wrap justify-center gap-8">
+                        <!-- Member 1 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden group hover:shadow-xl transition duration-300 flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]">
+                            <div class="h-32 bg-green-custom relative">
+                                <div class="absolute -bottom-14 left-1/2 transform -translate-x-1/2">
+                                    <img src="https://placehold.co/150x150/e2e8f0/1e293b?text=MPR" alt="Mrs. Megha P. Raut" class="member-img">
+                                </div>
+                            </div>
+                            <div class="pt-16 pb-6 px-6 text-center flex-grow">
+                                <h3 class="text-xl font-bold text-gray-900 mb-1">श्रीमती मेघा पी. राऊत</h3>
+                                <p class="text-primary font-bold text-sm uppercase tracking-wide mb-4">अध्यक्ष</p>
+                                <div class="space-y-2 text-sm text-gray-600">
+                                    <p><span class="font-semibold text-gray-800">व्यवसाय:</span> सामाजिक कार्यकर्ता</p>
+                                    <p><span class="font-semibold text-gray-800">अनुभव:</span> 38 वर्ष</p>
+                                    <p class="text-xs text-gray-500 mt-3 italic">इंद्रायणी नगर, चिंचवाड़, पुणे</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Member 2 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden group hover:shadow-xl transition duration-300 flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]">
+                            <div class="h-32 bg-green-custom relative">
+                                <div class="absolute -bottom-14 left-1/2 transform -translate-x-1/2">
+                                    <img src="https://placehold.co/150x150/e2e8f0/1e293b?text=SNT" alt="Sharayu N. Tatad" class="member-img">
+                                </div>
+                            </div>
+                            <div class="pt-16 pb-6 px-6 text-center flex-grow">
+                                <h3 class="text-xl font-bold text-gray-900 mb-1">शरयु एन. तातड</h3>
+                                <p class="text-primary font-bold text-sm uppercase tracking-wide mb-4">उपाध्यक्ष</p>
+                                <div class="space-y-2 text-sm text-gray-600">
+                                    <p><span class="font-semibold text-gray-800">व्यवसाय:</span> ब्यूटीशियन और सामाजिक कार्यकर्ता</p>
+                                    <p><span class="font-semibold text-gray-800">अनुभव:</span> 35 वर्ष</p>
+                                    <p class="text-xs text-gray-500 mt-3 italic">संभाजी नगर, यवतमाल</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Member 3 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden group hover:shadow-xl transition duration-300 flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]">
+                            <div class="h-32 bg-green-custom relative">
+                                <div class="absolute -bottom-14 left-1/2 transform -translate-x-1/2">
+                                    <img src="https://placehold.co/150x150/e2e8f0/1e293b?text=RHD" alt="Ravindra H. Deshmukh" class="member-img">
+                                </div>
+                            </div>
+                            <div class="pt-16 pb-6 px-6 text-center flex-grow">
+                                <h3 class="text-xl font-bold text-gray-900 mb-1">रवींद्र एच. देशमुख</h3>
+                                <p class="text-primary font-bold text-sm uppercase tracking-wide mb-4">सचिव</p>
+                                <div class="space-y-2 text-sm text-gray-600">
+                                    <p><span class="font-semibold text-gray-800">व्यवसाय:</span> इंजीनियर और सामाजिक कार्यकर्ता</p>
+                                    <p><span class="font-semibold text-gray-800">अनुभव:</span> 38 वर्ष</p>
+                                    <p class="text-xs text-gray-500 mt-3 italic">वी.एम.वी., अमरावती</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Member 4 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden group hover:shadow-xl transition duration-300 flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]">
+                            <div class="h-32 bg-green-custom relative">
+                                <div class="absolute -bottom-14 left-1/2 transform -translate-x-1/2">
+                                    <img src="https://placehold.co/150x150/e2e8f0/1e293b?text=SVU" alt="Sarika V. Ulhe" class="member-img">
+                                </div>
+                            </div>
+                            <div class="pt-16 pb-6 px-6 text-center flex-grow">
+                                <h3 class="text-xl font-bold text-gray-900 mb-1">सारिका वी. उल्हे</h3>
+                                <p class="text-gray-500 font-bold text-sm uppercase tracking-wide mb-4">उप सचिव</p>
+                                <div class="space-y-2 text-sm text-gray-600">
+                                    <p><span class="font-semibold text-gray-800">व्यवसाय:</span> व्यवसाय</p>
+                                    <p><span class="font-semibold text-gray-800">अनुभव:</span> 34 वर्ष</p>
+                                    <p class="text-xs text-gray-500 mt-3 italic">पुलगांव, जिला वर्धा</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Member 5 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden group hover:shadow-xl transition duration-300 flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]">
+                            <div class="h-32 bg-green-custom relative">
+                                <div class="absolute -bottom-14 left-1/2 transform -translate-x-1/2">
+                                    <img src="https://placehold.co/150x150/e2e8f0/1e293b?text=GPT" alt="Gayatri P. Tidake" class="member-img">
+                                </div>
+                            </div>
+                            <div class="pt-16 pb-6 px-6 text-center flex-grow">
+                                <h3 class="text-xl font-bold text-gray-900 mb-1">गायत्री पी. तिडके</h3>
+                                <p class="text-primary font-bold text-sm uppercase tracking-wide mb-4">कोषाध्यक्ष</p>
+                                <div class="space-y-2 text-sm text-gray-600">
+                                    <p><span class="font-semibold text-gray-800">व्यवसाय:</span> फैशन डिजाइनर और सामाजिक कार्यकर्ता</p>
+                                    <p><span class="font-semibold text-gray-800">अनुभव:</span> 35 वर्ष</p>
+                                    <p class="text-xs text-gray-500 mt-3 italic">गणेश पेठ, नागपुर</p>
+                                </div>
+                            </div>
+                        </div>
+                         <!-- Member 6: CEO -->
+                         <div class="bg-white rounded-xl card-shadow overflow-hidden group hover:shadow-xl transition duration-300 flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]">
+                            <div class="h-32 bg-green-custom relative">
+                                <div class="absolute -bottom-14 left-1/2 transform -translate-x-1/2">
+                                    <img src="https://placehold.co/150x150/e2e8f0/1e293b?text=SD" alt="Subodh Deshmukh" class="member-img">
+                                </div>
+                            </div>
+                            <div class="pt-16 pb-6 px-6 text-center flex-grow">
+                                <h3 class="text-xl font-bold text-gray-900 mb-1">सुबोध देशमुख</h3>
+                                <p class="text-primary font-bold text-sm uppercase tracking-wide mb-4">सीईओ</p>
+                                <div class="space-y-2 text-sm text-gray-600">
+                                    <p><span class="font-semibold text-gray-800">व्यवसाय:</span> सामाजिक कार्यकर्ता</p>
+                                    <p><span class="font-semibold text-gray-800">भूमिका:</span> मुख्य कार्यकारी अधिकारी</p>
+                                    <p class="text-xs text-gray-500 mt-3 italic">अमरावती</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <!-- Expanded Staff List -->
+                    <div class="mt-8 bg-gray-50 p-6 rounded-lg border border-gray-200">
+                        <h5 class="font-bold text-gray-800 mb-3">प्रमुख परिचालन कर्मचारी:</h5>
+                        <div class="grid md:grid-cols-3 gap-4 text-sm text-gray-700">
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li><strong>चंद्रशेखर बाबारावजी देओळे:</strong> प्रशासनिक अधिकारी</li>
+                                <li><strong>दर्शना गजानन साबळे:</strong> प्रशिक्षण समन्वयक</li>
+                                <li><strong>रविंद्र हरिश्चंद्र देशमुख:</strong> लेखा अधिकारी, वसूली अधिकारी</li>
+                            </ul>
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li><strong>संजय बाबुराव सांगेकर:</strong> वरिष्ठ जिला समन्वयक अधिकारी</li>
+                                <li><strong>सोनल पांढराव बड्राके:</strong> क्षेत्र अधिकारी</li>
+                                <li><strong>शुभांगी देवेंद्र राऊत:</strong> विभाग प्रमुख</li>
+                            </ul>
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li><strong>प्राप्ती राजेंद्र कडू:</strong> लेखा सहायक</li>
+                                <li><strong>नेहा पंकज राऊत:</strong> डेटा ऑपरेटर</li>
+                                <li><strong>प्रतिक्षा दिलीप धसकट:</strong> डेटा ऑपरेटर</li>
+                            </ul>
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li><strong>दिपाली सुरेश रोडे:</strong> डेटा ऑपरेटर</li>
+                                <li><strong>साक्षी बाबाराव भोंगे:</strong> डेटा ऑपरेटर</li>
+                                <li><strong>पूजा किशोर जाधव:</strong> डेटा ऑपरेटर</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Awards Section -->
+                <div class="bg-white rounded-2xl p-8 md:p-12 card-shadow">
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <div class="flex-1">
+                            <h3 class="text-3xl font-extrabold text-gray-900 mb-4">पुरस्कार और मान्यता</h3>
+                            <div class="w-20 h-1 bg-secondary mb-6"></div>
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <svg class="h-6 w-6 text-yellow-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                    <span class="text-gray-700 font-medium"><strong>'युवा' पुरस्कार:</strong> सहकारी आंदोलन जुटाने और ग्राम स्वच्छता जागरूकता अभियानों में उत्कृष्टता के लिए महाराष्ट्र सरकार द्वारा राज्य में प्रथम स्थान प्राप्त किया।</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="h-6 w-6 text-yellow-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                    <span class="text-gray-700 font-medium"><strong>मंत्रिस्तरीय सराहना:</strong> ग्रामीण उत्थान में हमारे निरंतर प्रयासों के लिए पूर्व ग्रामीण विकास मंत्री माननीय श्री अन्ना साहेब डांगे द्वारा औपचारिक रूप से सराहना की गई।</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+    <!-- Marathi Content -->
+    <div id="marathi-content-area" style="display: none;">
+        <div class="py-16 md:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Hero Text -->
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-4">आमचा वारसा आणि तत्त्वज्ञान</h2>
+                    <p class="text-xl text-primary font-semibold max-w-4xl mx-auto leading-relaxed">
+                        १९९८ मध्ये स्थापित, महाराष्ट्र ग्राम दर्पण ग्रामीण परिवर्तनातील एक अग्रणी शक्ती आहे, जी धर्मादाय आयुक्त, अमरावती (नोंदणी क्र. MH7979/Amt F-7197) अंतर्गत नोंदणीकृत आहे. आम्ही सामाजिक न्याय आणि शाश्वत सामुदायिक विकासाच्या कटिबद्धतेने प्रेरित आहोत.
+                    </p>
+                </div>
+
+                <!-- Story Section -->
+                <div class="grid lg:grid-cols-2 gap-12 mb-20 items-start">
+                    <!-- Text Content -->
+                    <div class="space-y-6">
+                        <h3 class="text-3xl font-extrabold mb-4 text-gray-900 border-b-2 border-primary pb-2 inline-block">सुरुवात आणि प्रवास</h3>
+                        <p class="text-gray-700 text-lg leading-relaxed">
+                            महाराष्ट्र ग्राम दर्पण (MGD) ची स्थापना १९९८ मध्ये संस्थापक <strong>श्री. रवींद्र हिम्मतराव देशमुख</strong> यांच्या दूरदृष्टी आणि चिकाटीतून झाली. ग्रामीण शेतकरी कुटुंबात जन्मलेल्या श्री. देशमुख यांनी भारताच्या ग्रामीण भागातील सामाजिक-आर्थिक आव्हानांचा प्रत्यक्ष अनुभव घेतला. तळागाळातील समस्यांची त्यांची सखोल समज—पाण्याच टंचाईपासून उपजीविकेच्या संधींच्या अभावापर्यंत—MGD च्या तत्त्वज्ञानाचा आधारस्तंभ बनली.
+                        </p>
+                        <p class="text-gray-700 text-lg leading-relaxed">
+                            गेल्या दोन दशकांमध्ये, आमच्या कार्याचा विस्तार लक्षणीयरीत्या वाढला आहे. अमरावतीपासून सुरुवात करून, आम्ही आता महाराष्ट्रातील <strong>अकोला, गोंदिया आणि हिंगोली</strong> यासह अनेक जिल्ह्यांमध्ये प्रभावी प्रकल्प राबवत आहोत. या क्षेत्रांमधील आमच्या यशामुळे आम्हाला राष्ट्रीय स्तरावर पोहोचण्यासाठी सक्षम केले आहे, ज्यामध्ये <strong>मध्य प्रदेश आणि अरुणाचल प्रदेश</strong> मधील उपक्रमांचा समावेश आहे. आमचा दृष्टिकोन "जन भागीदारी" (लोकांचा सहभाग) मध्ये रुजलेला आहे, हे सुनिश्चित करून की लाभार्थी त्यांच्या स्वतःच्या विकासामध्ये सक्रिय भागीदार आहेत.
+                        </p>
+                        <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                            <p class="text-gray-800 text-base font-medium">
+                                <strong>अधिकृत प्रमाणपत्रे आणि पालन:</strong><br>
+                                आम्ही पारदर्शकतेचे सर्वोच्च मानक राखतो आणि सरकारी नियमांचे पूर्णपणे पालन करते. आमच्याकडे परदेशी योगदानासाठी FCRA नोंदणी (क्र: 083740062), 12A आणि 80G कर-सवलत प्रमाणपत्रे आहेत, आणि आम्ही NITI आयोगाच्या NGO दर्पण पोर्टलवर (MH/2018/87031) तसेच CSR-1 नोंदणीमध्ये (CSR00008286) नोंदणीकृत आहोत.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Image & Founder Quote -->
+                    <div>
+                        <img src="baba.jpg" onerror="this.onerror=null; this.src='https://placehold.co/800x600/e2e8f0/1e293b?text=Founder+Shri+Ravindra+Deshmukh';" alt="Founder Shri Ravindra Himmatrao Deshmukh" class="story-image shadow-xl">
+                        <div class="bg-primary text-white p-6 rounded-xl -mt-10 relative mx-6 shadow-lg">
+                            <h4 class="font-bold text-xl">संस्थापकांचे व्हिजन</h4>
+                            <p class="mt-2 italic">"सामुदायिक नेतृत्वाच्या माध्यमातून आर्थिक आणि सामाजिक आव्हानांवर मात करून वंचितांच्या जीवनात सकारात्मक बदल घडवून आणणे. खरा विकास तेव्हाच होतो जेव्हा समुदाय स्वतःच्या संसाधनांची मालकी घेतो."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Interventions -->
+                <div class="mb-20">
+                    <div class="text-center mb-12">
+                        <h3 class="text-3xl font-extrabold text-gray-900">मुख्य प्रकल्प आणि हस्तक्षेप</h3>
+                        <p class="text-lg text-gray-600 max-w-3xl mx-auto mt-2">आमचा सर्वांगीण दृष्टिकोन आर्थिक सक्षमीकरण, पाणी सुरक्षा आणि सार्वजनिक आरोग्य यांना विविध लक्ष्यित उपक्रमांद्वारे समाविष्ट करतो.</p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <!-- Card 1 -->
+                        <div class="bg-white p-6 rounded-xl card-shadow border-t-4 border-primary">
+                            <h4 class="text-xl font-bold text-gray-900 mb-3">उपजीविका आणि उद्योजकता</h4>
+                            <p class="text-gray-600 mb-4 text-sm">आम्ही मोठ्या प्रमाणावरील सहकारी मॉडेल्सद्वारे ग्रामीण महिलांसाठी शाश्वत उत्पन्नाचे स्रोत निर्माण करण्यावर भर देतो.</p>
+                            <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm">
+                                <li><strong>महाग्राम प्रोड्युसर कंपनी:</strong> एक प्रमुख उपक्रम ज्यामध्ये सर्जिकल कॉटन प्रोसेसिंग युनिट स्थापन करण्यात आले आहे जिथे SHG सदस्यांचा ५०% हिस्सा आहे.</li>
+                                <li><strong>दुग्ध विकास:</strong> मदर डेअरीच्या मार्केट लिंकेज सपोर्टसह ७० डेअरी युनिट्स यशस्वीरित्या सुरू करण्यात आल्या, ज्यामुळे विश्वसनीय उत्पन्न सुनिश्चित झाले.</li>
+                                <li><strong>रुक्मिणी साड़ी युनिट:</strong> कौंडण्यपूर येथे एक महत्त्वाकांक्षी आगामी वस्त्रोद्योग प्रकल्प जो ७०० महिलांना प्रत्यक्ष रोजगार देण्यासाठी डिझाइन केला आहे.</li>
+                                <li><strong>कौशल्य प्रशिक्षण:</strong> SGSY आणि NRLM अंतर्गत, आम्ही २०००+ SHGs ना गारमेंट मेकिंग आणि युनिफॉर्म मॅन्युफॅक्चरिंगसारख्या व्यावसायिक ट्रेडमध्ये प्रशिक्षित केले आहे.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="bg-white p-6 rounded-xl card-shadow border-t-4 border-secondary">
+                            <h4 class="text-xl font-bold text-gray-900 mb-3">पाणी, स्वच्छता आणि KRC</h4>
+                            <p class="text-gray-600 mb-4 text-sm">राष्ट्रीय मिशनसाठी एक मान्यताप्राप्त अंमलबजावणी भागीदार म्हणून, आम्ही मोठ्या प्रमाणावर स्वच्छता आणि पाणी सुरक्षा प्रकल्प चालवतो.</p>
+                            <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm">
+                                <li><strong>राष्ट्रीय मुख्य संसाधन केंद्र (KRC):</strong> आम्ही महाराष्ट्र, मध्य प्रदेश आणि अरुणाचल प्रदेशमध्ये जल जीवन मिशनसाठी क्षमता निर्माण करणारी एक सूचीबद्ध KRC एजन्सी आहोत.</li>
+                                <li><strong>पाणीपट्टी वसुली मॉडेल:</strong> अकोला जिल्ह्यातील अशा प्रकारच्या पहिल्या उपक्रमात, २५ महिला SHGs अधिकृतपणे गाव पाणीपट्टी वसुलीचे व्यवस्थापन करत आहेत, ज्यामुळे वसुली दरात सुधारणा होत आहे आणि महिला सक्षम होत आहेत.</li>
+                                <li><strong>स्वच्छ भारत मिशन (SBM) 2.0:</strong> १४,७३५ पेक्षा जास्त PRI सदस्य आणि भागधारकांना शाश्वत घन आणि द्रव कचरा व्यवस्थापन पद्धतींवर प्रशिक्षण.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="bg-white p-6 rounded-xl card-shadow border-t-4 border-primary">
+                            <h4 class="text-xl font-bold text-gray-900 mb-3">आरोग्य आणि नवोपक्रम</h4>
+                            <p class="text-gray-600 mb-4 text-sm">आम्ही ग्रामीण आरोग्य मानके सुधारण्यासाठी आधुनिक गरजांसह पारंपारिक ज्ञान एकत्र करतो.</p>
+                            <ul class="list-disc list-inside text-gray-600 space-y-2 text-sm">
+                                <li><strong>गो-अर्क प्रकल्प:</strong> गोपी गाव, नांदगाव खंडेश्वर येथे आरोग्याच्या फायद्यांसाठी देशी संसाधनांचा वापर करणारा एक अभिनव प्रायोगिक प्रकल्प.</li>
+                                <li><strong>आयुर्वेदिक आरोग्य उत्पादने:</strong> SHG सदस्यांना आय ड्रॉप्स आणि द्राक्षासव टॉनिकसारख्या आरोग्य आवश्यक वस्तूंच्या उत्पादन आणि मार्केटिंगमध्ये प्रशिक्षित केले जाते.</li>
+                                <li><strong>महिला आरोग्य आउटरीच:</strong> विशेष नाबार्ड-समर्थित आरोग्य जनजागृती शिबिरांच्या माध्यमातून १५००+ महिलांपर्यंत पोहोचलो.</li>
+                                <li><strong>स्वच्छता पायाभूत सुविधा:</strong> परवडणारी स्वच्छता प्रोत्साहन देण्यासाठी अमरावती आणि तिवसा येथे आर्थिक शौचालय उत्पादन केंद्रे स्थापन केली.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Section (Replaced with Detailed Board - First 5 + CEO) -->
+                <div class="mb-20">
+                    <div class="text-center mb-12">
+                        <h3 class="text-3xl font-extrabold text-gray-900">आमची नेतृत्व टीम</h3>
+                        <p class="text-lg text-gray-600">आमची संस्था सामाजिक कार्यकर्ते आणि दशकांचा प्रशासकीय अनुभव असलेल्या सेवानिवृत्त सरकारी अधिकाऱ्यांच्या मिश्रणाद्वारे मार्गदर्शित आहे.</p>
+                    </div>
+                    
+                    <div class="flex flex-wrap justify-center gap-8">
+                        <!-- Member 1 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden group hover:shadow-xl transition duration-300 flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]">
+                            <div class="h-32 bg-green-custom relative">
+                                <div class="absolute -bottom-14 left-1/2 transform -translate-x-1/2">
+                                    <img src="https://placehold.co/150x150/e2e8f0/1e293b?text=MPR" alt="Mrs. Megha P. Raut" class="member-img">
+                                </div>
+                            </div>
+                            <div class="pt-16 pb-6 px-6 text-center flex-grow">
+                                <h3 class="text-xl font-bold text-gray-900 mb-1">श्रीमती मेघा पी. राऊत</h3>
+                                <p class="text-primary font-bold text-sm uppercase tracking-wide mb-4">अध्यक्ष</p>
+                                <div class="space-y-2 text-sm text-gray-600">
+                                    <p><span class="font-semibold text-gray-800">व्यवसाय:</span> सामाजिक कार्य</p>
+                                    <p><span class="font-semibold text-gray-800">अनुभव:</span> ३८ वर्षे</p>
+                                    <p class="text-xs text-gray-500 mt-3 italic">इंद्रायणी नगर, चिंचवड, पुणे</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Member 2 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden group hover:shadow-xl transition duration-300 flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]">
+                            <div class="h-32 bg-green-custom relative">
+                                <div class="absolute -bottom-14 left-1/2 transform -translate-x-1/2">
+                                    <img src="https://placehold.co/150x150/e2e8f0/1e293b?text=SNT" alt="Sharayu N. Tatad" class="member-img">
+                                </div>
+                            </div>
+                            <div class="pt-16 pb-6 px-6 text-center flex-grow">
+                                <h3 class="text-xl font-bold text-gray-900 mb-1">शरयू एन. तातड</h3>
+                                <p class="text-primary font-bold text-sm uppercase tracking-wide mb-4">उपाध्यक्ष</p>
+                                <div class="space-y-2 text-sm text-gray-600">
+                                    <p><span class="font-semibold text-gray-800">व्यवसाय:</span> ब्युटीशियन आणि सामाजिक कार्यकर्ता</p>
+                                    <p><span class="font-semibold text-gray-800">अनुभव:</span> ३५ वर्षे</p>
+                                    <p class="text-xs text-gray-500 mt-3 italic">संभाजी नगर, यवतमाळ</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Member 3 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden group hover:shadow-xl transition duration-300 flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]">
+                            <div class="h-32 bg-green-custom relative">
+                                <div class="absolute -bottom-14 left-1/2 transform -translate-x-1/2">
+                                    <img src="https://placehold.co/150x150/e2e8f0/1e293b?text=RHD" alt="Ravindra H. Deshmukh" class="member-img">
+                                </div>
+                            </div>
+                            <div class="pt-16 pb-6 px-6 text-center flex-grow">
+                                <h3 class="text-xl font-bold text-gray-900 mb-1">रवींद्र एच. देशमुख</h3>
+                                <p class="text-primary font-bold text-sm uppercase tracking-wide mb-4">सचिव</p>
+                                <div class="space-y-2 text-sm text-gray-600">
+                                    <p><span class="font-semibold text-gray-800">व्यवसाय:</span> अभियंता आणि सामाजिक कार्यकर्ता</p>
+                                    <p><span class="font-semibold text-gray-800">अनुभव:</span> ३८ वर्षे</p>
+                                    <p class="text-xs text-gray-500 mt-3 italic">व्ही.एम.व्ही., अमरावती</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Member 4 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden group hover:shadow-xl transition duration-300 flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]">
+                            <div class="h-32 bg-green-custom relative">
+                                <div class="absolute -bottom-14 left-1/2 transform -translate-x-1/2">
+                                    <img src="https://placehold.co/150x150/e2e8f0/1e293b?text=SVU" alt="Sarika V. Ulhe" class="member-img">
+                                </div>
+                            </div>
+                            <div class="pt-16 pb-6 px-6 text-center flex-grow">
+                                <h3 class="text-xl font-bold text-gray-900 mb-1">सारिका व्ही. उल्हे</h3>
+                                <p class="text-gray-500 font-bold text-sm uppercase tracking-wide mb-4">उप सचिव</p>
+                                <div class="space-y-2 text-sm text-gray-600">
+                                    <p><span class="font-semibold text-gray-800">व्यवसाय:</span> व्यवसाय</p>
+                                    <p><span class="font-semibold text-gray-800">अनुभव:</span> ३४ वर्षे</p>
+                                    <p class="text-xs text-gray-500 mt-3 italic">पुलगाव, जिल्हा वर्धा</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Member 5 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden group hover:shadow-xl transition duration-300 flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]">
+                            <div class="h-32 bg-green-custom relative">
+                                <div class="absolute -bottom-14 left-1/2 transform -translate-x-1/2">
+                                    <img src="https://placehold.co/150x150/e2e8f0/1e293b?text=GPT" alt="Gayatri P. Tidake" class="member-img">
+                                </div>
+                            </div>
+                            <div class="pt-16 pb-6 px-6 text-center flex-grow">
+                                <h3 class="text-xl font-bold text-gray-900 mb-1">गायत्री पी. तिडके</h3>
+                                <p class="text-primary font-bold text-sm uppercase tracking-wide mb-4">कोषाध्यक्ष</p>
+                                <div class="space-y-2 text-sm text-gray-600">
+                                    <p><span class="font-semibold text-gray-800">व्यवसाय:</span> फॅशन डिझायनर आणि सामाजिक कार्यकर्ता</p>
+                                    <p><span class="font-semibold text-gray-800">अनुभव:</span> ३५ वर्षे</p>
+                                    <p class="text-xs text-gray-500 mt-3 italic">गणेश पेठ, नागपूर</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Member 6: CEO -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden group hover:shadow-xl transition duration-300 flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]">
+                           <div class="h-32 bg-green-custom relative">
+                               <div class="absolute -bottom-14 left-1/2 transform -translate-x-1/2">
+                                   <img src="https://placehold.co/150x150/e2e8f0/1e293b?text=SD" alt="Subodh Deshmukh" class="member-img">
+                               </div>
+                           </div>
+                           <div class="pt-16 pb-6 px-6 text-center flex-grow">
+                               <h3 class="text-xl font-bold text-gray-900 mb-1">सुबोध देशमुख</h3>
+                               <p class="text-primary font-bold text-sm uppercase tracking-wide mb-4">सीईओ</p>
+                               <div class="space-y-2 text-sm text-gray-600">
+                                   <p><span class="font-semibold text-gray-800">व्यवसाय:</span> सामाजिक कार्यकर्ता</p>
+                                   <p><span class="font-semibold text-gray-800">भूमिका:</span> मुख्य कार्यकारी अधिकारी</p>
+                                   <p class="text-xs text-gray-500 mt-3 italic">अमरावती</p>
+                               </div>
+                           </div>
+                       </div>
+                    </div>
+                    
+                    <!-- Expanded Staff List -->
+                    <div class="mt-8 bg-gray-50 p-6 rounded-lg border border-gray-200">
+                        <h5 class="font-bold text-gray-800 mb-3">प्रमुख ऑपरेशनल कर्मचारी:</h5>
+                        <div class="grid md:grid-cols-3 gap-4 text-sm text-gray-700">
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li><strong>चंद्रशेखर बाबारावजी देओळे:</strong> प्रशासकीय अधिकारी</li>
+                                <li><strong>दर्शना गजानन साबळे:</strong> प्रशिक्षण समन्वयक</li>
+                                <li><strong>रविंद्र हरिश्चंद्र देशमुख:</strong> लेखा अधिकारी, वसूली अधिकारी</li>
+                            </ul>
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li><strong>संजय बाबुराव सांगेकर:</strong> वरिष्ठ जिला समन्वयक अधिकारी</li>
+                                <li><strong>सोनल पांढराव बड्राके:</strong> क्षेत्र अधिकारी</li>
+                                <li><strong>शुभांगी देवेंद्र राऊत:</strong> विभाग प्रमुख</li>
+                            </ul>
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li><strong>प्राप्ती राजेंद्र कडू:</strong> लेखा सहाय्यक</li>
+                                <li><strong>नेहा पंकज राऊत:</strong> डेटा ऑपरेटर</li>
+                                <li><strong>प्रतिक्षा दिलीप धसकट:</strong> डेटा ऑपरेटर</li>
+                            </ul>
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li><strong>दिपाली सुरेश रोडे:</strong> डेटा ऑपरेटर</li>
+                                <li><strong>साक्षी बाबाराव भोंगे:</strong> डेटा ऑपरेटर</li>
+                                <li><strong>पूजा किशोर जाधव:</strong> डेटा ऑपरेटर</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Awards Section -->
+                <div class="bg-white rounded-2xl p-8 md:p-12 card-shadow">
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <div class="flex-1">
+                            <h3 class="text-3xl font-extrabold text-gray-900 mb-4">पुरस्कार आणि ओळख</h3>
+                            <div class="w-20 h-1 bg-secondary mb-6"></div>
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <svg class="h-6 w-6 text-yellow-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                    <span class="text-gray-700 font-medium"><strong>'युवा' पुरस्कार:</strong> सहकारी चळवळ एकत्र करणे आणि गाव स्वच्छता जनजागृती मोहिमांमधील उत्कृष्टतेसाठी महाराष्ट्र सरकारद्वारे राज्यात प्रथम क्रमांक प्राप्त केला.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="h-6 w-6 text-yellow-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                    <span class="text-gray-700 font-medium"><strong>मंत्रिस्तरीय प्रशंसा:</strong> ग्रामीण उत्थानातील आमच्या सातत्यपूर्ण प्रयत्नांसाठी माजी ग्रामीण विकास मंत्री माननीय श्री अण्णा साहेब डांगे यांनी औपचारिकपणे प्रशंसा केली.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <!-- NGO Info -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4 text-primary" data-i18n="site_name">Maharashtra Gram Darpan</h3>
+                    <p class="text-sm text-gray-400" data-i18n="footer_desc">Committed to creating a strong and independent society without inequalities and discrimination.</p>
+                </div>
+                <!-- Quick Links -->
+                <div>
+                <h3 class="text-lg font-bold mb-4" data-i18n="footer_quick_links">Quick Links</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="about-us.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_about">About Us</a></li>
+                    <li><a href="programmes.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_prog">Programmes</a></li>
+                    
+                    <li><a href="resources.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_resources">Resources</a></li>
+                    <li><a href="careers.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_careers">Careers</a></li>
+                    <li><a href="newsletter.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_news">Newsletter</a></li>
+                    <li><a href="trustees-board.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="footer_leadership">Leadership</a></li>
+                </ul>
+            </div>
+                <!-- Contact -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-i18n="nav_contact">Contact</h3>
+                    <p class="text-sm text-gray-400" data-i18n="footer_address">Amravati-444601, MH</p>
+                    <p class="text-sm text-gray-400">Mob: 9373471897</p>
+                    <p class="text-sm text-gray-400 whitespace-nowrap">Email: maharashtragramdarpan@gmail.com</p>
+                </div>
+                <!-- Legal & Social -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-i18n="footer_legal">Legal</h3>
+                    <p class="text-sm text-gray-400 mb-2">FCRA No: 083740062</p>
+                    <p class="text-sm text-gray-400 mb-2">80G Certified</p>
+                    <p class="text-sm text-gray-400 mb-6">ISO 9000:2015</p>
+
+                    <h3 class="text-lg font-bold mb-4" data-i18n="footer_connect">Connect With Us</h3>
+                    <div class="flex space-x-4">
+                    <a href="https://www.facebook.com/profile.php?id=61573596382473" target="_blank" class="text-gray-400 hover:text-white transition duration-150">
+                        <span class="sr-only">Facebook</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+
+                    <a href="https://www.instagram.com/maharashtragramdarpan?igsh=MTU0YnE3YmhkZzRnNQ==" target="_blank" class="text-gray-400 hover:text-white transition duration-150">
+                        <span class="sr-only">Instagram</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.451 2.53c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+
+                    <a href="https://www.linkedin.com/company/maharashtra-gram-drapan/" target="_blank" class="text-gray-400 hover:text-white transition duration-150">
+                        <span class="sr-only">LinkedIn</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-8 border-t border-gray-700 text-center">
+                <p class="text-sm text-gray-400" data-i18n="footer_copyright">&copy; 2025 Maharashtra Gram Darpan. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // --- TRANSLATION DICTIONARY ---
+        const translations = {
+            'EN': {
+                'site_name': 'Maharashtra Gram Darpan',
+                'nav_home': 'Home',
+                'nav_about': 'About Us',
+                'nav_foundation': 'Our Foundation',
+                'nav_work': 'Our Work',
+                'nav_mission': 'Mission & Vision',
+                'nav_board': 'Trustees/Board',
+                'nav_careers': 'Careers',
+                'nav_services': 'Services',
+                'nav_rural': 'Rural Development',
+                'nav_prog': 'Programme',
+                'nav_adult': 'Adult Education',
+                'nav_training': 'Training Center',
+                'nav_resources': 'Resources',
+                'nav_newsletter': 'Newsletter',
+                'nav_contact': 'Contact',
+                'footer_desc': 'Committed to creating a strong and independent society without inequalities and discrimination.',
+                'footer_quick_links': 'Quick Links',
+                'footer_leadership': 'Leadership',
+                'footer_address': 'Amravati-444601, MH',
+                'footer_legal': 'Legal',
+                'footer_connect': 'Connect With Us',
+                'footer_copyright': '&copy; 2025 Maharashtra Gram Darpan. All rights reserved.'
+            },
+            'HI': {
+                'site_name': 'महाराष्ट्र ग्राम दर्पण',
+                'nav_home': 'होम',
+                'nav_about': 'हमारे बारे में',
+                'nav_foundation': 'हमारी संस्था',
+                'nav_work': 'हमारा काम',
+                'nav_mission': 'लक्ष्य और दृष्टि',
+                'nav_board': 'ट्रस्टी/बोर्ड',
+                'nav_careers': 'करियर',
+                'nav_services': 'सेवाएं',
+                'nav_rural': 'ग्रामीण विकास',
+                'nav_prog': 'कार्यक्रम',
+                'nav_adult': 'प्रौढ़ शिक्षा',
+                'nav_training': 'प्रशिक्षण केंद्र',
+                'nav_resources': 'संसाधन',
+                'nav_newsletter': 'समाचार पत्र',
+                'nav_contact': 'संपर्क',
+                'footer_desc': 'असमानता और भेदभाव के बिना एक मजबूत और स्वतंत्र समाज बनाने के लिए प्रतिबद्ध।',
+                'footer_quick_links': 'त्वरित लिंक',
+                'footer_leadership': 'नेतृत्व',
+                'footer_address': 'अमरावती-४४४६०१, महाराष्ट्र',
+                'footer_legal': 'कानूनी',
+                'footer_connect': 'हमसे जुड़ें',
+                'footer_copyright': '&copy; २०२५ महाराष्ट्र ग्राम दर्पण। सर्वाधिकार सुरक्षित।'
+            },
+            'MR': {
+                'site_name': 'महाराष्ट्र ग्राम दर्पण',
+                'nav_home': 'मुख्यपृष्ठ',
+                'nav_about': 'आमच्याबद्दल',
+                'nav_foundation': 'आमची संस्था',
+                'nav_work': 'आमचे कार्य',
+                'nav_mission': 'ध्येय आणि दृष्टी',
+                'nav_board': 'विश्वस्त मंडळ',
+                'nav_careers': 'करिअर',
+                'nav_services': 'सेवा',
+                'nav_rural': 'ग्रामीण विकास',
+                'nav_prog': 'कार्यक्रम',
+                'nav_adult': 'प्रौढ शिक्षण',
+                'nav_training': 'प्रशिक्षण केंद्र',
+                'nav_resources': 'संसाधने',
+                'nav_newsletter': 'बातमीपत्र',
+                'nav_contact': 'संपर्क',
+                'footer_desc': 'असमानता आणि भेदभावांशिवाय मजबूत आणि स्वतंत्र समाज निर्माण करण्यासाठी कटिबद्ध.',
+                'footer_quick_links': 'त्वरित लिंक्स',
+                'footer_leadership': 'नेतृत्व',
+                'footer_address': 'अमरावती-४४४६०१, महाराष्ट्र',
+                'footer_legal': 'कायदेशीर',
+                'footer_connect': 'आमच्याशी जुळा',
+                'footer_copyright': '&copy; २०२५ महाराष्ट्र ग्राम दर्पण. सर्व हक्क राखीव.'
+            }
+        };
+
+        // --- LANGUAGE TRANSLATION LOGIC ---
+        const MAIN_CONTENT_ID = 'main-content-area';
+        const MARATHI_CONTENT_ID = 'marathi-content-area';
+        const HINDI_CONTENT_ID = 'hindi-content-area';
+        const LANG_TOGGLE_KEY = 'mgd_current_lang'; 
+
+        let currentLanguage = localStorage.getItem(LANG_TOGGLE_KEY) || 'EN';
+        let mainContentArea = document.getElementById(MAIN_CONTENT_ID);
+        let marathiContentArea = document.getElementById(MARATHI_CONTENT_ID);
+        let hindiContentArea = document.getElementById(HINDI_CONTENT_ID);
+        let buttonTextElement = document.getElementById('lang-text');
+        let mobileButtonTextElement = document.getElementById('mobile-lang-text');
+
+        function updateLanguageUI(lang) {
+            // Update Toggle Button Text
+            let btnText = '';
+            if (lang === 'MR') {
+                btnText = 'English (EN)';
+            } else if (lang === 'HI') {
+                btnText = 'मराठी (MR)';
+            } else {
+                btnText = 'हिंदी (HI)';
+            }
+            if(buttonTextElement) buttonTextElement.textContent = btnText;
+            if(mobileButtonTextElement) mobileButtonTextElement.textContent = btnText;
+
+            // Hide all first
+            mainContentArea.style.display = 'none';
+            marathiContentArea.style.display = 'none';
+            hindiContentArea.style.display = 'none';
+
+            if (lang === 'MR') {
+                marathiContentArea.style.display = 'block';
+            } else if (lang === 'HI') {
+                hindiContentArea.style.display = 'block';
+            } else {
+                mainContentArea.style.display = 'block';
+            }
+
+            // Translate Header and Footer dynamically
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+        }
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem(LANG_TOGGLE_KEY, currentLanguage);
+            updateLanguageUI(currentLanguage);
+        }
+
+        function toggleLanguage() {
+            const spinner = document.getElementById('lang-spinner');
+            const mobileSpinner = document.getElementById('mobile-lang-spinner');
+            if(spinner) spinner.classList.remove('hidden');
+            if(mobileSpinner) mobileSpinner.classList.remove('hidden');
+
+            setTimeout(() => {
+                if (currentLanguage === 'EN') {
+                    setLanguage('HI');
+                } else if (currentLanguage === 'HI') {
+                    setLanguage('MR');
+                } else {
+                    setLanguage('EN');
+                }
+                if(spinner) spinner.classList.add('hidden');
+                if(mobileSpinner) mobileSpinner.classList.add('hidden');
+            }, 300);
+        }
+
+        window.onload = function() {
+            updateLanguageUI(currentLanguage);
+        };
+
+        // JavaScript for mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

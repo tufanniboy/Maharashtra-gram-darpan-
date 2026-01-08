@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rural Development - Maharashtra Gram Darpan</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles based on the logo (Slightly Lighter Dark Green and Red theme) */
+        :root {
+            --color-primary: #065F46; /* Lighter Forest Green */
+            --color-secondary: #B91C1C; /* Brick Red */
+            --color-background: #F4F8F5; 
+            --color-text: #1F2937; /* Dark Gray */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background); 
+            color: var(--color-text);
+        }
+        header { background-color: white; }
+        .text-primary { color: #B91C1C; }
+        .bg-primary { background-color: var(--color-primary); }
+        .text-green-custom { color: #065F46; }
+
+        /* Custom shadow for cards */
+        .card-shadow {
+            box-shadow: 0 10px 15px -3px rgba(6, 95, 70, 0.1), 0 4px 6px -2px rgba(6, 95, 70, 0.05);
+            transition: transform 0.3s ease;
+        }
+        .card-shadow:hover {
+            transform: translateY(-5px);
+        }
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 0.5rem 1rem; 
+            border-radius: 9999px; /* Rounded shape */
+            font-weight: 600;
+            transition: background-color 0.3s;
+            font-size: 1rem; 
+            line-height: 1.5; 
+            display: inline-flex; 
+            align-items: center; 
+        }
+        .btn-primary:hover {
+            background-color: #044F36;
+        }
+        
+        .project-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-top-left-radius: 0.75rem;
+            border-top-right-radius: 0.75rem;
+        }
+
+        /* Loading spinner CSS */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid white;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20 gap-4">
+                <!-- Logo/Site Name -->
+                <div class="flex-shrink-0 flex items-center"> 
+                    <a href="index.html" class="flex items-center space-x-3">
+                        <img src="IMG-20251214-WA0002.jpg" 
+                             onerror="this.onerror=null; this.src='https://placehold.co/64x64/9CA3AF/ffffff?text=LOGO';" 
+                             alt="Maharashtra Gram Darpan Logo" 
+                             class="w-12 h-12 lg:w-16 lg:h-16 rounded-md flex items-center justify-center font-bold text-xl object-cover">
+                        <span class="text-xl lg:text-xl xl:text-2xl font-extrabold text-primary leading-tight" data-i18n="site_name">Maharashtra Gram Darpan</span>
+                    </a>
+                </div>
+
+                <!-- Navigation Menu (Desktop) -->
+                <nav class="hidden lg:flex space-x-6 xl:space-x-10 items-center"> 
+                    <a href="index.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_home">Home</a>
+
+                    <!-- About Us Dropdown -->
+                    <div class="relative group">
+                        <button class="flex items-center text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg focus:outline-none py-2">
+                            <span data-i18n="nav_about">About Us</span>
+                            <svg class="w-4 h-4 ml-1 transform group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="absolute left-0 mt-0 w-64 bg-white rounded-lg shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border-t-4 border-primary transform translate-y-4 group-hover:translate-y-0">
+                            <a href="about-us.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_foundation">Our Foundation</a>
+                            <a href="our-work.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_work">Our Work</a>
+                            <a href="mission-vision.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_mission">Mission & Vision</a>
+                            <a href="trustees-board.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_board">Trustees/Board</a>
+                        </div>
+                    </div>
+
+                    <a href="careers.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_careers">Careers</a>
+
+                    <!-- Services Dropdown -->
+                    <div class="relative group">
+                        <button class="flex items-center text-primary font-bold transition duration-150 ease-in-out text-base xl:text-lg focus:outline-none py-2">
+                            <span data-i18n="nav_services">Services</span>
+                            <svg class="w-4 h-4 ml-1 transform group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="absolute left-0 mt-0 w-56 bg-white rounded-lg shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border-t-4 border-primary transform translate-y-4 group-hover:translate-y-0">
+                            <!-- Active Page Highlight -->
+                            <a href="rural-development.html" class="block px-4 py-3 text-sm text-primary font-bold bg-green-50 transition" data-i18n="nav_rural">Rural Development</a>
+                            <a href="programmes.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_prog">Programme</a>
+                            <a href="adult-education.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_adult">Adult Education</a>
+                            <a href="training-center.html" class="block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 hover:text-primary transition" data-i18n="nav_training">Training Center</a>
+                        </div>
+                    </div>
+
+                    <a href="resources.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_resources">Resources</a>
+
+                    <a href="newsletter.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_newsletter">Newsletter</a>
+                    
+                    <a href="contact.html" class="text-gray-700 hover:text-primary font-medium transition duration-150 ease-in-out text-base xl:text-lg" data-i18n="nav_contact">Contact</a>
+                    
+                    <button id="lang-toggle-button" class="btn-primary flex items-center justify-center text-sm xl:text-base px-4 py-2" onclick="toggleLanguage()">
+                        <span id="lang-text">हिंदी (HI)</span>
+                        <div id="lang-spinner" class="spinner hidden ml-2"></div>
+                    </button>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="lg:hidden p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none transition duration-150 ease-in-out">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 shadow-inner bg-gray-50">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_home">Home</a>
+                
+                <div class="border-t border-gray-100 pt-2 pb-2">
+                    <div class="px-3 py-2 text-base font-bold text-gray-900" data-i18n="nav_about">About Us</div>
+                    <div class="pl-6 space-y-1 border-l-2 border-gray-200 ml-3">
+                        <a href="about-us.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100" data-i18n="nav_foundation">Our Foundation</a>
+                        <a href="our-work.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100" data-i18n="nav_work">Our Work</a>
+                        <a href="mission-vision.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100" data-i18n="nav_mission">Mission & Vision</a>
+                        <a href="trustees-board.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100" data-i18n="nav_board">Trustees/Board</a>
+                    </div>
+                </div>
+
+                <a href="careers.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_careers">Careers</a>
+
+                <div class="border-t border-gray-100 pt-2 pb-2">
+                    <div class="px-3 py-2 text-base font-bold text-primary" data-i18n="nav_services">Services</div>
+                    <div class="pl-6 space-y-1 border-l-2 border-gray-200 ml-3">
+                        <a href="rural-development.html" class="block px-3 py-2 rounded-md text-sm font-bold text-primary bg-green-50" data-i18n="nav_rural">Rural Development</a>
+                        <a href="programmes.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_prog">Programme</a>
+                        <a href="adult-education.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_adult">Adult Education</a>
+                        <a href="training-center.html" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-primary" data-i18n="nav_training">Training Center</a>
+                    </div>
+                </div>
+                
+                <a href="resources.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_resources">Resources</a>
+                <a href="newsletter.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_newsletter">Newsletter</a>
+                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" data-i18n="nav_contact">Contact</a>
+                
+                <button class="block px-3 py-2 rounded-md text-base font-medium text-white bg-primary text-center w-full mt-2" onclick="toggleLanguage()">
+                    <span id="mobile-lang-text">हिंदी (HI)</span>
+                    <div id="mobile-lang-spinner" class="spinner hidden ml-2"></div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content AREA (English Default) -->
+    <main id="main-content-area">
+        <div class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Page Title -->
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-4" data-i18n="rural_title">Rural Development Initiatives</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto" data-i18n="rural_subtitle">Empowering villages through sustainable infrastructure, healthcare, sanitation, and community-led growth.</p>
+                </div>
+
+                <!-- Introduction Section -->
+                <div class="mb-16 grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6">
+                        <h3 class="text-3xl font-bold text-primary mb-2">Transforming Rural India through "Jan Bhagidari"</h3>
+                        <p class="text-gray-700 text-lg leading-relaxed">
+                            Established in 1998 under the vision of <strong>Shri. Ravindra Himmattrao Deshmukh</strong>, Maharashtra Gram Darpan focuses on the socio-economic upliftment of the underprivileged. Our philosophy is rooted in <em>"Jan Bhagidari"</em> (People's Participation), believing that true development happens only when the community takes ownership.
+                        </p>
+                        <p class="text-gray-700 text-lg leading-relaxed">
+                            We operate extensively across <strong>Amravati, Akola, Gondia, and Hingoli</strong> districts in Maharashtra, with expanding initiatives in Madhya Pradesh and Arunachal Pradesh.
+                        </p>
+                        <div class="bg-green-50 p-6 rounded-lg border-l-4 border-primary">
+                            <p class="text-gray-800 font-medium">
+                                <strong>Recognition:</strong> Our cooperative institute 'Yuva' received the First Award from the Government of Maharashtra for excellence in village sanitation and public awareness campaigns.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="relative h-80 rounded-xl overflow-hidden shadow-lg">
+                        <img src="https://placehold.co/800x600/e2e8f0/1e293b?text=Rural+Development+Work" alt="Rural Development Work" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <!-- IMPACT STATS (English) -->
+                <div class="mb-20 bg-primary rounded-2xl p-8 shadow-xl text-white">
+                    <h3 class="text-2xl font-bold text-center mb-8 border-b border-green-400 pb-4 inline-block mx-auto">Our Health & Social Impact (Since 2022)</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                        <div>
+                            <div class="text-4xl font-extrabold mb-1"><span class="counter" data-target="100000">0</span>+</div>
+                            <div class="text-sm text-green-100 font-medium">Patients Treated</div>
+                        </div>
+                        <div>
+                            <div class="text-4xl font-extrabold mb-1"><span class="counter" data-target="4832">0</span></div>
+                            <div class="text-sm text-green-100 font-medium">Surgeries Performed</div>
+                        </div>
+                        <div>
+                            <div class="text-4xl font-extrabold mb-1"><span class="counter" data-target="29010">0</span></div>
+                            <div class="text-sm text-green-100 font-medium">Eyeglasses Distributed</div>
+                        </div>
+                        <div>
+                            <div class="text-4xl font-extrabold mb-1">₹ <span class="counter" data-target="22000000+">0</span> Cr</div>
+                            <div class="text-sm text-green-100 font-medium">Free Medicine Distributed</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Core Projects Grid -->
+                <div class="mb-20">
+                    <h3 class="text-3xl font-extrabold text-gray-900 mb-8 text-center border-b-2 border-gray-200 pb-4 inline-block">Key Projects & Interventions</h3>
+                    
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        
+                        <!-- Project 1: Maha Arogya Shibir (New) -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col border-t-4 border-secondary">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Health+Camps" alt="Maha Arogya Shibir" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">Maha Arogya Shibir</h4>
+                                <p class="text-sm text-secondary font-semibold mb-3 uppercase tracking-wide">Healthcare</p>
+                                <p class="text-gray-600 mb-4 flex-grow">
+                                    Organized mega health camps in 17 villages conducting 48 shibirs. We provide free surgeries for brain, heart, and eyes, along with free medicines and glasses distribution.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Project 2: Silt-Free Dam (Enhanced) -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Silt+Removal" alt="Silt Removal Project" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">Silt-Free Dam & Fertile Shivar</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">Agriculture & Environment</p>
+                                <p class="text-gray-600 mb-4 flex-grow">
+                                    Implemented in <strong>Majri Mhasla village</strong> (Nandgaon Khandeshwar). Removing fertile silt from dams increases water capacity while providing nutrient-rich soil to farmers, boosting crop yields significantly.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Project 3: Shankar Pat (New) -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Shankar+Pat" alt="Shankar Pat Event" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">Shankar Pat</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">Culture & Community</p>
+                                <p class="text-gray-600 mb-4 flex-grow">
+                                    A grand cultural event organized since 2023-24 to foster community bonding and relieve agrarian stress. It serves as a platform for exchanging agricultural knowledge, with participation from multiple districts.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Project 4: Waste Management (Enhanced) -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Waste+Management" alt="Waste Management" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">Plastic-Free Village & Waste</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">Sanitation (SBM)</p>
+                                <p class="text-gray-600 mb-4 flex-grow">
+                                    Under Wastewater and Solid Waste Management, we are transforming villages into "Plastic-free zones" and implementing "Waste to Fertilizer" initiatives to reuse polluted water.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Project 5: Sanitation Infrastructure -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Sanitation+Units" alt="Sanitation Units" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">Sanitation Infrastructure</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">Health & Hygiene</p>
+                                <p class="text-gray-600 mb-4 flex-grow">
+                                    Established production centers for economic latrines at <strong>Amravati and Tiwsa</strong>. We actively construct school latrines and dedicated facilities for women to ensure hygiene and dignity.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Project 6: Tree Plantation Drive -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Tree+Plantation" alt="Tree Plantation" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">Green Highway Initiative</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">Environment</p>
+                                <p class="text-gray-600 mb-4 flex-grow">
+                                    Successfully implemented a massive tree plantation drive covering 40km of highway. This project contributes to environmental conservation, soil stability, and green cover enhancement.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Call to Action -->
+                <div class="bg-gray-900 rounded-2xl p-8 md:p-12 text-center text-white">
+                    <h3 class="text-3xl font-bold mb-4">Partner with Us for Rural Growth</h3>
+                    <p class="text-lg text-gray-300 max-w-2xl mx-auto mb-8">
+                        We collaborate with government bodies, CSR initiatives, and individuals to drive impactful change in rural India. Join our mission today.
+                    </p>
+                    <a href="contact.html" class="inline-block bg-white text-gray-900 font-bold py-3 px-8 rounded-full hover:bg-gray-100 transition duration-300">
+                        Contact Us
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Translations Placeholder (Hindi) -->
+    <div id="hindi-content-area" style="display: none;">
+        <div class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-4">ग्रामीण विकास पहल</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">स्थायी बुनियादी ढांचे, स्वच्छता और समुदाय के नेतृत्व वाले विकास के माध्यम से गांवों को सशक्त बनाना।</p>
+                </div>
+
+                <div class="mb-20 grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6">
+                        <h3 class="text-3xl font-bold text-primary mb-2">ग्रामीण भारत का परिवर्तन</h3>
+                        <p class="text-gray-700 text-lg leading-relaxed">
+                            1998 से, महाराष्ट्र ग्राम दर्पण ग्रामीण परिवर्तन में सबसे आगे रहा है। संस्थापक <strong>श्री रवींद्र हिम्मतराव देशमुख</strong> की दृष्टि से हम "जन भागीदारी" में विश्वास करते हैं। हम अमरावती, अकोला, गोंदिया और हिंगोली जिलों में सक्रिय रूप से काम करते हैं।
+                        </p>
+                        <div class="bg-green-50 p-6 rounded-lg border-l-4 border-primary">
+                            <p class="text-gray-800 font-medium">
+                                <strong>प्रमुख उपलब्धि:</strong> हमारे सहकारी संस्थान 'युवा' को ग्राम स्वच्छता और जन जागरूकता अभियानों में उत्कृष्टता के लिए महाराष्ट्र सरकार से प्रथम पुरस्कार मिला।
+                            </p>
+                        </div>
+                    </div>
+                    <div class="relative h-80 rounded-xl overflow-hidden shadow-lg">
+                        <img src="https://placehold.co/800x600/e2e8f0/1e293b?text=Rural+Development+Work" alt="Rural Development Work" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                
+                <!-- Hindi Stats (Animated) -->
+                <div class="mb-20 bg-primary rounded-2xl p-8 shadow-xl text-white">
+                    <h3 class="text-2xl font-bold text-center mb-8 border-b border-green-400 pb-4 inline-block mx-auto">हमारा स्वास्थ्य और सामाजिक प्रभाव (2022 से)</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                        <div><div class="text-4xl font-extrabold mb-1"><span class="counter" data-target="100000">0</span>+</div><div class="text-sm text-green-100 font-medium">मरीजों का इलाज</div></div>
+                        <div><div class="text-4xl font-extrabold mb-1"><span class="counter" data-target="4832">0</span></div><div class="text-sm text-green-100 font-medium">सर्जरी की गईं</div></div>
+                        <div><div class="text-4xl font-extrabold mb-1"><span class="counter" data-target="29010">0</span></div><div class="text-sm text-green-100 font-medium">चश्मा वितरण</div></div>
+                        <div><div class="text-4xl font-extrabold mb-1">₹ <span class="counter" data-target="22000000+">0</span> Cr</div><div class="text-sm text-green-100 font-medium">निःशुल्क दवा वितरण</div></div>
+                    </div>
+                </div>
+
+                <div class="mb-20">
+                    <h3 class="text-3xl font-extrabold text-gray-900 mb-8 text-center border-b-2 border-gray-200 pb-4 inline-block">प्रमुख परियोजनाएं और हस्तक्षेप</h3>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Project 1 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col border-t-4 border-secondary">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Health+Camps" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">महा आरोग्य शिविर</h4>
+                                <p class="text-sm text-secondary font-semibold mb-3 uppercase tracking-wide">स्वास्थ्य सेवा</p>
+                                <p class="text-gray-600 mb-4 flex-grow">17 गांवों में 48 विशाल स्वास्थ्य शिविर आयोजित किए गए। मस्तिष्क, हृदय और आंखों की मुफ्त सर्जरी, साथ ही मुफ्त दवाएं और चश्मा वितरण।</p>
+                            </div>
+                        </div>
+                        <!-- Project 2 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Silt+Removal" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">गाद मुक्त बांध और उपजाऊ शिवार</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">कृषि</p>
+                                <p class="text-gray-600 mb-4 flex-grow">माजरी म्हसला गांव (नांदगांव खंडेश्वर) में लागू किया गया। बांधों से उपजाऊ गाद हटाने से जल क्षमता बढ़ती है और किसानों को समृद्ध मिट्टी मिलती है।</p>
+                            </div>
+                        </div>
+                         <!-- Project 3 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Shankar+Pat" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">शंकर पट</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">संस्कृति</p>
+                                <p class="text-gray-600 mb-4 flex-grow">2023-24 से आयोजित एक भव्य सांस्कृतिक कार्यक्रम जो सामुदायिक बंधन को बढ़ावा देता है और कृषि ज्ञान का आदान-प्रदान करता है।</p>
+                            </div>
+                        </div>
+                        <!-- Project 4 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Waste+Management" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">प्लास्टिक मुक्त गांव</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">स्वच्छता</p>
+                                <p class="text-gray-600 mb-4 flex-grow">अपशिष्ट और ठोस कचरा प्रबंधन के तहत, हम गांवों को "प्लास्टिक मुक्त क्षेत्र" में बदल रहे हैं और "कचरे से खाद" पहल लागू कर रहे हैं।</p>
+                            </div>
+                        </div>
+                        <!-- Project 5 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Sanitation+Units" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">स्वच्छता अवसंरचना</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">स्वास्थ्य और स्वच्छता</p>
+                                <p class="text-gray-600 mb-4 flex-grow">अमरावती और तिवसा में किफायती शौचालय उत्पादन केंद्र स्थापित किए। हम महिलाओं के लिए समर्पित सुविधाओं को बढ़ावा देते हैं।</p>
+                            </div>
+                        </div>
+                        <!-- Project 6 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Tree+Plantation" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">हरित राजमार्ग पहल</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">पर्यावरण</p>
+                                <p class="text-gray-600 mb-4 flex-grow">40 किमी राजमार्ग को कवर करते हुए एक विशाल वृक्षारोपण अभियान सफलतापूर्वक लागू किया गया।</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Translations Placeholder (Marathi) -->
+    <div id="marathi-content-area" style="display: none;">
+        <div class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-4">ग्रामीण विकास उपक्रम</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">शाश्वत पायाभूत सुविधा, स्वच्छता आणि लोकसहभागाद्वारे गावांचे सक्षमीकरण.</p>
+                </div>
+
+                <div class="mb-20 grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6">
+                        <h3 class="text-3xl font-bold text-primary mb-2">ग्रामीण भारताचा कायापालट</h3>
+                        <p class="text-gray-700 text-lg leading-relaxed">
+                            १९९८ पासून, महाराष्ट्र ग्राम दर्पण ग्रामीण परिवर्तनात अग्रेसर आहे. संस्थापक <strong>श्री. रवींद्र हिम्मतराव देशमुख</strong> यांच्या मार्गदर्शनाखाली आमचा विश्वास "जन भागीदारी" वर आहे. आम्ही अमरावती, अकोला, गोंदिया आणि हिंगोली जिल्ह्यांमध्ये सक्रिय आहोत.
+                        </p>
+                        <div class="bg-green-50 p-6 rounded-lg border-l-4 border-primary">
+                            <p class="text-gray-800 font-medium">
+                                <strong>महत्वाची उपलब्धी:</strong> आमच्या सहकारी संस्था 'युवा'ला गाव स्वच्छता आणि जनजागृती मोहिमेतील उत्कृष्टतेसाठी महाराष्ट्र शासनाचा प्रथम पुरस्कार मिळाला आहे.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="relative h-80 rounded-xl overflow-hidden shadow-lg">
+                        <img src="https://placehold.co/800x600/e2e8f0/1e293b?text=Rural+Development+Work" alt="Rural Development Work" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                
+                <!-- Marathi Stats (Animated) -->
+                <div class="mb-20 bg-primary rounded-2xl p-8 shadow-xl text-white">
+                    <h3 class="text-2xl font-bold text-center mb-8 border-b border-green-400 pb-4 inline-block mx-auto">आमचा आरोग्य आणि सामाजिक प्रभाव (२०२२ पासून)</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                        <div><div class="text-4xl font-extrabold mb-1"><span class="counter" data-target="100000">0</span>+</div><div class="text-sm text-green-100 font-medium">रुग्णांवर उपचार</div></div>
+                        <div><div class="text-4xl font-extrabold mb-1"><span class="counter" data-target="4832">0</span></div><div class="text-sm text-green-100 font-medium">शस्त्रक्रिया पूर्ण</div></div>
+                        <div><div class="text-4xl font-extrabold mb-1"><span class="counter" data-target="29010">0</span></div><div class="text-sm text-green-100 font-medium">चश्मा वाटप</div></div>
+                        <div><div class="text-4xl font-extrabold mb-1">₹ <span class="counter" data-target="22000000+">0</span> कोटी</div><div class="text-sm text-green-100 font-medium">मोफत औषध वाटप</div></div>
+                    </div>
+                </div>
+
+                <div class="mb-20">
+                    <h3 class="text-3xl font-extrabold text-gray-900 mb-8 text-center border-b-2 border-gray-200 pb-4 inline-block">प्रमुख प्रकल्प आणि हस्तक्षेप</h3>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Project 1 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col border-t-4 border-secondary">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Health+Camps" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">महा आरोग्य शिबीर</h4>
+                                <p class="text-sm text-secondary font-semibold mb-3 uppercase tracking-wide">आरोग्य सेवा</p>
+                                <p class="text-gray-600 mb-4 flex-grow">१७ गावांमध्ये ४८ भव्य आरोग्य शिबिरे आयोजित केली. मेंदू, हृदय आणि डोळ्यांच्या मोफत शस्त्रक्रिया, तसेच मोफत औषधे आणि चष्मा वाटप.</p>
+                            </div>
+                        </div>
+                        <!-- Project 2 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Silt+Removal" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">गाळमुक्त धरण आणि गाळयुक्त शिवार</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">कृषि</p>
+                                <p class="text-gray-600 mb-4 flex-grow">माजरी म्हसला गाव (नांदगांव खंडेश्वर) येथे राबवला. धरणांमधून सुपीक गाळ काढल्याने पाणी साठवण क्षमता वाढते आणि शेतकऱ्यांना समृद्ध माती मिळते.</p>
+                            </div>
+                        </div>
+                        <!-- Project 3 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Shankar+Pat" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">शंकर पट</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">संस्कृती</p>
+                                <p class="text-gray-600 mb-4 flex-grow">२०२३-२४ पासून आयोजित एक भव्य सांस्कृतिक कार्यक्रम जो सामुदायिक बंधन दृढ करतो आणि कृषी ज्ञानाची देवाणघेवाण करतो.</p>
+                            </div>
+                        </div>
+                        <!-- Project 4 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Waste+Management" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">प्लास्टिक मुक्त गाव</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">स्वच्छता</p>
+                                <p class="text-gray-600 mb-4 flex-grow">सांडपाणी आणि घनकचरा व्यवस्थापनांतर्गत, आम्ही गावांना "प्लास्टिक मुक्त झोन" मध्ये बदलत आहोत आणि "कचऱ्यापासून खत" उपक्रम राबवत आहोत.</p>
+                            </div>
+                        </div>
+                        <!-- Project 5 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Sanitation+Units" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">स्वच्छता पायाभूत सुविधा</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">आरोग्य आणि स्वच्छता</p>
+                                <p class="text-gray-600 mb-4 flex-grow">अमरावती आणि तिवसा येथे आर्थिक शौचालय उत्पादन केंद्रे स्थापन केली. आम्ही शाळांमध्ये आणि महिलांसाठी विशेष स्वच्छतागृहे बांधण्यास प्रोत्साहन देतो.</p>
+                            </div>
+                        </div>
+                        <!-- Project 6 -->
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden flex flex-col">
+                            <img src="https://placehold.co/400x250/e2e8f0/1e293b?text=Tree+Plantation" class="project-img">
+                            <div class="p-6 flex-1 flex flex-col">
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">हरित महामार्ग उपक्रम</h4>
+                                <p class="text-sm text-green-custom font-semibold mb-3 uppercase tracking-wide">पर्यावरण</p>
+                                <p class="text-gray-600 mb-4 flex-grow">४० किमी महामार्गावर मोठ्या प्रमाणावर वृक्षारोपण मोहीम यशस्वीपणे राबवली.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <!-- NGO Info -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4 text-primary" data-i18n="site_name">Maharashtra Gram Darpan</h3>
+                    <p class="text-sm text-gray-400" data-i18n="footer_desc">Committed to creating a strong and independent society without inequalities and discrimination.</p>
+                </div>
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-i18n="footer_quick_links">Quick Links</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_home">Home</a></li>
+                        <li><a href="about-us.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_about">About Us</a></li>
+                        <li><a href="our-work.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="nav_work">Our Work</a></li>
+                        <li><a href="trustees-board.html" class="text-gray-400 hover:text-white transition duration-150" data-i18n="footer_leadership">Leadership</a></li>
+                    </ul>
+                </div>
+                <!-- Contact -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-i18n="nav_contact">Contact</h3>
+                    <p class="text-sm text-gray-400" data-i18n="footer_address">Amravati-444601, MH</p>
+                    <p class="text-sm text-gray-400">Mob: 9373471897</p>
+                    <p class="text-sm text-gray-400 whitespace-nowrap">Email: maharashtragramdarpan@gmail.com</p>
+                </div>
+                <!-- Legal & Social -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-i18n="footer_legal">Legal</h3>
+                    <p class="text-sm text-gray-400 mb-2">FCRA No: 083740062</p>
+                    <p class="text-sm text-gray-400 mb-2">80G Certified</p>
+                    <p class="text-sm text-gray-400 mb-6">ISO 9000:2015</p>
+
+                    <h3 class="text-lg font-bold mb-4" data-i18n="footer_connect">Connect With Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-150">
+                            <span class="sr-only">Facebook</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-150">
+                            <span class="sr-only">Instagram</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.451 2.53c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" /></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-8 border-t border-gray-700 text-center">
+                <p class="text-sm text-gray-400" data-i18n="footer_copyright">&copy; 2025 Maharashtra Gram Darpan. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- TRANSLATION DICTIONARY ---
+        const translations = {
+            'EN': {
+                'site_name': 'Maharashtra Gram Darpan',
+                'nav_home': 'Home',
+                'nav_about': 'About Us',
+                'nav_foundation': 'Our Foundation',
+                'nav_work': 'Our Work',
+                'nav_mission': 'Mission & Vision',
+                'nav_board': 'Trustees/Board',
+                'nav_careers': 'Careers',
+                'nav_services': 'Services',
+                'nav_rural': 'Rural Development',
+                'nav_prog': 'Programme',
+                'nav_adult': 'Adult Education',
+                'nav_training': 'Training Center',
+                'nav_resources': 'Resources',
+                'nav_newsletter': 'Newsletter',
+                'nav_contact': 'Contact',
+                'footer_desc': 'Committed to creating a strong and independent society without inequalities and discrimination.',
+                'footer_quick_links': 'Quick Links',
+                'footer_leadership': 'Leadership',
+                'footer_address': 'Amravati-444601, MH',
+                'footer_legal': 'Legal',
+                'footer_connect': 'Connect With Us',
+                'footer_copyright': '&copy; 2025 Maharashtra Gram Darpan. All rights reserved.',
+                'rural_title': 'Rural Development Initiatives',
+                'rural_subtitle': 'Empowering villages through sustainable infrastructure, sanitation, and community-led growth.'
+            },
+            'HI': {
+                'site_name': 'महाराष्ट्र ग्राम दर्पण',
+                'nav_home': 'होम',
+                'nav_about': 'हमारे बारे में',
+                'nav_foundation': 'हमारी संस्था',
+                'nav_work': 'हमारा काम',
+                'nav_mission': 'लक्ष्य और दृष्टि',
+                'nav_board': 'ट्रस्टी/बोर्ड',
+                'nav_careers': 'करियर',
+                'nav_services': 'सेवाएं',
+                'nav_rural': 'ग्रामीण विकास',
+                'nav_prog': 'कार्यक्रम',
+                'nav_adult': 'प्रौढ़ शिक्षा',
+                'nav_training': 'प्रशिक्षण केंद्र',
+                'nav_resources': 'संसाधन',
+                'nav_newsletter': 'समाचार पत्र',
+                'nav_contact': 'संपर्क',
+                'footer_desc': 'असमानता और भेदभाव के बिना एक मजबूत और स्वतंत्र समाज बनाने के लिए प्रतिबद्ध।',
+                'footer_quick_links': 'त्वरित लिंक',
+                'footer_leadership': 'नेतृत्व',
+                'footer_address': 'अमरावती-४४४६०१, महाराष्ट्र',
+                'footer_legal': 'कानूनी',
+                'footer_connect': 'हमसे जुड़ें',
+                'footer_copyright': '&copy; २०२५ महाराष्ट्र ग्राम दर्पण। सर्वाधिकार सुरक्षित।',
+                'rural_title': 'ग्रामीण विकास पहल',
+                'rural_subtitle': 'स्थायी बुनियादी ढांचे, स्वच्छता और समुदाय के नेतृत्व वाले विकास के माध्यम से गांवों को सशक्त बनाना।'
+            },
+            'MR': {
+                'site_name': 'महाराष्ट्र ग्राम दर्पण',
+                'nav_home': 'मुख्यपृष्ठ',
+                'nav_about': 'आमच्याबद्दल',
+                'nav_foundation': 'आमची संस्था',
+                'nav_work': 'आमचे कार्य',
+                'nav_mission': 'ध्येय आणि दृष्टी',
+                'nav_board': 'विश्वस्त मंडळ',
+                'nav_careers': 'करिअर',
+                'nav_services': 'सेवा',
+                'nav_rural': 'ग्रामीण विकास',
+                'nav_prog': 'कार्यक्रम',
+                'nav_adult': 'प्रौढ शिक्षण',
+                'nav_training': 'प्रशिक्षण केंद्र',
+                'nav_resources': 'संसाधने',
+                'nav_newsletter': 'बातमीपत्र',
+                'nav_contact': 'संपर्क',
+                'footer_desc': 'असमानता आणि भेदभावांशिवाय मजबूत आणि स्वतंत्र समाज निर्माण करण्यासाठी कटिबद्ध.',
+                'footer_quick_links': 'जलद लिंक्स',
+                'footer_leadership': 'नेतृत्व',
+                'footer_address': 'अमरावती-४४४६०१, महाराष्ट्र',
+                'footer_legal': 'कायदेशीर',
+                'footer_connect': 'आमच्याशी जुळा',
+                'footer_copyright': '&copy; २०२५ महाराष्ट्र ग्राम दर्पण. सर्व हक्क राखीव.',
+                'rural_title': 'ग्रामीण विकास उपक्रम',
+                'rural_subtitle': 'शाश्वत पायाभूत सुविधा, स्वच्छता आणि लोकसहभागाद्वारे गावांचे सक्षमीकरण.'
+            }
+        };
+
+        const MAIN_CONTENT_ID = 'main-content-area';
+        const MARATHI_CONTENT_ID = 'marathi-content-area';
+        const HINDI_CONTENT_ID = 'hindi-content-area';
+        const LANG_TOGGLE_KEY = 'mgd_current_lang'; 
+
+        let currentLanguage = localStorage.getItem(LANG_TOGGLE_KEY) || 'EN';
+        let mainContentArea = document.getElementById(MAIN_CONTENT_ID);
+        let marathiContentArea = document.getElementById(MARATHI_CONTENT_ID);
+        let hindiContentArea = document.getElementById(HINDI_CONTENT_ID);
+        let buttonTextElement = document.getElementById('lang-text');
+        let mobileButtonTextElement = document.getElementById('mobile-lang-text');
+        
+        function updateLanguageUI(lang) {
+            mainContentArea.style.display = 'none';
+            marathiContentArea.style.display = 'none';
+            hindiContentArea.style.display = 'none';
+
+            let btnText = '';
+            if (lang === 'MR') {
+                marathiContentArea.style.display = 'block';
+                btnText = 'English (EN)';
+            } else if (lang === 'HI') {
+                hindiContentArea.style.display = 'block';
+                btnText = 'मराठी (MR)';
+            } else {
+                mainContentArea.style.display = 'block';
+                btnText = 'हिंदी (HI)';
+            }
+
+            if(buttonTextElement) buttonTextElement.textContent = btnText;
+            if(mobileButtonTextElement) mobileButtonTextElement.textContent = btnText;
+
+            // Translate Header and Footer dynamically
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+        }
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem(LANG_TOGGLE_KEY, currentLanguage);
+            updateLanguageUI(currentLanguage);
+        }
+
+        function toggleLanguage() {
+            const spinner = document.getElementById('lang-spinner');
+            const mobileSpinner = document.getElementById('mobile-lang-spinner');
+            if(spinner) spinner.classList.remove('hidden');
+            if(mobileSpinner) mobileSpinner.classList.remove('hidden');
+
+            setTimeout(() => {
+                if (currentLanguage === 'EN') {
+                    setLanguage('HI');
+                } else if (currentLanguage === 'HI') {
+                    setLanguage('MR');
+                } else {
+                    setLanguage('EN');
+                }
+                if(spinner) spinner.classList.add('hidden');
+                if(mobileSpinner) mobileSpinner.classList.add('hidden');
+            }, 300);
+        }
+
+        function initializeTranslationState() {
+            if (!mainContentArea || !marathiContentArea) return;
+            updateLanguageUI(currentLanguage);
+        }
+
+        window.onload = function() {
+            initializeTranslationState();
+
+            // === START ANIMATION LOGIC ===
+            // This waits for the page to be visible before starting counters
+            const counters = document.querySelectorAll('.counter');
+            const speed = 200; // The lower the slower
+
+            const startCounter = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counter = entry.target;
+                        const target = parseFloat(counter.getAttribute('data-target'));
+                        const isFloat = target % 1 !== 0; // Check for decimals (like 2.2 Cr)
+                        
+                        const updateCount = () => {
+                            const current = parseFloat(counter.innerText.replace(/,/g, ''));
+                            const increment = target / speed;
+
+                            if (current < target) {
+                                if (isFloat) {
+                                    counter.innerText = (current + increment).toFixed(1);
+                                } else {
+                                    counter.innerText = Math.ceil(current + increment);
+                                }
+                                setTimeout(updateCount, 20);
+                            } else {
+                                // Format with Indian numbering system (Lakhs/Crores)
+                                counter.innerText = isFloat ? target : target.toLocaleString('en-IN');
+                            }
+                        };
+
+                        updateCount();
+                        observer.unobserve(counter);
+                    }
+                });
+            };
+
+            const observer = new IntersectionObserver(startCounter, {
+                threshold: 0.5
+            });
+
+            counters.forEach(counter => {
+                observer.observe(counter);
+            });
+            // === END ANIMATION LOGIC ===
+        };
+
+        // JavaScript for mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
